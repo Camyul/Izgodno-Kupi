@@ -37,6 +37,9 @@ namespace IzgodnoKupi
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            //Routes to Lower Case
+            services.AddRouting(options => options.LowercaseUrls = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
