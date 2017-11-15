@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using IzgodnoKupi.Data;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services;
+using IzgodnoKupi.Data.Contracts;
+using IzgodnoKupi.Data.Repositories;
 
 namespace IzgodnoKupi
 {
@@ -28,6 +30,9 @@ namespace IzgodnoKupi
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Add Repository to IoC Container
+            services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

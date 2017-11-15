@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using IzgodnoKupi.Data.Model.Contracts;
+using IzgodnoKupi.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using IzgodnoKupi.Models;
-using IzgodnoKupi.Data.Model.Abstracts;
+using System;
+using System.Linq;
 
 namespace IzgodnoKupi.Data
 {
@@ -14,6 +12,34 @@ namespace IzgodnoKupi.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        // Auto filling CreatedOn and ModifiedOn before SaveChanges()
+        public override int SaveChanges()
+        {
+            this.ApplyAuditInfoRules();
+            return base.SaveChanges();
+        }
+
+        // Auto set fields CreatedOn and ModifiedOn when State is Added or Modified
+        private void ApplyAuditInfoRules()
+        {
+            foreach (var entry in
+                this.ChangeTracker.Entries()
+                    .Where(
+                        e =>
+                        e.Entity is IAuditable && ((e.State == EntityState.Added) || (e.State == EntityState.Modified))))
+            {
+                var entity = (IAuditable)entry.Entity;
+                if (entry.State == EntityState.Added && entity.CreatedOn == null)
+                {
+                    entity.CreatedOn = DateTime.Now;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.Now;
+                }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
