@@ -34,7 +34,7 @@ namespace IzgodnoKupi
             //Add Repository to IoC Container
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
