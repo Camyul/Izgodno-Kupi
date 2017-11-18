@@ -9,12 +9,12 @@ namespace IzgodnoKupi.Data.Model
     public class Category : DataModel
     {
         private ICollection<Product> products;
-        private ICollection<Category> subCategories;
+        //private ICollection<Category> subCategories;
 
         public Category()
         {
             this.Products = new HashSet<Product>();
-            this.SubCategories = new HashSet<Category>();
+            //this.SubCategories = new HashSet<Category>();
         }
 
 
@@ -40,21 +40,17 @@ namespace IzgodnoKupi.Data.Model
 
         public bool ShowOnHomePage { get; set; }
 
-        public Guid ParentCategoryId { get; set; }
+        //public virtual ICollection<Category> SubCategories
+        //{
+        //    get
+        //    {
+        //        return this.subCategories;
+        //    }
 
-        public Category ParentCategory { get; set; }
-
-        public virtual ICollection<Category> SubCategories
-        {
-            get
-            {
-                return this.subCategories;
-            }
-
-            set
-            {
-                this.subCategories = value;
-            }
-        }
+        //    set
+        //    {
+        //        this.subCategories = value;
+        //    }
+        //}
     }
 }

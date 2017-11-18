@@ -34,11 +34,11 @@ namespace IzgodnoKupi.Data.Model
         {
             get
             {
-                return this.Orders;
+                return this.orders;
             }
             set
             {
-                this.Orders = value;
+                this.orders = value;
             }
         }
     }
