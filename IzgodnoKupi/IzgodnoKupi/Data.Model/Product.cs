@@ -44,7 +44,7 @@ namespace IzgodnoKupi.Data.Model
         public int Quantity { get; set; }
 
         [ForeignKey("Category")]
-        public Guid? CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
 
         public virtual Category Category { get; set; }
 
@@ -72,7 +72,7 @@ namespace IzgodnoKupi.Data.Model
             }
         }
 
-        public Availability StockAvailability { get; set; }
+        public ProductAvailability ProductAvailability { get; set; }
 
         public bool IsFreeShipping { get; set; }
 

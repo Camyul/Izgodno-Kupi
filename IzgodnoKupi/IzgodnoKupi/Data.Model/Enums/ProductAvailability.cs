@@ -1,6 +1,6 @@
 ﻿namespace IzgodnoKupi.Data.Model.Enums
 {
-    public enum Availability
+    public enum ProductAvailability
     {
         InStock = 0,
         Minimum = 1,

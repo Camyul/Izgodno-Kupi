@@ -18,13 +18,19 @@ namespace IzgodnoKupi.Data.Model
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
-        public string FullName { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
+        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
+        public string LastName { get; set; }
 
         [Required]
         [RegularExpression(ValidationConstants.PhoneRegex)]
         public string PhoneNumber { get; set; }
 
-        public virtual HashSet<Order> Orders
+        public virtual ICollection<Order> Orders
         {
             get
             {

@@ -40,8 +40,9 @@ namespace IzgodnoKupi.Data.Model
 
         public bool ShowOnHomePage { get; set; }
 
-        public Guid? ParentCategoryId { get; set; }
+        public Guid ParentCategoryId { get; set; }
 
+        public Category ParentCategory { get; set; }
 
         public virtual ICollection<Category> SubCategories
         {
