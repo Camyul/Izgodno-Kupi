@@ -1,4 +1,5 @@
-﻿using IzgodnoKupi.Data.Model.Contracts;
+﻿using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Contracts;
 using IzgodnoKupi.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
