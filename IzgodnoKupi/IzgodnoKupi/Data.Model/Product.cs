@@ -57,7 +57,7 @@ namespace IzgodnoKupi.Data.Model
 
         public decimal OldPrice { get; set; }
 
-        public int Discount { get; set; }
+        public double Discount { get; set; }
 
         public virtual ICollection<OrderItem> OrderItems
         {

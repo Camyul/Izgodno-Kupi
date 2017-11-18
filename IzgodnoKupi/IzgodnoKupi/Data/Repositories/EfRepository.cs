@@ -12,13 +12,16 @@ namespace IzgodnoKupi.Data.Repositories
     where T : class, IDeletable
     {
         private readonly ApplicationDbContext context;
+        // private DbSet<T> entities;
 
         public EfRepository(ApplicationDbContext context)
         {
             Guard.WhenArgument(context, "context").IsNull().Throw();
 
             this.context = context;
+            // entities = context.Set<T>();
         }
+
 
         public IQueryable<T> All
         {

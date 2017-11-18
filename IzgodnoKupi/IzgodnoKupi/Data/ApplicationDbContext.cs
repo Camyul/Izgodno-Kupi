@@ -14,6 +14,11 @@ namespace IzgodnoKupi.Data
             : base(options)
         {
         }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<ContactInfo> ContactInfos { get; set; }
 
         // Auto filling CreatedOn and ModifiedOn before SaveChanges()
         public override int SaveChanges()
