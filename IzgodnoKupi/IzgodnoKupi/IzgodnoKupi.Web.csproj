@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-IzgodnoKupi-AE4E6246-65E6-4D7D-8271-2A838B141B4A</UserSecretsId>
+    <AssemblyName>IzgodnoKupi.Web</AssemblyName>
+    <RootNamespace>IzgodnoKupi.Web</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\" />
     <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IzgodnoKupi.Common.Constants\IzgodnoKupi.Common.Constants.csproj" />
+    <ProjectReference Include="..\IzgodnoKupi.Data.Model\IzgodnoKupi.Data.Model.csproj" />
+    <ProjectReference Include="..\IzgodnoKupi.Data\IzgodnoKupi.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IzgodnoKupi", "IzgodnoKupi\IzgodnoKupi.csproj", "{D0C05B38-FD95-471C-8005-DDD681329374}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzgodnoKupi.Web", "IzgodnoKupi\IzgodnoKupi.Web.csproj", "{D0C05B38-FD95-471C-8005-DDD681329374}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{4F088FFD-9A12-4850-ACB6-CEA08531C16E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzgodnoKupi.Data", "IzgodnoKupi.Data\IzgodnoKupi.Data.csproj", "{E719D58D-0A88-43EA-AB36-4C70F9AB731F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7BC82042-7813-4CC8-8787-2279639F6DA5} = {7BC82042-7813-4CC8-8787-2279639F6DA5}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IzgodnoKupi.Data.Model", "IzgodnoKupi.Data.Model\IzgodnoKupi.Data.Model.csproj", "{7BC82042-7813-4CC8-8787-2279639F6DA5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F} = {9EA45FE8-F2B2-4E60-B6AC-11B29594102F}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{49A19648-8A9F-44C1-A984-868676678F26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IzgodnoKupi.Common.Constants", "IzgodnoKupi.Common.Constants\IzgodnoKupi.Common.Constants.csproj", "{9EA45FE8-F2B2-4E60-B6AC-11B29594102F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +31,26 @@ Global
 		{D0C05B38-FD95-471C-8005-DDD681329374}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C05B38-FD95-471C-8005-DDD681329374}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0C05B38-FD95-471C-8005-DDD681329374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E719D58D-0A88-43EA-AB36-4C70F9AB731F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E719D58D-0A88-43EA-AB36-4C70F9AB731F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E719D58D-0A88-43EA-AB36-4C70F9AB731F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E719D58D-0A88-43EA-AB36-4C70F9AB731F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC82042-7813-4CC8-8787-2279639F6DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC82042-7813-4CC8-8787-2279639F6DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC82042-7813-4CC8-8787-2279639F6DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC82042-7813-4CC8-8787-2279639F6DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E719D58D-0A88-43EA-AB36-4C70F9AB731F} = {4F088FFD-9A12-4850-ACB6-CEA08531C16E}
+		{7BC82042-7813-4CC8-8787-2279639F6DA5} = {4F088FFD-9A12-4850-ACB6-CEA08531C16E}
+		{9EA45FE8-F2B2-4E60-B6AC-11B29594102F} = {49A19648-8A9F-44C1-A984-868676678F26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA3356A1-D49D-453E-93D5-35AC3FCE56C6}

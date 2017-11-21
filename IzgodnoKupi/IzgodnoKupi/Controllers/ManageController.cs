@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using IzgodnoKupi.Models;
 using IzgodnoKupi.Models.ManageViewModels;
 using IzgodnoKupi.Services;
+using IzgodnoKupi.Models;
 
 namespace IzgodnoKupi.Controllers
 {
