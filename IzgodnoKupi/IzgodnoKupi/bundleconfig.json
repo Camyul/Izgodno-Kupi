@@ -1,24 +1,27 @@
-﻿// Configure bundling and minification for the project.
-// More info at https://go.microsoft.com/fwlink/?LinkId=808241
 [
   {
     "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
+      "wwwroot/css/lightingTheme/flexslider.css",
+      "wwwroot/css/lightingTheme/form.css",
+      "wwwroot/css/lightingTheme/jquery-ui.css",
+      "wwwroot/css/lightingTheme/memenu.css",
+      "wwwroot/css/lightingTheme/style.css",
       "wwwroot/css/site.css"
     ]
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
+      "wwwroot/js/lightingTheme/imagezoom.js",
+      "wwwroot/js/lightingTheme/jquery.flexisel.js",
+      "wwwroot/js/lightingTheme/jquery.flexslider.js",
+      "wwwroot/js/lightingTheme/jquery.jscrollpane.min.js",
+      "wwwroot/js/lightingTheme/jquery-ui.min.js",
+      "wwwroot/js/lightingTheme/memenu.js",
+      "wwwroot/js/lightingTheme/responsiveslides.min.js",
+      "wwwroot/js/lightingTheme/simpleCart.min.js",
       "wwwroot/js/site.js"
-    ],
-    // Optionally specify minification options
-    "minify": {
-      "enabled": true,
-      "renameLocals": true
-    },
-    // Optionally generate .map file
-    "sourceMap": false
+    ]
   }
 ]

@@ -10,6 +10,13 @@
     padding-right: 15px;
 }
 
+.location {
+    height: 200px;
+    box-shadow: 0px 0px 5px 5px lightgrey;
+}
+
+
+}
 /* Carousel */
 .carousel-caption p {
     font-size: 20px;
