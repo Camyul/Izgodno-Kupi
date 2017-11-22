@@ -24,15 +24,15 @@ a:hover, a:focus {
 }
 @font-face {
     font-family: 'DejaVuSans';
-    src: url(../fonts/DejaVuSans.ttf) format('truetype');
+    src: url(/fonts/DejaVuSans.ttf) format('truetype');
 }
 @font-face {
     font-family: 'DejaVuSans-Bold';
-    src: url(../fonts/DejaVuSans-Bold.ttf) format('truetype');
+    src: url(/fonts/DejaVuSans-Bold.ttf) format('truetype');
 }
 @font-face {
     font-family: 'DejaVuSansCondensed';
-    src: url(../fonts/DejaVuSansCondensed.ttf) format('truetype');
+    src: url(/fonts/DejaVuSansCondensed.ttf) format('truetype');
 }
 ul{
 	padding: 0;
