@@ -89,7 +89,6 @@ h1.b1,h2.b2,h3.b3 {
 }
 .box_1{
   float: right;
-  width: 15%;
   margin-top:2em;
 }
 .box_1 h3{
@@ -116,11 +115,13 @@ h1.b1,h2.b2,h3.b3 {
 }
 .header-bottom {
     border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
 }
 .logo h1 a{
 	color: #F1F1F1;
     font-family: 'DejaVuSansCondensed';
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: 100;
     padding: 0.5em 1.3em;
 	text-decoration:none;
@@ -134,9 +135,13 @@ display:inline-block;
 	float:left;	
 }
  .top-nav {
-  width: 42%;
+  width: 66%;
   display: block;
   float: left;
+}
+.grid-right {
+    display: block;
+    float: right;
 }
 .skyblue{
 	float:left;
@@ -2178,6 +2183,10 @@ span.item_price {
 }
 }
 @media (max-width: 480px){
+    .header-bottom {
+        border-bottom: 1px solid #eee;
+        display:block;
+    }
 .logo h1 a {
     font-size: 1em;
     padding: 0.3em 4.85em;
@@ -2188,6 +2197,7 @@ span.item_price {
 .box_1 {
     width: 26%;
     margin-top: 1em;
+    padding-right:10%;
 }
 .banner-info h3 {
     font-size: 1.3em;
@@ -2340,6 +2350,9 @@ input.item_add.items {
 }
 }
 @media (max-width: 414px){
+    .header-bottom {
+        border-bottom: 1px solid #eee;
+    }
 .logo h1 a {
     font-size: 1em;
     padding: 0.3em 3.9em;
@@ -2369,6 +2382,9 @@ input.item_add.items {
 }
 }
 @media (max-width: 384px){
+    .header-bottom {
+        border-bottom: 1px solid #eee;
+    }
 .logo h1 a {
     font-size: 1em;
     padding: 0.3em 3.4em;
@@ -2384,6 +2400,9 @@ input.item_add.items {
 }
 }
 @media (max-width: 320px){
+    .header-bottom {
+        border-bottom: 1px solid #eee;
+    }
 .logo h1 a {
     font-size: 1em;
     padding: 0.3em 2.66em;
