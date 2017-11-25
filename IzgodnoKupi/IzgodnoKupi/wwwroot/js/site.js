@@ -1,7 +1,12 @@
 ﻿// Write your JavaScript code.
 
-//For Carousel in Home Page
+// For Product Menu
 $(document).ready(function () {
+    $(".memenu").memenu();
+});
+
+//For Carousel in Home Page
+(function () {
     $("#slider").responsiveSlides({
         auto: true,
         nav: true,
@@ -9,9 +14,4 @@ $(document).ready(function () {
         namespace: "callbacks",
         pager: false,
     });
-});
-
-// For Product Menu
-$(document).ready(function () {
-    $(".memenu").memenu();
-});
+})();
