@@ -118,19 +118,80 @@
         <div class="clearfix"> </div>
     </div>
 
-    <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
 
-            <p>&copy; 2017 - IzgodnoKupi</p>
-        </footer>
+        @*<hr />*@
+    <!---->
+    <div class="subscribe">
+        <div class="container">
+            <h3>Aбонирай се за бюлетина на Изгодно Купи</h3>
+            <form>
+                <input type="text" class="text" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}">
+                <input type="submit" value="Абонирам се!">
+            </form>
+        </div>
+    </div>
+    <!---->
+    <div class="footer">
+        <div class="container">
+            <div class="footer-grids">
+                <div class="col-md-3 about-us">
+                    <h3>About Us</h3>
+                    <p>Maecenas nec auctor sem. Vivamus porttitor tincidunt elementum nisi a, euismod rhoncus urna. Curabitur scelerisque vulputate arcu eu pulvinar. Fusce vel neque diam</p>
+                </div>
+                <div class="col-md-3 ftr-grid">
+                    <h3>Information</h3>
+                    <ul class="nav-bottom">
+                        <li><a href="#">Track Order</a></li>
+                        <li><a href="#">New Products</a></li>
+                        <li><a href="#">Location</a></li>
+                        <li><a href="#">Our Stores</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftr-grid">
+                    <h3>More Info</h3>
+                    <ul class="nav-bottom">
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Membership</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ftr-grid">
+                    <h3>Categories</h3>
+                    <ul class="nav-bottom">
+                        <li><a href="#">Car Lights</a></li>
+                        <li><a href="#">LED Lights</a></li>
+                        <li><a href="#">Decorates</a></li>
+                        <li><a href="#">Wall Lights</a></li>
+                        <li><a href="#">Protectors</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="copywrite">
+        <div class="container">
+            <div class="copy">
+                <p>&copy; @DateTime.Now.Year - IzgodnoKupi | Design by  <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+            </div>
+            <div class="social">
+                <a href="#"><i class="facebook"></i></a>
+                <a href="#"><i class="twitter"></i></a>
+                <a href="#"><i class="dribble"></i></a>
+                <a href="#"><i class="google"></i></a>
+                <a href="#"><i class="youtube"></i></a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/imagezoom.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/jquery.flexisel.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/jquery.flexslider.js" asp-append-version="true"></script>
@@ -139,7 +200,7 @@
         <script src="~/js/lightingTheme/memenu.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/responsiveslides.min.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/simpleCart.min.js" asp-append-version="true"></script>
-        <script>$(document).ready(function () { $(".memenu").memenu(); });</script>	
+        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -155,7 +216,6 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script>$(document).ready(function () { $(".memenu").memenu(); });</script>	
     </environment>
 
     @RenderSection("Scripts", required: false)
