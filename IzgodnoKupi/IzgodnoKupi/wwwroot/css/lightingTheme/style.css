@@ -125,8 +125,8 @@ h1.b1,h2.b2,h3.b3 {
     font-weight: 100;
     padding: 0.5em 1.3em;
 	text-decoration:none;
-background:#ed645c;	
-display:inline-block;
+    background:#ed645c;	
+    display:inline-block;
 }
 .logo h1 a:hover{
 	text-decoration:none;
@@ -135,7 +135,7 @@ display:inline-block;
 	float:left;	
 }
  .top-nav {
-  width: 66%;
+  width: 77%;
   display: block;
   float: left;
 }
@@ -1862,16 +1862,29 @@ label {
 }
 /*--//login--*/
 /*--responsive--*/
+@media (max-width: 1920px) {
+.top-nav {
+    width: 74%;
+}
+}
+@media (max-width: 1600px) {
+.top-nav {
+    width: 71%;
+}
+}
 @media (max-width: 1440px){
+.top-nav {
+    width: 67%;
+}
 }
 @media (max-width: 1366px){
 .top-nav {
-    width: 44%;
+    width: 67%;
 }
 }
 @media (max-width: 1280px){
 .top-nav {
-    width: 46%;
+    width: 66%;
 }
 .banner-info {
     width: 60%;
@@ -1902,10 +1915,16 @@ ul.nav-bottom li a {
 .single-top-in{
 	width:44%;
 }
+.logo {
+    width:16%;
+}
 }
 @media (max-width: 1080px){
 .top-nav {
     width: 59%;
+}
+.logo {
+        width: 16%;
 }
 .banner1,.banner2,.banner3 {
     min-height: 420px;
@@ -1933,6 +1952,9 @@ p.para {
 @media (max-width: 1024px){
 .top-nav {
     width: 58%;
+}
+.logo {
+    width: 16%;
 }
 .banner1, .banner2, .banner3 {
     min-height: 385px;
@@ -1965,7 +1987,11 @@ position: absolute;
 }
 @media (max-width: 991px){
 .top-nav {
-    width: 56%;
+    width: 60%;
+    padding-left: 6%;
+}
+.logo {
+    width: 16%;
 }
 .banner-info h3 {
     font-size: 2em;
@@ -2044,7 +2070,11 @@ position: absolute;
 }
 @media (max-width: 800px){
 .top-nav {
-    width: 49%;
+    width: 51%;
+    padding-left:7%;
+}
+.logo {
+    width: 16%;
 }
 .banner-info {
     width: 75%;
@@ -2181,12 +2211,15 @@ span.item_price {
 .top-nav {
     width: 29%;
 }
+.header-bottom {
+    border-bottom: 1px solid #eee;
+    display: block;
+}
+.logo {
+    float:none;
+}
 }
 @media (max-width: 480px){
-    .header-bottom {
-        border-bottom: 1px solid #eee;
-        display:block;
-    }
 .logo h1 a {
     font-size: 1em;
     padding: 0.3em 4.85em;
