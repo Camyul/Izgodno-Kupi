@@ -5,6 +5,9 @@
     <UserSecretsId>aspnet-IzgodnoKupi-AE4E6246-65E6-4D7D-8271-2A838B141B4A</UserSecretsId>
     <AssemblyName>IzgodnoKupi.Web</AssemblyName>
     <RootNamespace>IzgodnoKupi.Web</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>WinExe</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>

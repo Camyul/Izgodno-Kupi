@@ -1,17 +1,61 @@
-﻿@{
+﻿@*@{
     ViewData["Title"] = "Contact";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<h3>@ViewData["Message"]</h3>*@
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+    <div class="contact">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a href="index.html">Home</a></li>
+                <li class="active">Contact</li>
+            </ol>
+            <!--start contact-->
+            <h3>Съобщение</h3>
+            <div class="section group">
+                <div class="col-md-6 span_1_of_3">
+                    <div class="contact_info">
+                        <h4>Ние сме тук</h4>
+                        <div class="map">
+                            <img class="location" src="~/css/images/location.png" alt="Location" />
+                        </div>
+                    </div>
+                    <div class="company_address">
+                        <h4>Адрес:</h4>
+                        <p>Изгодно Купи</p>
+                        <p>Луковит, ул. Хр. Ботев 13</p>
+                        <p>България</p>
+                        <p>GSM:0878 976 762</p>
+                        <p>Email: <a href="mailto:caves.computer@gmail.com">caves.computer@gmail.com</a></p>
+                        <p>Последвайте ни: <a href="https://www.facebook.com/IzgodnoKupi">Facebook</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6 span_2_of_3">
+                    <div class="contact-form">
+                        <form>
+                            <div>
+                                <span><label>Име</label></span>
+                                <span><input name="userName" type="text" required="" class="textbox" autofocus></span>
+                            </div>
+                            <div>
+                                <span><label>E-MAIL</label></span>
+                                <span><input name="userEmail" type="text" required="" class="textbox"></span>
+                            </div>
+                            <div>
+                                <span><label>Мобилен Телефон</label></span>
+                                <span><input name="userPhone" type="text" required="" class="textbox"></span>
+                            </div>
+                            <div>
+                                <span><label>Относно</label></span>
+                                <span><textarea name="userMsg" required=""> </textarea></span>
+                            </div>
+                            <div>
+                                <span><input type="submit" class="mybutton" value="Изпрати"></span>
+                            </div>
+                        </form>
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
