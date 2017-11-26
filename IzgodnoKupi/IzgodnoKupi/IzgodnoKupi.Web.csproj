@@ -37,6 +37,7 @@
     <ProjectReference Include="..\IzgodnoKupi.Common.Constants\IzgodnoKupi.Common.Constants.csproj" />
     <ProjectReference Include="..\IzgodnoKupi.Data.Model\IzgodnoKupi.Data.Model.csproj" />
     <ProjectReference Include="..\IzgodnoKupi.Data\IzgodnoKupi.Data.csproj" />
+    <ProjectReference Include="..\IzgodnoKupi.Services\IzgodnoKupi.Services.csproj" />
   </ItemGroup>
 
 </Project>

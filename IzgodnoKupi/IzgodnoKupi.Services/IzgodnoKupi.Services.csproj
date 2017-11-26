@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IzgodnoKupi.Data.Model\IzgodnoKupi.Data.Model.csproj" />
+    <ProjectReference Include="..\IzgodnoKupi.Data\IzgodnoKupi.Data.csproj" />
+  </ItemGroup>
+
+</Project>
