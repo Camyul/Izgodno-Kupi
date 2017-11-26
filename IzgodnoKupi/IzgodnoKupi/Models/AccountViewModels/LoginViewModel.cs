@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IzgodnoKupi.Models.AccountViewModels
 {
@@ -10,13 +6,15 @@ namespace IzgodnoKupi.Models.AccountViewModels
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "Email:")]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Парола:")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Запомни ме")]
         public bool RememberMe { get; set; }
     }
 }
