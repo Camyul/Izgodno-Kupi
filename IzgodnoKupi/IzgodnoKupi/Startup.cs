@@ -13,6 +13,8 @@ using IzgodnoKupi.Models;
 using IzgodnoKupi.Services;
 using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Repositories;
+using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Data.SaveContext;
 
 namespace IzgodnoKupi
 {
@@ -33,6 +35,8 @@ namespace IzgodnoKupi
 
             //Add Repository to IoC Container
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
+            services.AddScoped(typeof(ISaveContext), typeof(SaveContext));
+            services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
