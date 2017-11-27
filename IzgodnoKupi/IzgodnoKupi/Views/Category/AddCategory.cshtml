@@ -3,10 +3,11 @@
 
 
     <form asp-controller="Category" asp-action="AddCategory" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <label>Add new Category</label>
-        @Html.TextBoxFor(m => Model.Name, null, new { @class = "form-control", placeholder = "Name" })
-
-        <span asp-validation-for="Name" class="text-danger"></span>
-        <p>@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })</p>
+        @*@Html.TextBoxFor(m => Model.Name, null, new { @class = "form-control", placeholder = "Name" })*@
+        <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
+        <p><span asp-validation-for="Name" class="text-danger"></span></p>
+        @*<p>@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })</p>*@
         <input type="submit" class="btn btn-success" value="Add" />
     </form>

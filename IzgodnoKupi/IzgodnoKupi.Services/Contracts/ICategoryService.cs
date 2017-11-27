@@ -6,6 +6,8 @@ namespace IzgodnoKupi.Services.Contracts
 {
     public interface ICategoryService
     {
+        IQueryable<Category> GetAll();
+
         IQueryable<Category> GetAllCategoriesSortedByName();
 
         Category GetById(Guid? id);

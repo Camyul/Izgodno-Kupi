@@ -4,6 +4,9 @@ using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace IzgodnoKupi.Web.Controllers
 {
@@ -18,6 +21,14 @@ namespace IzgodnoKupi.Web.Controllers
             this.categoryService = categoryService;
         }
 
+        public IActionResult Index()
+        {
+            var categories = this.categoryService.GetAll()
+                       .Select(c => new CategoryViewModel(c)).ToList();
+
+            return View(categories);
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult AddCategory()
@@ -29,6 +40,7 @@ namespace IzgodnoKupi.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult AddCategory(CategoryViewModel categoryModel)
         {
             Category category = new Category()
@@ -39,7 +51,66 @@ namespace IzgodnoKupi.Web.Controllers
 
             this.categoryService.AddCategory(category);
 
-            return RedirectToAction("Index", "Products");
+            //return RedirectToAction("Index", "Products");
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Category category = categoryService.GetById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            CategoryViewModel viewModelCategory = new CategoryViewModel(category);
+
+            return View(viewModelCategory);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Guid id, Category category)
+        {
+            if (id != category.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    categoryService.Update(category);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CategoryExists(category.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
+        }
+
+        private bool CategoryExists(Guid id)
+        {
+            return categoryService.GetById(id) == null ? false : true;
         }
     }
 }

@@ -21,6 +21,13 @@ namespace IzgodnoKupi.Services
             this.context = context;
         }
 
+        public IQueryable<Category> GetAll()
+        {
+            var result = this.categoriesRepo.All;
+
+            return result;
+        }
+
         public IQueryable<Category> GetAllCategoriesSortedByName()
         {
             var result = this.categoriesRepo.All

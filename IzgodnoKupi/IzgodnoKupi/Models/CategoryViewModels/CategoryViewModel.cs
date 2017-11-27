@@ -25,7 +25,10 @@ namespace IzgodnoKupi.Web.Models.CategoryViewModels
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
+        [Display(Name = "Име")]
         public string Name { get; set; }
+
+        public bool ShowOnHomePage { get; set; }
 
         //public ICollection<Product> Products { get; set; }
     }
