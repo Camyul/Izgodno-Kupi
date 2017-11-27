@@ -52,5 +52,18 @@ namespace IzgodnoKupi.Services
             this.categoriesRepo.Add(category);
             this.context.Commit();
         }
+
+        public void Update(Category category)
+        {
+            this.categoriesRepo.Update(category);
+            this.context.Commit();
+        }
+
+        public void Delete(Category category)
+        {
+            this.categoriesRepo.Delete(category);
+            this.context.Commit();
+        }
+
     }
 }
