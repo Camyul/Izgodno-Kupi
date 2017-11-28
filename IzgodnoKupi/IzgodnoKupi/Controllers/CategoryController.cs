@@ -108,6 +108,70 @@ namespace IzgodnoKupi.Web.Controllers
             return View(category);
         }
 
+        public IActionResult Details(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Category category = categoryService.GetById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            CategoryViewModel viewModelCategory = new CategoryViewModel(category);
+
+            return View(viewModelCategory);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Delete(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Category category = categoryService.GetById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            CategoryViewModel viewModelCategory = new CategoryViewModel(category);
+
+            return View(viewModelCategory);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Category category = categoryService.GetById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            category.DeletedOn = DateTime.Now;
+
+            categoryService.Delete(category);
+
+            return RedirectToAction("Index");
+        }
+
         private bool CategoryExists(Guid id)
         {
             return categoryService.GetById(id) == null ? false : true;

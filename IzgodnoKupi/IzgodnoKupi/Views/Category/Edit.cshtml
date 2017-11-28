@@ -19,17 +19,17 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ShowOnHomePage" class="control-label"></label>
-                <input asp-for="ShowOnHomePage" class="form-control" />
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="ShowOnHomePage" /> @Html.DisplayNameFor(model => model.ShowOnHomePage)
+                    </label>
+                </div>
                 <span asp-validation-for="ShowOnHomePage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-success" />
+                <input type="submit" value="Запиши" class="btn btn-success" />
+                <a class="btn btn-primary" asp-action="Index">Към списъка</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Към списъка</a>
 </div>

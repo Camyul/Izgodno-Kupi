@@ -16,6 +16,7 @@ namespace IzgodnoKupi.Web.Models.CategoryViewModels
         {
             this.Id = category.Id;
             this.Name = category.Name;
+            this.ShowOnHomePage = category.ShowOnHomePage;
             //this.Products = category.Products;
         }
 
