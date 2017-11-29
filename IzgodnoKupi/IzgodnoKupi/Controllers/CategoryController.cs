@@ -12,9 +12,9 @@ namespace IzgodnoKupi.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ICategoryService categoryService;
+        private readonly ICategoriesService categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoriesService categoryService)
         {
             Guard.WhenArgument(categoryService, "categoryService").IsNull().Throw();
 

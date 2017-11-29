@@ -36,7 +36,8 @@ namespace IzgodnoKupi
             //Add Repository to IoC Container
             services.AddScoped(typeof(IEfRepository<>), typeof(EfRepository<>));
             services.AddScoped(typeof(ISaveContext), typeof(SaveContext));
-            services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
+            services.AddScoped(typeof(ICategoriesService), typeof(CategoriesService));
+            services.AddScoped(typeof(IProductsService), typeof(ProductsService));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

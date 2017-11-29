@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace IzgodnoKupi.Services.Contracts
 {
-    public interface ICategoryService
+    public interface ICategoriesService
     {
         IQueryable<Category> GetAll();
 

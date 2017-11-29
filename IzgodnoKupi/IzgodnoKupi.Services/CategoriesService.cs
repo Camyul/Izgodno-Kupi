@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace IzgodnoKupi.Services
 {
-    public class CategoryService : ICategoryService
+    public class CategoriesService : ICategoriesService
     {
         private readonly ISaveContext context;
         private readonly IEfRepository<Category> categoriesRepo;
 
-        public CategoryService(IEfRepository<Category> categoriesRepo, ISaveContext context)
+        public CategoriesService(IEfRepository<Category> categoriesRepo, ISaveContext context)
         {
             Guard.WhenArgument(categoriesRepo, "categoriesRepo").IsNull().Throw();
             Guard.WhenArgument(context, "context").IsNull().Throw();
