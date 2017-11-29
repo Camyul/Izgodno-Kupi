@@ -75,7 +75,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="grid"><a asp-area="" asp-controller="Home" asp-action="Contact">Стоки</a></li>
+                    <li class="grid"><a asp-area="" asp-controller="Product" asp-action="AddProduct">Добави Продукт</a></li>
                     <li class="grid"><a asp-area="" asp-controller="Category" asp-action="Index">Категории</a></li>
                 @await Html.PartialAsync("_LoginPartial")
                 </ul>
@@ -170,6 +170,8 @@
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/lightingTheme/imagezoom.js" asp-append-version="true"></script>
         <script src="~/js/lightingTheme/jquery.flexisel.js" asp-append-version="true"></script>
@@ -188,6 +190,8 @@
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"

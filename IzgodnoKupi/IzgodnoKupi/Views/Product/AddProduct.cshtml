@@ -1,0 +1,64 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModel
+@model ProductViewModel
+@using IzgodnoKupi.Web.Models.CategoryViewModels
+@*@model CategoryViewModel*@
+
+@{
+    ViewBag.Title = "Products Page";
+    List<CategoriesNavigationViewModel> categories = ViewData["categories"] as List<CategoriesNavigationViewModel>;
+    ProductViewModel product = ViewData["product"] as ProductViewModel;
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+            <p>Add new Product</p>
+        <form asp-controller="Product" asp-action="AddProduct" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                @Html.Label("", "Име", new { @class = "control-label" })
+                @*@Html.TextBox("Name", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
+                <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
+            <p><span asp-validation-for="Name" class="text-danger"></span></p>
+          
+            <p>
+                @Html.Label("", "Категория", new { @class = "control-label" })
+                @Html.DropDownList("Category", new SelectList(categories, "Id", "Name"), new { @class = "form-control" })
+
+
+            </p>
+            <p>
+                @Html.Label("", "Кратко Описание", new { @class = "control-label" })
+                @Html.TextArea("ShortDescription", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ShortDescription, "", new { @class = "text-danger" })
+            </p>
+            <p>
+                @Html.Label("", "Пълно Описание", new { @class = "control-label" })
+                @Html.TextArea("FullDescription", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FullDescription, "", new { @class = "text-danger" })
+            </p>
+            <p>
+                @Html.Label("", "URL на снимката", new { @class = "control-label" })
+                @Html.TextBox("PictureUrl", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PictureUrl, "", new { @class = "text-danger" })
+            </p>
+            <p>
+                @Html.Label("", "Количество", new { @class = "control-label" })
+                @Html.TextBox("Quantity", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+            </p>
+            <p>
+                @Html.Label("", "Цена", new { @class = "control-label" })
+                @Html.TextBox("Price", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+            </p>
+            <p>
+                <input type="submit" class="btn btn-success" value="Add" name="@product" />
+                <input type="submit" class="btn btn-success" value="Добави" />
+            </p>
+        </form>
+    </div>
+</div>
