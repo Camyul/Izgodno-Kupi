@@ -4,7 +4,7 @@ using IzgodnoKupi.Data.Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace IzgodnoKupi.Web.Models.ProductViewModel
+namespace IzgodnoKupi.Web.Models.ProductViewModels
 {
     public class ProductViewModel
     {

@@ -2,15 +2,12 @@
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
-using IzgodnoKupi.Web.Models.ProductViewModel;
+using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IzgodnoKupi.Web.Controllers
 {
@@ -39,19 +36,7 @@ namespace IzgodnoKupi.Web.Controllers
                 .Select(x => new ProductViewModel(x))
                 .ToList();
 
-            var categories = this.categiriesService.GetAllCategoriesSortedByName()
-             //.Select(x => new CategoriesNavigationViewModel(x))
-            .ToList();
-            var viewCategory = new List<CategoriesNavigationViewModel>();
-            foreach (var cat in categories)
-            {
-                viewCategory.Add(new CategoriesNavigationViewModel(cat));
-            }
-
-            ViewData["categories"] = viewCategory;
-            ViewData["products"] = products;
-
-            return View();
+            return View(products);
         }
 
         public ActionResult Details(Guid? id)
