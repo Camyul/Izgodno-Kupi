@@ -60,6 +60,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
                 ValidationConstants.QuantityMinValue,
                    ValidationConstants.QuantityMaxValue,
                     ErrorMessage = ValidationConstants.QuаntityOutOfRangeErrorMessage)]
+        [Display(Name = "Количество")]
         public int Quantity { get; set; }
 
         [MinLength(ValidationConstants.ImageUrlMinLength, ErrorMessage = ValidationConstants.MinLengthUrlErrorMessage)]
@@ -69,6 +70,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         [Required]
         [Range(ValidationConstants.PriceMinValue, ValidationConstants.PriceMaxValue,
             ErrorMessage = ValidationConstants.PriceOutOfRangeErrorMessage)]
+        [Display(Name = "Цена")]
         public decimal Price { get; set; }
 
         [Range(ValidationConstants.PriceMinValue, ValidationConstants.PriceMaxValue,
@@ -77,13 +79,14 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         [Range(ValidationConstants.DiscountMinValue, ValidationConstants.DiscountMaxValue,
             ErrorMessage = ValidationConstants.DiscountOutOfRangeErrorMessage)]
+        [Display(Name = "Отстъпка")]
         public double Discount { get; set; }
 
         [Required]
         [Display(Name = "Видима")]
         public bool IsPublished { get; set; }
 
-        [Display(Name = "Видима")]
+        [Display(Name = "Наличност")]
         public ProductAvailability ProductAvailability { get; set; }
 
         [Display(Name = "Безплатна доставка")]
