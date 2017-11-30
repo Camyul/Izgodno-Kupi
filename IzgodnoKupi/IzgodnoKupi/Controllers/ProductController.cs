@@ -5,6 +5,8 @@ using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,7 +125,7 @@ namespace IzgodnoKupi.Web.Controllers
                 Name = productModel.Name,
                 ShortDescription = productModel.ShortDescription,
                 FullDescription = productModel.FullDescription,
-                CategoryId = productModel.CategoryId.Value,
+                CategoryId = productModel.CategoryId,
                 Quantity = productModel.Quantity,
                 PictureUrl = productModel.PictureUrl,
                 Price = productModel.Price,
@@ -133,6 +135,7 @@ namespace IzgodnoKupi.Web.Controllers
                 Weight = productModel.Weight
             };
 
+            
             this.productsService.AddProduct(product);
 
             return RedirectToAction("Index");

@@ -1,4 +1,5 @@
 ﻿@using IzgodnoKupi.Web.Models.ProductViewModel
+@using IzgodnoKupi.Data.Model.Enums
 @model ProductViewModel
 @using IzgodnoKupi.Web.Models.CategoryViewModels
 @*@model CategoryViewModel*@
@@ -9,10 +10,11 @@
     ProductViewModel product = ViewData["product"] as ProductViewModel;
 }
 
+            <h4 class="text-center">Добавяне на нов продукт</h4>
+            <hr />
 
 <div class="row">
     <div class="col-md-4">
-            <p>Add new Product</p>
         <form asp-controller="Product" asp-action="AddProduct" method="post">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -22,13 +24,18 @@
                 @*@Html.TextBox("Name", null, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
                 <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
-            <p><span asp-validation-for="Name" class="text-danger"></span></p>
+                <p><span asp-validation-for="Name" class="text-danger"></span></p>
           
             <p>
                 @Html.Label("", "Категория", new { @class = "control-label" })
-                @Html.DropDownList("Category", new SelectList(categories, "Id", "Name"), new { @class = "form-control" })
-
-
+                @Html.DropDownList("CategoryId", new SelectList(categories, "Id", "Name"), new { @class = "form-control" })
+            </p>
+            <p>
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
+                    </label>
+                </div>
             </p>
             <p>
                 @Html.Label("", "Кратко Описание", new { @class = "control-label" })
@@ -52,11 +59,36 @@
             </p>
             <p>
                 @Html.Label("", "Цена", new { @class = "control-label" })
-                @Html.TextBox("Price", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+                <label asp-for="Price" class="col-md-2 control-label"></label>
+
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+         
+            </p>
+            @*<p>
+                @Html.Label("", "Стара цена", new { @class = "control-label" })
+                @Html.TextBox("OldPrice", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.OldPrice, "", new { @class = "text-danger" })
+            </p>*@
+            <p>
+                @Html.Label("", "Намаление", new { @class = "control-label" })
+                @Html.TextBox("Discount", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger" })
             </p>
             <p>
-                <input type="submit" class="btn btn-success" value="Add" name="@product" />
+                @Html.Label("", "Наличност", new { @class = "control-label" })
+                <select asp-for="ProductAvailability" asp-items="Html.GetEnumSelectList<ProductAvailability>()" class="form-control"></select>
+            </p>
+            <p>
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsFreeShipping" /> @Html.DisplayNameFor(model => model.IsFreeShipping)
+                    </label>
+                </div>
+            </p>
+
+            <p>
+                @*<input type="submit" class="btn btn-success" value="Add" name="@product" />*@
                 <input type="submit" class="btn btn-success" value="Добави" />
             </p>
         </form>

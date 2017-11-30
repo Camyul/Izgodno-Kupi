@@ -45,8 +45,11 @@ namespace IzgodnoKupi.Common
         public const int QuantityMinValue = 1;
         public const int QuantityMaxValue = 10000000;
 
-        public const string PriceMinValue = "0.01";
-        public const string PriceMaxValue = "999999999.99";
+        public const double PriceMinValue = 0.01;
+        public const double PriceMaxValue = 99999.99;
+
+        public const double DiscountMinValue = 0.00d;
+        public const double DiscountMaxValue = 999.99d;
 
         public const string MinLengthUrlErrorMessage = "Линка към снимката трябва да бъде поне 6 символа";
         public const string MaxLengthUrlErrorMessage = "Линка към снимката може да бъде максимум 300 символа";
@@ -61,6 +64,7 @@ namespace IzgodnoKupi.Common
         public const string NotAllowedSymbolsErrorMessage = "Полето {0} съдържа неразрешени символи";
 
         public const string QuаntityOutOfRangeErrorMessage = "{0} Невалидно количество, диапазон 1, 10 0000 000.";
-        public const string PriceOutOfRangeErrorMessage = "{0} Невалиднa cenцена, диапазон 0,01, 999 999 999.99.";
+        public const string PriceOutOfRangeErrorMessage = "{0} Невалиднa цена, диапазон 0.01, 99 999.99.";
+        public const string DiscountOutOfRangeErrorMessage = "{0} Невалиднa отстъпка, диапазон 0.00%, 999.99%.";
     }
 }

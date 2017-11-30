@@ -15,6 +15,7 @@ using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Repositories;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Data.SaveContext;
+using System.Threading;
 
 namespace IzgodnoKupi
 {
@@ -30,6 +31,8 @@ namespace IzgodnoKupi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
