@@ -14,86 +14,106 @@
             <hr />
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="form-horizontal">
         <form asp-controller="Product" asp-action="AddProduct" method="post">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-                @Html.Label("", "Име", new { @class = "control-label" })
-                @*@Html.TextBox("Name", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
-                <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
-                <p><span asp-validation-for="Name" class="text-danger"></span></p>
-          
-            <p>
-                @Html.Label("", "Категория", new { @class = "control-label" })
-                @Html.DropDownList("CategoryId", new SelectList(categories, "Id", "Name"), new { @class = "form-control" })
-            </p>
-            <p>
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
-                    </label>
+            <div class="form-group">
+                @Html.Label("", "Име", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @*@Html.TextBox("Name", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
+                    <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
+                    <span asp-validation-for="Name" class="text-danger field-validation-valid"></span>
                 </div>
-            </p>
-            <p>
-                @Html.Label("", "Кратко Описание", new { @class = "control-label" })
-                @Html.TextArea("ShortDescription", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ShortDescription, "", new { @class = "text-danger" })
-            </p>
-            <p>
-                @Html.Label("", "Пълно Описание", new { @class = "control-label" })
-                @Html.TextArea("FullDescription", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.FullDescription, "", new { @class = "text-danger" })
-            </p>
-            <p>
-                @Html.Label("", "URL на снимката", new { @class = "control-label" })
-                @Html.TextBox("PictureUrl", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.PictureUrl, "", new { @class = "text-danger" })
-            </p>
-            <p>
-                @Html.Label("", "Количество", new { @class = "control-label" })
-                @Html.TextBox("Quantity", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
-            </p>
-            <p>
-                @Html.Label("", "Цена", new { @class = "control-label" })
-                <label asp-for="Price" class="col-md-2 control-label"></label>
+            </div>
 
+            <div class="form-group">
+                @Html.Label("", "Категория", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.DropDownList("CategoryId", new SelectList(categories, "Id", "Name"), new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("", "Видима", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        <input asp-for="IsPublished" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("", "Кратко Описание", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.TextArea("ShortDescription", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ShortDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Пълно Описание", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.TextArea("FullDescription", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FullDescription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "URL на снимката", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.TextBox("PictureUrl", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PictureUrl, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Количество", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.TextBox("Quantity", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Цена", new { @class = "control-label col-md-2 col-md-offset-3" })
+                @*<label asp-for="Price" class="col-md-2 control-label"></label>*@
+                <div class="col-md-3">
                     <input asp-for="Price" class="form-control" />
                     <span asp-validation-for="Price" class="text-danger"></span>
-         
-            </p>
-            @*<p>
-                @Html.Label("", "Стара цена", new { @class = "control-label" })
-                @Html.TextBox("OldPrice", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.OldPrice, "", new { @class = "text-danger" })
-            </p>*@
-            <p>
-                @Html.Label("", "Намаление", new { @class = "control-label" })
-                @Html.TextBox("Discount", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger" })
-            </p>
-            <p>
-                @Html.Label("", "Наличност", new { @class = "control-label" })
-                <select asp-for="ProductAvailability" asp-items="Html.GetEnumSelectList<ProductAvailability>()" class="form-control"></select>
-            </p>
-            <p>
-                <div class="checkbox">
-                    <label>
-                        <input asp-for="IsFreeShipping" /> @Html.DisplayNameFor(model => model.IsFreeShipping)
-                    </label>
-                </div>
-            </p>
 
-            <p>
-                @*<input type="submit" class="btn btn-success" value="Add" name="@product" />*@
-                <input type="submit" class="btn btn-success" value="Добави" />
-            </p>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Намаление", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    @Html.TextBox("Discount", null, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Discount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Наличност", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <select asp-for="ProductAvailability" asp-items="Html.GetEnumSelectList<ProductAvailability>()" class="form-control"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Безплатна доставка", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        <input asp-for="IsFreeShipping" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-6">
+                    @*<input type="submit" class="btn btn-success" value="Add" name="@product" />*@
+                    <input type="submit" class="btn btn-success" value="Добави" />
+                </div>
+            </div>
         </form>
     </div>
 </div>
 
-
+@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
