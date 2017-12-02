@@ -19,6 +19,8 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
             this.Quantity = product.Quantity;
             this.PictureUrl = product.PictureUrl;
             this.Price = product.Price;
+            this.OldPrice = product.OldPrice;
+            this.Discount = product.Discount;
         }
 
         public Guid? Id { get; set; }
@@ -42,5 +44,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         [Required]
         public decimal Price { get; set; }
+        public decimal OldPrice { get; set; }
+        public double Discount { get; set; }
     }
 }
