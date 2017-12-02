@@ -46,13 +46,14 @@ namespace IzgodnoKupi.Web.Controllers
             Category category = new Category()
             {
                 Name = categoryModel.Name,
+                ShowOnHomePage = categoryModel.ShowOnHomePage
                 //Products = categoryModel.Products
             };
 
             this.categoryService.AddCategory(category);
 
             //return RedirectToAction("Index", "Products");
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

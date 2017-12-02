@@ -30,7 +30,7 @@ namespace IzgodnoKupi.Common
         //public const string UrlRegex = @"^(http|https|ftp|)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
 
         public const int StandardMinLength = 3;
-        public const int StandartMaxLength = 40;
+        public const int StandartMaxLength = 100;
 
         public const int DescriptionMinLength = 10;
         public const int DescriptionMaxLength = 150;
@@ -55,7 +55,7 @@ namespace IzgodnoKupi.Common
         public const string MaxLengthUrlErrorMessage = "Линка към снимката може да бъде максимум 300 символа";
 
         public const string MinLengthFieldErrorMessage = "Полето {0} трябва да бъде поне 3 символа";
-        public const string MaxLengthFieldErrorMessage = "Полето {0} може да бъде максимум 40 символа";
+        public const string MaxLengthFieldErrorMessage = "Полето {0} може да бъде максимум 100 символа";
 
         public const string MinLengthDescriptionErrorMessage = "Описанието трябва да бъде поне 10 символа";
         public const string MaxLengthDescriptionErrorMessage = "Описанието може да бъде максимум 150 символа";
