@@ -21,6 +21,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
             this.FullDescription = product.FullDescription;
             this.CategoryId = product.CategoryId;
             this.Quantity = product.Quantity;
+            //this.PictureUrls = product.PictureUrls;
             this.PictureUrl = product.PictureUrl;
             this.Price = product.Price;
             this.OldPrice = product.OldPrice;
@@ -65,6 +66,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         [MinLength(ValidationConstants.ImageUrlMinLength, ErrorMessage = ValidationConstants.MinLengthUrlErrorMessage)]
         [MaxLength(ValidationConstants.ImageUrlMaxLength, ErrorMessage = ValidationConstants.MaxLengthUrlErrorMessage)]
+        //public IList<string> PictureUrls { get; set; }
         public string PictureUrl { get; set; }
 
         [Required]

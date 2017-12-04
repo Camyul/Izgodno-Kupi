@@ -3,16 +3,23 @@
 
 <div class="col-md-3 feature-grid">
     <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id">
-        <img src="@Model.PictureUrl" alt="" />
-        <div class="arrival-info">
+        <img class="item-img" src="@Model.PictureUrl" alt="" />
+        <div class="arrival-info text-center">
             <h4>@Model.Name</h4>
-            <p>@{@Model.Price}лв.</p>
-            <span class="pric1"><del>@Model.OldPrice</del></span>
-            <span class="disc">[@Model.Discount% Off]</span>
+            @if (Model.OldPrice != 0)
+            {
+                <span class="pric1"><del>@Model.OldPrice</del></span>
+                <span class="disc">[@Model.Discount% Off]</span>
+                <p>@{@Model.Price}лв.</p>
+            }
+             else
+            {
+                <p>@{@Model.Price}лв.</p>
+            }
         </div>
     </a>
         <div class="viw">
             <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>Преглед</a>
-</div>
+        </div>
  
 </div>

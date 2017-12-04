@@ -63,7 +63,7 @@ namespace IzgodnoKupi.Common
 
         public const string NotAllowedSymbolsErrorMessage = "Полето {0} съдържа неразрешени символи";
 
-        public const string QuаntityOutOfRangeErrorMessage = "{0} Невалидно количество, диапазон 1, 10 0000 000.";
+        public const string QuаntityOutOfRangeErrorMessage = "Количеството не може да бъде отрицателно или нула";
         public const string PriceOutOfRangeErrorMessage = "{0} Невалиднa цена, диапазон 0.01, 99 999.99.";
         public const string DiscountOutOfRangeErrorMessage = "{0} Невалиднa отстъпка, диапазон 0.00%, 999.99%.";
     }

@@ -41,9 +41,20 @@ namespace IzgodnoKupi.Web.Controllers
 
         public ActionResult Details(Guid? id)
         {
+            Guard.WhenArgument(id, "Details Id").IsNull().Throw();
+
             Product product = this.productsService.GetById(id);
 
             ProductViewModel viewModel = new ProductViewModel(product);
+
+            var products = this.productsService
+               .GetAll()
+               .OrderByDescending(x => x.CreatedOn)
+               .Take(5)
+               .Select(x => new PreviewProductViewModel(x))
+               .ToList();
+
+            ViewData["products"] = products;
 
             return View(viewModel);
         }

@@ -33,8 +33,8 @@ namespace IzgodnoKupi.Controllers
                 var products = this.productsService
                .GetAll()
                .OrderByDescending(x => x.CreatedOn)
-               .Select(x => new PreviewProductViewModel(x))
                .Take(8)
+               .Select(x => new PreviewProductViewModel(x))
                .ToList();
 
             //var viewCategory = new List<CategoriesNavigationViewModel>();
