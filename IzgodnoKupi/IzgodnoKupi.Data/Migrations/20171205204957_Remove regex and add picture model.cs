@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace IzgodnoKupi.Data.Migrations
 {
-    public partial class regex : Migration
+    public partial class Removeregexandaddpicturemodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -122,7 +122,7 @@ namespace IzgodnoKupi.Data.Migrations
                 oldMaxLength: 100);
 
             migrationBuilder.CreateTable(
-                name: "Picture",
+                name: "Pictures",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -137,9 +137,9 @@ namespace IzgodnoKupi.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Picture", x => x.Id);
+                    table.PrimaryKey("PK_Pictures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Picture_Products_ProductId",
+                        name: "FK_Pictures_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -147,15 +147,15 @@ namespace IzgodnoKupi.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Picture_ProductId",
-                table: "Picture",
+                name: "IX_Pictures_ProductId",
+                table: "Pictures",
                 column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Picture");
+                name: "Pictures");
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",

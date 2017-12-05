@@ -124,6 +124,8 @@ namespace IzgodnoKupi.Web.Controllers
                 CategoryId = productModel.CategoryId,
                 Quantity = productModel.Quantity,
                 Price = productModel.Price,
+                OldPrice = productModel.OldPrice,
+                Discount = productModel.Discount,
                 IsPublished = productModel.IsPublished,
                 ProductAvailability = productModel.ProductAvailability,
                 IsFreeShipping = productModel.IsFreeShipping,

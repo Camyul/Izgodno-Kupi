@@ -12,10 +12,9 @@ using System;
 namespace IzgodnoKupi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171204165612_regex")]
-    partial class regex
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +231,7 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Picture");
+                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("IzgodnoKupi.Data.Model.Product", b =>
