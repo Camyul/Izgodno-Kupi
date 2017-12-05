@@ -12,9 +12,10 @@ using System;
 namespace IzgodnoKupi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171204165612_regex")]
+    partial class regex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +37,7 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<bool>("ShowOnHomePage");
 
@@ -56,13 +57,13 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("Area")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<string>("BGEIK");
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<string>("CompanyAddress")
                         .IsRequired()
@@ -70,11 +71,11 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("CompanyCity")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<int>("Courier");
 
@@ -86,24 +87,24 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<string>("MOL")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<DateTime?>("ModifiedOn");
 
                     b.Property<string>("Note");
 
                     b.Property<string>("OfficeName")
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired();
@@ -206,6 +207,34 @@ namespace IzgodnoKupi.Data.Migrations
                     b.ToTable("OrderItem");
                 });
 
+            modelBuilder.Entity("IzgodnoKupi.Data.Model.Picture", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime?>("CreatedOn");
+
+                    b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedOn");
+
+                    b.Property<Guid>("ProductId");
+
+                    b.Property<string>("ThumbImageUrl");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Picture");
+                });
+
             modelBuilder.Entity("IzgodnoKupi.Data.Model.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -221,7 +250,7 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("FullDescription")
                         .HasColumnType("ntext")
-                        .HasMaxLength(800);
+                        .HasMaxLength(2700);
 
                     b.Property<bool>("IsDeleted");
 
@@ -235,12 +264,9 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<decimal>("OldPrice");
-
-                    b.Property<string>("PictureUrl")
-                        .HasMaxLength(300);
 
                     b.Property<decimal>("Price");
 
@@ -272,13 +298,13 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<bool>("IsDeleted");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(100);
+                        .HasMaxLength(200);
 
                     b.Property<DateTime?>("ModifiedOn");
 
@@ -482,6 +508,14 @@ namespace IzgodnoKupi.Data.Migrations
 
                     b.HasOne("IzgodnoKupi.Data.Model.Product", "Product")
                         .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("IzgodnoKupi.Data.Model.Picture", b =>
+                {
+                    b.HasOne("IzgodnoKupi.Data.Model.Product", "Product")
+                        .WithMany("Pictures")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

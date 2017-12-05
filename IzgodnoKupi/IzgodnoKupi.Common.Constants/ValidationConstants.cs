@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IzgodnoKupi.Common
+﻿namespace IzgodnoKupi.Common
 {
     public class ValidationConstants
     {
@@ -30,11 +25,11 @@ namespace IzgodnoKupi.Common
         //public const string UrlRegex = @"^(http|https|ftp|)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
 
         public const int StandardMinLength = 3;
-        public const int StandartMaxLength = 100;
+        public const int StandartMaxLength = 200;
 
         public const int DescriptionMinLength = 10;
         public const int DescriptionMaxLength = 150;
-        public const int LongDescriptionMaxLength = 800;
+        public const int LongDescriptionMaxLength = 2700;
 
         public const int AddressMinLength = 2;
         public const int AddressMaxLength = 100;
@@ -55,11 +50,11 @@ namespace IzgodnoKupi.Common
         public const string MaxLengthUrlErrorMessage = "Линка към снимката може да бъде максимум 300 символа";
 
         public const string MinLengthFieldErrorMessage = "Полето {0} трябва да бъде поне 3 символа";
-        public const string MaxLengthFieldErrorMessage = "Полето {0} може да бъде максимум 100 символа";
+        public const string MaxLengthFieldErrorMessage = "Полето {0} може да бъде максимум 200 символа";
 
         public const string MinLengthDescriptionErrorMessage = "Описанието трябва да бъде поне 10 символа";
         public const string MaxLengthDescriptionErrorMessage = "Описанието може да бъде максимум 150 символа";
-        public const string MaxLengthLongDescriptionErrorMessage = "Описанието може да бъде максимум 800 символа";
+        public const string MaxLengthLongDescriptionErrorMessage = "Описанието може да бъде максимум 2800 символа";
 
         public const string NotAllowedSymbolsErrorMessage = "Полето {0} съдържа неразрешени символи";
 

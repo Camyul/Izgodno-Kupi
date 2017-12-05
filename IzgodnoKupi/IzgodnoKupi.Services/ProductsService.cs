@@ -2,6 +2,7 @@
 using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -23,20 +24,23 @@ namespace IzgodnoKupi.Services
 
         public IQueryable<Product> GetAll()
         {
-            return this.productsRepo.All;
+            return this.productsRepo.All
+                .Include(i => i.Pictures);
         }
 
         public IQueryable<Product> GetByName(string searchName)
         {
             return string.IsNullOrEmpty(searchName) ? this.productsRepo.All
                                                     : this.productsRepo.All
-                                                    .Where(p => p.Name.Contains(searchName));
+                                                    .Where(p => p.Name.Contains(searchName))
+                                                    .Include(i => i.Pictures);
         }
 
         public IQueryable<Product> GetByCategory(Guid? id)
         {
             return this.productsRepo.All
                         .Where(c => c.CategoryId == id)
+                        .Include(i => i.Pictures)
                         .OrderBy(c => c.Name);
         }
 
@@ -47,6 +51,7 @@ namespace IzgodnoKupi.Services
             {
                 Product product = this.productsRepo.All
                     .Where(x => x.Id == id.Value)
+                    .Include(i => i.Pictures)    //For include pictures
                     .SingleOrDefault();
 
                 if (product != null)

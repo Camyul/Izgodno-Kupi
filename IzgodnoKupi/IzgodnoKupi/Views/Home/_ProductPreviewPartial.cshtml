@@ -3,7 +3,7 @@
 
 <div class="col-md-3 feature-grid">
     <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id">
-        <img class="item-img" src="@Model.PictureUrl" alt="" />
+        <img class="item-img" src="@Model.Picture.ImageUrl" alt="" />
         <div class="arrival-info text-center">
             <h4>@Model.Name</h4>
             @if (Model.OldPrice != 0)

@@ -11,29 +11,28 @@ namespace IzgodnoKupi.Data.Model
     public class Product : DataModel
     {
         private ICollection<OrderItem> orderItems;
+        private ICollection<Picture> pictures;
 
         public Product()
         {
             this.OrderItems = new HashSet<OrderItem>();
+            this.Pictures = new HashSet<Picture>();
         }
 
         [Required]
         //[Index(IsUnique = true)]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
-        [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string Name { get; set; }
 
         [Column(TypeName = "ntext")]
         [MinLength(ValidationConstants.DescriptionMinLength, ErrorMessage = ValidationConstants.MinLengthDescriptionErrorMessage)]
         [MaxLength(ValidationConstants.DescriptionMaxLength, ErrorMessage = ValidationConstants.MaxLengthDescriptionErrorMessage)]
-        [RegularExpression(ValidationConstants.DescriptionRegex, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string ShortDescription { get; set; }
 
         [Column(TypeName = "ntext")]
         [MinLength(ValidationConstants.DescriptionMinLength, ErrorMessage = ValidationConstants.MinLengthDescriptionErrorMessage)]
         [MaxLength(ValidationConstants.LongDescriptionMaxLength, ErrorMessage = ValidationConstants.MaxLengthLongDescriptionErrorMessage)]
-        [RegularExpression(ValidationConstants.DescriptionRegex, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string FullDescription { get; set; }
 
         [Required]
@@ -48,9 +47,19 @@ namespace IzgodnoKupi.Data.Model
 
         public virtual Category Category { get; set; }
 
-        [MinLength(ValidationConstants.ImageUrlMinLength, ErrorMessage = ValidationConstants.MinLengthUrlErrorMessage)]
-        [MaxLength(ValidationConstants.ImageUrlMaxLength, ErrorMessage = ValidationConstants.MaxLengthUrlErrorMessage)]
-        public string PictureUrl { get; set; }
+        public virtual ICollection<Picture> Pictures
+        {
+            get
+            {
+                return this.pictures;
+            }
+
+            set
+            {
+                this.pictures = value;
+            }
+        }
+        //public string PictureUrl { get; set; }
 
         [Required]
         public decimal Price { get; set; }

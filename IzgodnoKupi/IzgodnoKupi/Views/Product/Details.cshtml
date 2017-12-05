@@ -1,8 +1,8 @@
 ﻿@using IzgodnoKupi.Web.Models.ProductViewModels
-@model ProductViewModel
+@model ProductDetailsViewModel
 
 @{
-    var products = ViewData["products"] as List<PreviewProductViewModel>;
+    var products = ViewData["products"] as List<ProductSimilarViewModel>;
 }
 
 @{
@@ -16,25 +16,46 @@
                 <div class="col-md-7 single-top">
                     <div class="flexslider">
                         <ul class="slides">
-                            <li data-thumb="@Model.PictureUrl">
-                                <div class="thumb-image"> <img src="@Model.PictureUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                            @foreach (var pic in @Model.Picture)
+                            {
+                                <li data-thumb="@pic.ImageUrl">
+                                    <div class="thumb-image"> <img src="@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                </li>
+                            }
+                            @*<li data-thumb="@Model.Picture.ImageUrl">
+                                <div class="thumb-image"> <img src="@Model.Picture.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                             </li>
-                            @*<li data-thumb="@Model.PictureUrl">
-                                <div class="thumb-image"> <img src="@Model.PictureUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
-                            </li>
-                            <li data-thumb="@Model.PictureUrl">
-                                <div class="thumb-image"> <img src="@Model.PictureUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                            <li data-thumb="@Model.Picture.ImageUrl">
+                                <div class="thumb-image"> <img src="@Model.Picture.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                             </li>*@
                         </ul>
                     </div>
+            @*<div class="check">
+                <div>
+                    <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Enter pin code for delivery &amp; availability</p>
+                </div>
+                <form class="navbar-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Pin code">
+                    </div>
+                <button type="submit" class="btn btn-default">Verify</button>
+                </form>
+            </div>*@
+                    <form asp-controller="ShoppingCart" asp-action="OrderNow" method="post" class="navbar-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="text-center">
+                            <input asp-for="Quantity" value="1" class="form-control" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        <p><input type="submit" class="add-cart item_add" value="Купи" /></p>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-md-5 single-top-in simpleCart_shelfItem">
                     <div class="single-para ">
-                        <form asp-controller="ShoppingCart" asp-action="OrderNow" method="post" class="navbar-form">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       
                             <h4>@Model.Name</h4>
                             <h5 class="item_price">@{@Model.Price}лв.</h5>
-                            <p class="para">@Model.FullDescription</p>
+                            <p class="para">@Html.Raw(@Model.FullDescription)</p>
                             <div class="prdt-info-grid">
                                 <ul>
                                     <li>@*- Brand : Fos Lighting*@</li>
@@ -43,65 +64,19 @@
                                     <li>@*- Material : Wood*@</li>
                                 </ul>
                             </div>
-                            <div>
-                                <input asp-for="Quantity" value="1" class="form-control" />
-                                <span asp-validation-for="Quantity" class="text-danger"></span>
-                            </div>
-                                <input type="submit" class="add-cart item_add" value="Купи" />
-                          </form>
-                            @*<div class="check">
-                                <div>
-                                <p><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>Enter pin code for delivery &amp; availability</p>
-                                </div>
-                                <form class="navbar-form">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Enter Pin code">
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Verify</button>
-                                </form>
-                            </div>*@
+
                     </div>
                 </div>
-                <div class="clearfix"> </div>
-            </div>
+              <div class="clearfix"> </div>
+                
+</div>
         </div>
         <div class="bottom-prdt">
             <div class="btm-grid-sec">
-                <div class="col-md-2 btm-grid">
-                    <a href="product.html">
-                        <img src="images/p3.jpg" alt="" />
-                        <h4>Product#1</h4>
-                        <span>$1200</span>
-                    </a>
-                </div>
-                <div class="col-md-2 btm-grid">
-                    <a href="product.html">
-                        <img src="images/p10.jpg" alt="" />
-                        <h4>Product#1</h4>
-                        <span>$700</span>
-                    </a>
-                </div>
-                <div class="col-md-2 btm-grid">
-                    <a href="product.html">
-                        <img src="images/p5.jpg" alt="" />
-                        <h4>Product#1</h4>
-                        <span>$1300</span>
-                    </a>
-                </div>
-                <div class="col-md-2 btm-grid">
-                    <a href="product.html">
-                        <img src="images/p4.jpg" alt="" />
-                        <h4>Product#1</h4>
-                        <span>$9000</span>
-                    </a>
-                </div>
-                <div class="col-md-2 btm-grid">
-                    <a href="product.html">
-                        <img src="images/p2.jpg" alt="" />
-                        <h4>Product#1</h4>
-                        <span>$450</span>
-                    </a>
-                </div>
+                @foreach (var product in products)
+                {
+                    @Html.Partial("_ProductSimilarPreviewPartial", product)
+                }
                 <div class="clearfix"></div>
             </div>
         </div>

@@ -1,0 +1,10 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels;
+@model ProductSimilarViewModel
+
+<div class="col-md-2 btm-grid">
+    <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id">
+        <img  class="img-similar" src="@Model.Picture.ImageUrl" alt="@Model.Picture.Title" />
+        <h4>@Model.Name</h4>
+        <span>@{@Model.Price}лв.</span>
+    </a>
+</div>

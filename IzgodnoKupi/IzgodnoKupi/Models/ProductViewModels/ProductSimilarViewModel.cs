@@ -6,22 +6,20 @@ using System.Linq;
 
 namespace IzgodnoKupi.Web.Models.ProductViewModels
 {
-    public class PreviewProductViewModel
+    public class ProductSimilarViewModel
     {
-        public PreviewProductViewModel()
+        private string name;
+
+        public ProductSimilarViewModel()
         {
         }
 
-        public PreviewProductViewModel(Product product)
+        public ProductSimilarViewModel(Product product)
         {
             this.Id = product.Id;
             this.Name = product.Name;
-            this.Quantity = product.Quantity;
-            //this.PictureUrl = product.PictureUrls.OfType<string>().FirstOrDefault();
             this.Picture = product.Pictures.FirstOrDefault();
             this.Price = product.Price;
-            this.OldPrice = product.OldPrice;
-            this.Discount = product.Discount;
         }
 
         public Guid? Id { get; set; }
@@ -29,14 +27,24 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         [Required]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
-        public string Name { get; set; }
-
-        [Required]
-        [Range(
-                ValidationConstants.QuantityMinValue,
-                   ValidationConstants.QuantityMaxValue,
-                    ErrorMessage = ValidationConstants.QuаntityOutOfRangeErrorMessage)]
-        public int Quantity { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                if (value.Length <= 50)
+                {
+                    this.name = value;
+                }
+                else
+                {
+                    this.name = value.Substring(0, 50);
+                }
+            }
+        }
 
         [MinLength(ValidationConstants.ImageUrlMinLength, ErrorMessage = ValidationConstants.MinLengthUrlErrorMessage)]
         [MaxLength(ValidationConstants.ImageUrlMaxLength, ErrorMessage = ValidationConstants.MaxLengthUrlErrorMessage)]
@@ -44,7 +52,5 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         [Required]
         public decimal Price { get; set; }
-        public decimal OldPrice { get; set; }
-        public double Discount { get; set; }
     }
 }

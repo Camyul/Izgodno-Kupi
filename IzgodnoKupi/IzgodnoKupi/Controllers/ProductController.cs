@@ -45,13 +45,13 @@ namespace IzgodnoKupi.Web.Controllers
 
             Product product = this.productsService.GetById(id);
 
-            ProductViewModel viewModel = new ProductViewModel(product);
+            ProductDetailsViewModel viewModel = new ProductDetailsViewModel(product);
 
             var products = this.productsService
                .GetAll()
                .OrderByDescending(x => x.CreatedOn)
                .Take(5)
-               .Select(x => new PreviewProductViewModel(x))
+               .Select(x => new ProductSimilarViewModel(x))
                .ToList();
 
             ViewData["products"] = products;
@@ -123,14 +123,13 @@ namespace IzgodnoKupi.Web.Controllers
                 FullDescription = productModel.FullDescription,
                 CategoryId = productModel.CategoryId,
                 Quantity = productModel.Quantity,
-                PictureUrl = productModel.PictureUrl,
                 Price = productModel.Price,
                 IsPublished = productModel.IsPublished,
                 ProductAvailability = productModel.ProductAvailability,
                 IsFreeShipping = productModel.IsFreeShipping,
                 Weight = productModel.Weight
             };
-
+            product.Pictures.Add(productModel.Picture);
             
             this.productsService.AddProduct(product);
 

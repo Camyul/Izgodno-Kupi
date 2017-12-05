@@ -2,18 +2,18 @@
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace IzgodnoKupi.Web.Models.ProductViewModels
 {
-    public class ProductViewModel
+    public class ProductDetailsViewModel
     {
-        public ProductViewModel()
+        public ProductDetailsViewModel()
         {
         }
 
-        public ProductViewModel(Product product)
+        public ProductDetailsViewModel(Product product)
         {
             this.Id = product.Id;
             this.Name = product.Name;
@@ -21,7 +21,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
             this.FullDescription = product.FullDescription;
             this.CategoryId = product.CategoryId;
             this.Quantity = product.Quantity;
-            this.Picture = product.Pictures.FirstOrDefault();
+            this.Picture = product.Pictures;
             this.Price = product.Price;
             this.OldPrice = product.OldPrice;
             this.Discount = product.Discount;
@@ -60,7 +60,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         [Display(Name = "Количество")]
         public int Quantity { get; set; }
 
-        public Picture Picture { get; set; }
+        public ICollection<Picture> Picture { get; set; }
 
         [Required]
         [Range(ValidationConstants.PriceMinValue, ValidationConstants.PriceMaxValue,

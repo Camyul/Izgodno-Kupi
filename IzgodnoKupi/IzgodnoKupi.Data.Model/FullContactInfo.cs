@@ -33,7 +33,7 @@ namespace IzgodnoKupi.Data.Model
         [Required]
         [MinLength(ValidationConstants.AddressMinLength)]
         [MaxLength(ValidationConstants.AddressMaxLength)]
-        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
+        [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus)]
         public string Address { get; set; }
 
         [Required]
@@ -64,7 +64,7 @@ namespace IzgodnoKupi.Data.Model
         [Required]
         [MinLength(ValidationConstants.AddressMinLength)]
         [MaxLength(ValidationConstants.AddressMaxLength)]
-        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
+        [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus)]
         public string CompanyAddress { get; set; }
 
         [Required]
