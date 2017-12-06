@@ -27,7 +27,7 @@ namespace IzgodnoKupi.Web.Controllers
 
         // GET: Products
         [HttpGet]
-        public ActionResult Index()
+        public IActionResult Index()
         {
             // Without AutoMapper
             var products = this.productsService
@@ -39,7 +39,7 @@ namespace IzgodnoKupi.Web.Controllers
             return View(products);
         }
 
-        public ActionResult Details(Guid? id)
+        public IActionResult Details(Guid? id)
         {
             Guard.WhenArgument(id, "Details Id").IsNull().Throw();
 
@@ -59,7 +59,7 @@ namespace IzgodnoKupi.Web.Controllers
             return View(viewModel);
         }
 
-        //public ActionResult ProductsByCategory(Guid? id)
+        //public IActionResult ProductsByCategory(Guid? id)
         //{
         //    Guard.WhenArgument(id, "Category Id").IsNull().Throw();
 
@@ -90,7 +90,7 @@ namespace IzgodnoKupi.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult AddProduct()
+        public IActionResult AddProduct()
         {
             var product = new ProductViewModel();
 
@@ -114,7 +114,7 @@ namespace IzgodnoKupi.Web.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddProduct(ProductViewModel productModel)
+        public IActionResult AddProduct(ProductViewModel productModel)
         {
             Product product = new Product()
             {
@@ -124,7 +124,6 @@ namespace IzgodnoKupi.Web.Controllers
                 CategoryId = productModel.CategoryId,
                 Quantity = productModel.Quantity,
                 Price = productModel.Price,
-                OldPrice = productModel.OldPrice,
                 Discount = productModel.Discount,
                 IsPublished = productModel.IsPublished,
                 ProductAvailability = productModel.ProductAvailability,
@@ -140,7 +139,7 @@ namespace IzgodnoKupi.Web.Controllers
 
         //[HttpPost]
         //[AjaxOnly]
-        //public ActionResult FilteredProducts(string searchName)
+        //public IActionResult FilteredProducts(string searchName)
         //{
 
         //    if (string.IsNullOrEmpty(searchName))

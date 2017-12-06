@@ -44,6 +44,7 @@
                     <form asp-controller="ShoppingCart" asp-action="OrderNow" method="post" class="navbar-form">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="text-center">
+                            <input type="text" class="hidden" name="id" value="@Model.Id"/>
                             <input asp-for="Quantity" value="1" class="form-control" />
                             <span asp-validation-for="Quantity" class="text-danger"></span>
                         <p><input type="submit" class="add-cart item_add" value="Купи" /></p>
