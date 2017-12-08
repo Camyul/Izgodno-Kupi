@@ -1,0 +1,24 @@
+﻿@using IzgodnoKupi.Web.Models.OrderViewModels
+@model OrderItemViewModel
+
+<div class="cart-header">
+    <div class="close1"> </div>
+    <div class="cart-sec simpleCart_shelfItem">
+        <div class="cart-item cyc">
+            <img src="@Model.Product.Picture.ImageUrl" class="img-responsive" alt="" />
+        </div>
+        <div class="cart-item-info">
+            <h3><a href="single.html">@Model.Product.Name</span></h3>
+            <ul class="qty">
+                <li><p>Size : 5</p></li>
+                <li><p>Количество : @Model.Quantity</p></li>
+            </ul>
+            <div class="delivery">
+                <p>Обща цена : @Model.Product.Price * @Model.Quantity</p>
+                <span>@Model.Product.ProductAvailability</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

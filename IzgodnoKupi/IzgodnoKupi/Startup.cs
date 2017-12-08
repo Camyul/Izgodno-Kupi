@@ -16,6 +16,8 @@ using IzgodnoKupi.Data.Repositories;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Data.SaveContext;
 using System.Threading;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace IzgodnoKupi
 {
@@ -41,6 +43,7 @@ namespace IzgodnoKupi
             services.AddScoped(typeof(ISaveContext), typeof(SaveContext));
             services.AddScoped(typeof(ICategoriesService), typeof(CategoriesService));
             services.AddScoped(typeof(IProductsService), typeof(ProductsService));
+            services.AddScoped(typeof(IOrderItemsService), typeof(OrderItemsService));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -49,7 +52,15 @@ namespace IzgodnoKupi
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
+            //For work Session and TempData
+            services.AddMemoryCache();
+            services.AddSession();
+
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                });
 
             //Routes to Lower Case
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -79,6 +90,9 @@ namespace IzgodnoKupi
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            //Session and TempData
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

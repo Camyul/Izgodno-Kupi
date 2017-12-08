@@ -1,4 +1,5 @@
 ﻿using IzgodnoKupi.Web.Models.ProductViewModels;
+using Newtonsoft.Json;
 
 namespace IzgodnoKupi.Web.Models.OrderViewModels
 {
@@ -14,6 +15,7 @@ namespace IzgodnoKupi.Web.Models.OrderViewModels
             this.Quantity = quantity;
         }
 
+        [JsonProperty("Product")]
         public ProductViewModel Product { get; private set; }
 
         public int Quantity { get; set; }

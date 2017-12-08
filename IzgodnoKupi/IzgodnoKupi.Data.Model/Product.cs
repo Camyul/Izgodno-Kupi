@@ -1,6 +1,7 @@
 ﻿using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model.Abstracts;
 using IzgodnoKupi.Data.Model.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -47,6 +48,7 @@ namespace IzgodnoKupi.Data.Model
 
         public virtual Category Category { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Picture> Pictures
         {
             get
