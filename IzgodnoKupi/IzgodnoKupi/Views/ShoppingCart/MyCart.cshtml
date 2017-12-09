@@ -1,23 +1,25 @@
 ﻿@using IzgodnoKupi.Web.Models.OrderViewModels
-@model List<OrderItemViewModel>
+@model MyCartViewModel
 
 <div class="container">
     <div class="check-sec">
         <div class="col-md-3 cart-total">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="continue">Продължи с пазаруването</a>
             <div class="price-details">
-                <h3>Price Details</h3>
-                <span>Total</span>
-                <span class="total1">6200.00</span>
-                <span>Discount</span>
-                <span class="total1">10%(Festival Offer)</span>
-                <span>Delivery Charges</span>
-                <span class="total1">150.00</span>
+                <h3>Общо</h3>
+                <span>Сума без ДДС</span>
+                <span class="total1">@string.Format("{0:F2}", @Model.TotalAmountExclTax)лв.</span>
+                <span>ДДС</span>
+                <span class="total1">@string.Format("{0:F2}", @Model.TaxAmount)лв.</span>
+                <span>Сума с ДДС</span>
+                <span class="total1">@string.Format("{0:F2}", @Model.TotalAmountInclTax)лв.</span>
+                <span>Доставка</span>
+                <span class="total1">@string.Format("{0:F2}", @Model.ShippingTax)лв.</span>
                 <div class="clearfix"></div>
             </div>
             <ul class="total_price">
-                <li class="last_price"> <h4>TOTAL</h4></li>
-                <li class="last_price"><span>6150.00</span></li>
+                <li class="last_price"> <h4>Крайна Цена</h4></li>
+                <li class="last_price"><h4>@string.Format("{0:F2}", @Model.TotalAmount)лв.</h4></li>
             </ul>
             <div class="clearfix"></div>
             <div class="clearfix"></div>
@@ -29,11 +31,11 @@
             </div>*@
         </div>
         <div class="col-md-9 cart-items">
-            <h1>My Shopping Bag (2)</h1>
+            <h1>Моята количка (@ViewBag.Count)</h1>
 
-            @if (Model.Count > 0)
+            @if (Model.OrderItems.Count > 0)
             {
-                foreach (var item in Model)
+                foreach (var item in Model.OrderItems)
                 {
                     @Html.Partial("_OrderItemPartial", item)
                 }

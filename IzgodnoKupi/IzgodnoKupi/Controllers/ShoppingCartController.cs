@@ -1,5 +1,6 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Common;
+using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.OrderViewModels;
@@ -36,17 +37,31 @@ namespace IzgodnoKupi.Web.Controllers
         [Authorize]
         public IActionResult MyCart()
         {
+            MyCartViewModel myCartModel = new MyCartViewModel();
+
             var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
             if (sessionData != null)
             {
                 var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
-                this.CartItems = data;
+                myCartModel.OrderItems = data;
 
             }
 
-            ViewBag.Count = this.CartItems.Count;
+            myCartModel.ShippingTax = Constants.ShippingTax;
 
-            return View("MyCart", this.CartItems);
+            foreach (var item in myCartModel.OrderItems)
+            {
+                myCartModel.TotalAmountInclTax += item.TotalPrice;
+            }
+
+            myCartModel.TotalAmountExclTax = myCartModel.TotalAmountInclTax / Constants.TaxAmount;
+            myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
+            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+
+            ViewBag.Count = myCartModel.OrderItems.Count;
+            ViewBag.TotalAmount = myCartModel.TotalAmount;
+
+            return View("MyCart", myCartModel);
         }
 
         [HttpPost]
@@ -56,6 +71,8 @@ namespace IzgodnoKupi.Web.Controllers
         {
             var productToAdd = new ProductViewModel(this.productsService.GetById(id));
             var orderItemView = new OrderItemViewModel(productToAdd, quantity);
+
+            orderItemView.TotalPrice = productToAdd.Price * quantity;
 
             var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
             if (!string.IsNullOrEmpty(sessionData))

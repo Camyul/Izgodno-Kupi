@@ -19,5 +19,7 @@ namespace IzgodnoKupi.Web.Models.OrderViewModels
         public ProductViewModel Product { get; private set; }
 
         public int Quantity { get; set; }
+
+        public decimal TotalPrice { get; set; }
     }
 }
