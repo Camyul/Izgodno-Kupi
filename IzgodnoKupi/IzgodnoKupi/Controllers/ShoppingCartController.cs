@@ -35,16 +35,31 @@ namespace IzgodnoKupi.Web.Controllers
 
         [HttpGet]
         [Authorize]
+        public IActionResult EmptiCart()
+        {
+            this.CartItems.Clear();
+            HttpContext.Session.SetString(Constants.SessionKey, "");
+
+            return RedirectToAction("MyCart");
+        }
+
+        [HttpGet]
+        [Authorize]
         public IActionResult MyCart()
         {
             MyCartViewModel myCartModel = new MyCartViewModel();
 
             var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
-            if (sessionData != null)
+            //var sessionData = null;
+            if (sessionData != null && sessionData != string.Empty)
             {
                 var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
                 myCartModel.OrderItems = data;
 
+            }
+            else
+            {
+                myCartModel.OrderItems = new List<OrderItemViewModel>();
             }
 
             myCartModel.ShippingTax = Constants.ShippingTax;
@@ -54,9 +69,10 @@ namespace IzgodnoKupi.Web.Controllers
                 myCartModel.TotalAmountInclTax += item.TotalPrice;
             }
 
-            myCartModel.TotalAmountExclTax = myCartModel.TotalAmountInclTax / Constants.TaxAmount;
+            myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
             myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
-            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
 
             ViewBag.Count = myCartModel.OrderItems.Count;
             ViewBag.TotalAmount = myCartModel.TotalAmount;
