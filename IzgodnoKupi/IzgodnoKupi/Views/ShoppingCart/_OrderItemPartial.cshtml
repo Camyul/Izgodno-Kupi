@@ -2,7 +2,7 @@
 @model OrderItemViewModel
 
 <div class="cart-header">
-    <div class="closeOrderItem"> </div>
+    <div id="@Model.Product.Id" class="closeOrderItem" onclick="deleteOrderItem(id)"> </div>
     <div class="cart-sec simpleCart_shelfItem">
         <div class="cart-item cyc">
             <img src="@Model.Product.Picture.ImageUrl" class="img-responsive" alt="" />

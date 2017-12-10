@@ -40,50 +40,27 @@
                     @Html.Partial("_OrderItemPartial", item)
                 }
             }
-
-            @*<div class="cart-header2">
-                <div class="close2"> </div>
-                <div class="cart-sec simpleCart_shelfItem">
-                    <div class="cart-item cyc">
-                        <img src="images/p3.jpg" class="img-responsive" alt="" />
-                    </div>
-                    <div class="cart-item-info">
-                        <h3><a href="single.html">Show Lights</a><span>Model No: SL-3578</span></h3>
-                        <ul class="qty">
-                            <li><p>Size : 5</p></li>
-                            <li><p>Qty : 1</p></li>
-                        </ul>
-                        <div class="delivery">
-                            <p>Service Charges : Rs.100.00</p>
-                            <span>Delivered in 2-3 bussiness days</span>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>*@
         </div>
         <div class="clearfix"> </div>
     </div>
 </div>
 <!-- //check out -->
 @section Scripts {
-                script>
-                    $(document).ready(function (c) {
-                        $('.close1').on('click', function (c) {
-                            $('.cart-header').fadeOut('slow', function (c) {
-                                $('.cart-header').remove();
-                            });
-                        });
-                    });
-            </script>
-            <script>
-                $(document).ready(function (c) {
-                    $('.close2').on('click', function (c) {
-                        $('.cart-header2').fadeOut('slow', function (c) {
-                            $('.cart-header2').remove();
-                        });
-                    });
-                });
-            </script>
+<script>
+    function deleteOrderItem(id) {
+        $(`#${id}`).parent().fadeOut('slow', function (c) {
+            $(`#${id}`).parent().remove();
+        });
+        $.ajax({
+            url: '/ShoppingCart/DeleteOrderItem',
+            data: { id: id },
+            success: setInterval(redirect, 1000)
+        })
+    };
+    function redirect() {
+        var url = '/ShoppingCart/MyCart';
+        window.location.href = url;
+    }
+</script>
+
 }

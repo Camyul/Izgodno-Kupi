@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IzgodnoKupi.Web.Controllers
 {
@@ -39,6 +40,26 @@ namespace IzgodnoKupi.Web.Controllers
         {
             this.CartItems.Clear();
             HttpContext.Session.SetString(Constants.SessionKey, "");
+            
+            return RedirectToAction("MyCart");
+        }
+
+        public IActionResult DeleteOrderItem(Guid id)
+        {
+            var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
+
+            if (sessionData != null && sessionData != string.Empty)
+            {
+                var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
+                this.CartItems = data;
+                var searchedItem = this.CartItems
+                                    .FirstOrDefault(i => i.Product.Id == id);
+
+                this.CartItems.Remove(searchedItem);
+
+                var serializedData = JsonConvert.SerializeObject(this.CartItems);
+                HttpContext.Session.SetString(Constants.SessionKey, serializedData);
+            }
 
             return RedirectToAction("MyCart");
         }
