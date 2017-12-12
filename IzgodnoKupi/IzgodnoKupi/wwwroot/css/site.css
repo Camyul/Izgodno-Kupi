@@ -34,3 +34,21 @@
     -o-transition: color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
 }
+
+a.check-out {
+    background: green;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+    margin: 3em 0;
+}
+
+a.check-out:hover {
+    background: #ed645c;
+    color: #fff;
+    cursor: pointer;
+}

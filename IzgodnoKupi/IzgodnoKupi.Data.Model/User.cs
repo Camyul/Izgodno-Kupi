@@ -16,7 +16,7 @@ namespace IzgodnoKupi.Models
             this.FullContactInfos = new HashSet<FullContactInfo>();
         }
 
-        public ICollection<Order> Orders
+        public virtual ICollection<Order> Orders
         {
             get
             {
@@ -28,7 +28,7 @@ namespace IzgodnoKupi.Models
             }
         }
 
-        public ICollection<FullContactInfo> FullContactInfos
+        public virtual ICollection<FullContactInfo> FullContactInfos
         {
             get
             {

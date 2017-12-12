@@ -16,7 +16,7 @@
         public const string DescriptionRegex = @"^[a-zA-Zа-яА-Я0-9\s\-\.,!():;?/+_%@""'#&=\*]+$";
 
         //// sourse http://stackoverflow.com/questions/8908976/c-sharp-regex-to-validate-phone-number
-        public const string PhoneRegex = @"\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})";
+        public const string PhoneRegex = @"^\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d$";
 
         //// source https://msdn.microsoft.com/en-us/library/01escwtf(v=vs.110).aspx
         //public const string EmailRegex = @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$";
@@ -26,12 +26,16 @@
 
         public const int StandardMinLength = 3;
         public const int StandartMaxLength = 200;
+        public const int NameMaxLength = 70;
+        public const int PostCodeMaxLength = 15;
+        public const int EIKMinLength = 9;
+        public const int EIKMaxLength = 15;
 
         public const int DescriptionMinLength = 10;
         public const int DescriptionMaxLength = 150;
-        public const int LongDescriptionMaxLength = 2700;
+        public const int LongDescriptionMaxLength = 3700;
 
-        public const int AddressMinLength = 2;
+        public const int AddressMinLength = 5;
         public const int AddressMaxLength = 100;
 
         public const int ImageUrlMinLength = 6;
@@ -51,10 +55,18 @@
 
         public const string MinLengthFieldErrorMessage = "Полето {0} трябва да бъде поне 3 символа";
         public const string MaxLengthFieldErrorMessage = "Полето {0} може да бъде максимум 200 символа";
+        public const string NameMaxLengthErrorMessage = "Полето {0} може да бъде максимум 70 символа";
 
+        public const string RequiredErrorMessage = "Полето е задължително!";
         public const string MinLengthDescriptionErrorMessage = "Описанието трябва да бъде поне 10 символа";
         public const string MaxLengthDescriptionErrorMessage = "Описанието може да бъде максимум 150 символа";
-        public const string MaxLengthLongDescriptionErrorMessage = "Описанието може да бъде максимум 2800 символа";
+        public const string MaxLengthLongDescriptionErrorMessage = "Описанието може да бъде максимум 3700 символа";
+        public const string AddressMinLengthErrorMessage = "Адресът трябва да бъде поне 5 символа";
+        public const string AddressMaxLengthErrorMessage = "Адресът може да бъде максимум 100 символа";
+        public const string PostCodeMaxLengthErrorMessage = "Полето {0} може да бъде максимум 15 символа";
+        public const string EIKMinLengthErrorMessage = "ЕИК номера трябва да бъде поне 9 символа";
+        public const string EIKMaxLengthErrorMessage = "ЕИК номера може да бъде максимум 15 символа";
+        public const string PhoneErrorMessage = "Телефонния номер съдържа непозволени символи";
 
         public const string NotAllowedSymbolsErrorMessage = "Полето {0} съдържа неразрешени символи";
 

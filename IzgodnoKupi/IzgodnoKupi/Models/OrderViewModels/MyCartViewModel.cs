@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using IzgodnoKupi.Web.Models.ContactInfoViewModels;
+using System.Collections.Generic;
 
 namespace IzgodnoKupi.Web.Models.OrderViewModels
 {
@@ -12,6 +13,8 @@ namespace IzgodnoKupi.Web.Models.OrderViewModels
         }
         
         public string UserId { get; set; }
+
+        public FullContactInfoViewModel FullContactInfo { get; set; }
 
         public virtual ICollection<OrderItemViewModel> OrderItems
         {

@@ -1487,6 +1487,7 @@ a.order {
 }
 a.order:hover{
 	background:#ed645c;
+    cursor: pointer;
 }
 .total-item,.cart-items{
 	margin-top:0em;

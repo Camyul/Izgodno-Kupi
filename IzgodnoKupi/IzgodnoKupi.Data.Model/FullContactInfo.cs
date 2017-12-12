@@ -15,14 +15,14 @@ namespace IzgodnoKupi.Data.Model
         public virtual User User { get; set; }
 
         [Required]
-        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
-        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
-        [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
+        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
         public string FirstName { get; set; }
 
         [Required]
-        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
-        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
         public string LastName { get; set; }
 
@@ -38,52 +38,53 @@ namespace IzgodnoKupi.Data.Model
 
         [Required]
         [MinLength(ValidationConstants.StandardMinLength)]
-        [MaxLength(ValidationConstants.StandartMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
         public string City { get; set; }
 
         [Required]
         [MinLength(ValidationConstants.StandardMinLength)]
-        [MaxLength(ValidationConstants.StandartMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinusDot)]
         public string Area { get; set; }
 
         [Required]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.PostCodeMaxLength)]
         public string PostCode { get; set; }
 
-        [Required]
-        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
-        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
         public string CompanyName { get; set; }
 
-        public int EIK { get; set; }
+        [MinLength(ValidationConstants.EIKMinLength)]
+        [MaxLength(ValidationConstants.EIKMaxLength)]
+        public string EIK { get; set; }
 
+        [MinLength(ValidationConstants.EIKMinLength)]
+        [MaxLength(ValidationConstants.EIKMaxLength)]
         public string BGEIK { get; set; }
 
-        [Required]
         [MinLength(ValidationConstants.AddressMinLength)]
         [MaxLength(ValidationConstants.AddressMaxLength)]
-        [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus)]
         public string CompanyAddress { get; set; }
 
-        [Required]
         [MinLength(ValidationConstants.StandardMinLength)]
-        [MaxLength(ValidationConstants.StandartMaxLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
         public string CompanyCity { get; set; }
 
-        [Required]
-        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
-        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string MOL { get; set; }
 
         public string Note { get; set; }
 
         public Courier Courier { get; set; }
 
-        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
-        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [MinLength(ValidationConstants.StandardMinLength)]
+        [MaxLength(ValidationConstants.NameMaxLength)]
         public string OfficeName { get; set; }
     }
 }

@@ -15,3 +15,14 @@ $(document).ready(function () {
         pager: false,
     });
 })();
+
+function displayContactInfo() {
+    $('#order-now').addClass('hidden');
+    $('#check-out').removeClass('hidden');
+    $('.cart-items').fadeOut('slow', function (c) {
+        $('.cart-items').addClass('hidden');
+    });
+    $('#contact-info').fadeIn('slow', function (c) {
+        $('#contact-info').removeClass('hidden');
+    });
+}

@@ -23,26 +23,34 @@
             </ul>
             <div class="clearfix"></div>
             <div class="clearfix"></div>
-            <a asp-area="" asp-controller="ShoppingCart" asp-action="CheckOut" class="order">Поръчай</a>
+            <a class="order" id="order-now" onclick="displayContactInfo()">Поръчай</a>
+            <a href="javascript:document.getElementById('check-out-form').submit()" class="check-out hidden" id="check-out">Завърши поръчката</a>
             @*<div class="total-item">
                 <h3>OPTIONS</h3>
                 <h4>COUPONS</h4>
                 <a class="cpns" href="#">Apply Coupons</a>
             </div>*@
         </div>
-        <div class="col-md-9 cart-items">
-            <h1>Моята количка (@ViewBag.Count)</h1>
+            <div class="col-md-9 cart-items">
+                <h1>Моята количка (@ViewBag.Count)</h1>
 
-            @if (Model.OrderItems.Count > 0)
+                @if (Model.OrderItems.Count > 0)
             {
                 foreach (var item in Model.OrderItems)
                 {
-                    @Html.Partial("_OrderItemPartial", item)
+                        @Html.Partial("_OrderItemPartial", item)
+                    }
                 }
-            }
-        </div>
-        <div class="clearfix"> </div>
-    </div>
+            </div>
+        <form asp-controller="ShoppingCart" asp-action="CheckOut" method="post" id="check-out-form">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                
+                <div id="contact-info" class="col-md-9 contact-info hidden">
+                    @Html.EditorFor(x => x.FullContactInfo)
+                </div>
+        </form>
+            <div class="clearfix"> </div>
+</div>
 </div>
 <!-- //check out -->
 @section Scripts {
@@ -62,5 +70,5 @@
         window.location.href = url;
     }
 </script>
-
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

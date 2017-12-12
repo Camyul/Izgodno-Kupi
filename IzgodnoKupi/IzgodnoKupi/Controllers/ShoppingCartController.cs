@@ -3,6 +3,7 @@ using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Models.ContactInfoViewModels;
 using IzgodnoKupi.Web.Models.OrderViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -13,6 +14,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace IzgodnoKupi.Web.Controllers
 {
@@ -123,10 +125,47 @@ namespace IzgodnoKupi.Web.Controllers
             HttpContext.Session.SetString(Constants.SessionKey, serializedData);
 
             //var currentUser = this.User;
-            ////bool IsAdmin = currentUser.IsInRole("Admin");
+            //bool IsAdmin = currentUser.IsInRole("Admin");
             //var userId = this.userManager.GetUserId(User);
+            
 
             return RedirectToAction("MyCart");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult CheckOut(FullContactInfoViewModel fullContactInfo)
+        {
+            MyCartViewModel myCartModel = new MyCartViewModel();
+            var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
+            //var sessionData = null;
+            if (sessionData != null && sessionData != string.Empty)
+            {
+                var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
+                myCartModel.OrderItems = data;
+
+            }
+            else
+            {
+                myCartModel.OrderItems = new List<OrderItemViewModel>();
+            }
+
+            myCartModel.ShippingTax = Constants.ShippingTax;
+
+            foreach (var item in myCartModel.OrderItems)
+            {
+                myCartModel.TotalAmountInclTax += item.TotalPrice;
+            }
+
+            myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
+            myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
+            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
+
+            ViewBag.Count = myCartModel.OrderItems.Count;
+            ViewBag.TotalAmount = myCartModel.TotalAmount;
+
+            return View("OrderCompleted");
         }
     }
 }
