@@ -25,4 +25,8 @@ function displayContactInfo() {
     $('#contact-info').fadeIn('slow', function (c) {
         $('#contact-info').removeClass('hidden');
     });
-}
+};
+
+function dataForCompany() {
+   $('.compani-info').toggleClass('hidden');
+};

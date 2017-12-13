@@ -47,8 +47,7 @@ namespace IzgodnoKupi.Data.Model
         [MaxLength(ValidationConstants.NameMaxLength)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinusDot)]
         public string Area { get; set; }
-
-        [Required]
+        
         [MinLength(ValidationConstants.StandardMinLength)]
         [MaxLength(ValidationConstants.PostCodeMaxLength)]
         public string PostCode { get; set; }

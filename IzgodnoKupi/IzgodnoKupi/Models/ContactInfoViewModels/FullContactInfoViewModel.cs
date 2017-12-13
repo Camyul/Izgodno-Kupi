@@ -28,47 +28,46 @@ namespace IzgodnoKupi.Web.Models.ContactInfoViewModels
             this.Note = contactInfo.Note;
         }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Име")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.NameMaxLength, ErrorMessage = ValidationConstants.NameMaxLengthErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Фамилия")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.NameMaxLength, ErrorMessage = ValidationConstants.NameMaxLengthErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "GSM")]
         [RegularExpression(ValidationConstants.PhoneRegex, ErrorMessage = ValidationConstants.PhoneErrorMessage)]
         public string PhoneNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Адрес")]
         [MinLength(ValidationConstants.AddressMinLength, ErrorMessage = ValidationConstants.AddressMinLengthErrorMessage)]
         [MaxLength(ValidationConstants.AddressMaxLength, ErrorMessage = ValidationConstants.AddressMaxLengthErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgDigitSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string Address { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Населено Място")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.NameMaxLength, ErrorMessage = ValidationConstants.NameMaxLengthErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Област")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.NameMaxLength, ErrorMessage = ValidationConstants.NameMaxLengthErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinusDot, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string Area { get; set; }
-
-        [Required]
+        
         [Display(Name = "Пощенски код")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.PostCodeMaxLength, ErrorMessage = ValidationConstants.PostCodeMaxLengthErrorMessage)]

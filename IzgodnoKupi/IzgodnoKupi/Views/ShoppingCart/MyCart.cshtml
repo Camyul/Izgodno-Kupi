@@ -24,7 +24,7 @@
             <div class="clearfix"></div>
             <div class="clearfix"></div>
             <a class="order" id="order-now" onclick="displayContactInfo()">Поръчай</a>
-            <a href="javascript:document.getElementById('check-out-form').submit()" class="check-out hidden" id="check-out">Завърши поръчката</a>
+            @*<a href="javascript:document.getElementById('check-out-form').valid().submit()" class="check-out hidden" id="check-out">Завърши поръчката</a>*@
             @*<div class="total-item">
                 <h3>OPTIONS</h3>
                 <h4>COUPONS</h4>
@@ -42,15 +42,96 @@
                     }
                 }
             </div>
-        <form asp-controller="ShoppingCart" asp-action="CheckOut" method="post" id="check-out-form">
+        <div id="contact-info" class="col-md-9 contact-info hidden">
+            <form asp-controller="ShoppingCart" asp-action="CheckOut" method="post" id="check-out-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h4 class="text-center">Данни за доставка</h4>
+                <hr />
+                <div class="col-md-6 form-group">
+                    @Html.LabelFor(x => x.FullContactInfo.FirstName)
+                    <input asp-for="FullContactInfo.FirstName" class="form-control" />
+                    <span asp-validation-for="FullContactInfo.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="FullContactInfo.Area"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.Area, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.Area" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="FullContactInfo.LastName"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.LastName, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.LastName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="FullContactInfo.City"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.City, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.City" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="FullContactInfo.PhoneNumber"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.PhoneNumber, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label asp-for="FullContactInfo.Address"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.Address, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-12 form-group">
+                        <label class="containerCheckBox">желая издаването на фактура
+                            <input type="checkbox" onchange="dataForCompany()" />
+                            <span class="checkmark"></span>
+                        </label>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.CompanyName"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.CompanyName, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.CompanyName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.CompanyCity"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.CompanyCity, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.CompanyCity" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.CompanyAddress"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.CompanyAddress, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.CompanyAddress" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.MOL"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.MOL, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.MOL" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.EIK"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.EIK, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.EIK" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 form-group hidden compani-info">
+                    <label asp-for="FullContactInfo.BGEIK"></label>
+                    @Html.TextBoxFor(x => x.FullContactInfo.BGEIK, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.BGEIK" class="text-danger"></span>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label asp-for="FullContactInfo.Note"></label>
+                    @Html.TextAreaFor(x => x.FullContactInfo.Note, new { @class = "form-control" })
+                    <span asp-validation-for="FullContactInfo.Note" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <input type="submit" class="check-out" />
+                </div>
+            </form>
+        </div>
+            @*<form asp-controller="ShoppingCart" asp-action="CheckOut" method="post" id="check-out-form">
                 <div asp-validation-summary="All" class="text-danger"></div>
-                
+
                 <div id="contact-info" class="col-md-9 contact-info hidden">
                     @Html.EditorFor(x => x.FullContactInfo)
                 </div>
-        </form>
+            </form>*@
             <div class="clearfix"> </div>
-</div>
+        </div>
 </div>
 <!-- //check out -->
 @section Scripts {

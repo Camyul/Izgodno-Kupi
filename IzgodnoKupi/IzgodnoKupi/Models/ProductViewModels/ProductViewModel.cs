@@ -34,7 +34,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Име")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
@@ -52,7 +52,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public Guid CategoryId { get; set; }
         //public TelerikAcademy.FinalProject.Data.Model.Category Category { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Range(
                 ValidationConstants.QuantityMinValue,
                    ValidationConstants.QuantityMaxValue,
@@ -62,7 +62,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
 
         public Picture Picture { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Range(ValidationConstants.PriceMinValue, ValidationConstants.PriceMaxValue,
             ErrorMessage = ValidationConstants.PriceOutOfRangeErrorMessage)]
         [Display(Name = "Цена")]
@@ -77,7 +77,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         [Display(Name = "Отстъпка")]
         public double Discount { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Видима")]
         public bool IsPublished { get; set; }
 

@@ -22,7 +22,7 @@ namespace IzgodnoKupi.Web.Models.CategoryViewModels
 
         public Guid? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
         [Display(Name = "Име")]
