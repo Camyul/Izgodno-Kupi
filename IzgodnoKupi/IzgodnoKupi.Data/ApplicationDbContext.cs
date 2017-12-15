@@ -18,9 +18,9 @@ namespace IzgodnoKupi.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
-        public DbSet<ShortContactInfo> ShortContactInfo { get; set; }
-        public DbSet<FullContactInfo> FullContactInfo { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShortContactInfo> ShortContactInfos { get; set; }
+        public DbSet<FullContactInfo> FullContactInfos { get; set; }
 
         // Auto filling CreatedOn and ModifiedOn before SaveChanges()
         public override int SaveChanges()

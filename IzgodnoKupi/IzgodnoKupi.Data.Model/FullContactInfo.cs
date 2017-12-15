@@ -2,6 +2,7 @@
 using IzgodnoKupi.Data.Model.Abstracts;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,6 +10,13 @@ namespace IzgodnoKupi.Data.Model
 {
     public class FullContactInfo : DataModel
     {
+        private ICollection<Order> orders;
+        
+        public FullContactInfo()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+
         [ForeignKey("User")]
         public string UserID { get; set; }
 
@@ -85,5 +93,17 @@ namespace IzgodnoKupi.Data.Model
         [MinLength(ValidationConstants.StandardMinLength)]
         [MaxLength(ValidationConstants.NameMaxLength)]
         public string OfficeName { get; set; }
+
+        public virtual ICollection<Order> Orders
+        {
+            get
+            {
+                return this.orders;
+            }
+            set
+            {
+                this.orders = value;
+            }
+        }
     }
 }

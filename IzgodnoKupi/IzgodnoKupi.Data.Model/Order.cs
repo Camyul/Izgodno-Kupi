@@ -53,11 +53,13 @@ namespace IzgodnoKupi.Data.Model
 
         public ShippingMethod ShippingMethod { get; set; }
 
-        public Guid FullContactInfoId { get; set; }
+        [ForeignKey("FullContactInfo")]
+        public Guid? FullContactInfoId { get; set; }
 
         public virtual FullContactInfo FullContactInfo { get; set; }
 
-        public Guid ShortContactInfoId { get; set; }
+        [ForeignKey("ShortContactInfo")]
+        public Guid? ShortContactInfoId { get; set; }
 
         public virtual ShortContactInfo ShortContactInfo { get; set; }
 

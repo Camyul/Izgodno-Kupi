@@ -9,5 +9,7 @@
         public const decimal ShippingTax = 6.00m;
 
         public const decimal TaxAmount = 1.20m;
+
+        public const decimal MinPriceFreeShipping = 35.00m;
     }
 }

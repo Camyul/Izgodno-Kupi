@@ -1,6 +1,7 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.ContactInfoViewModels;
@@ -22,14 +23,26 @@ namespace IzgodnoKupi.Web.Controllers
     {
         private readonly UserManager<User> userManager;
         private IProductsService productsService;
+        private IOrdersService ordersService;
+        private IFullContactInfosService fullContactInfosService;
 
-        public ShoppingCartController(IProductsService productsService, UserManager<User> userManager)
+        public ShoppingCartController
+            (
+                IProductsService productsService, 
+                UserManager<User> userManager, 
+                IOrdersService ordersService,
+                IFullContactInfosService fullContactInfosService
+            )
         {
             Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
             Guard.WhenArgument(userManager, "userManager").IsNull().Throw();
+            Guard.WhenArgument(ordersService, "ordersService").IsNull().Throw();
+            Guard.WhenArgument(fullContactInfosService, "fullContactInfosService").IsNull().Throw();
 
             this.productsService = productsService;
             this.userManager = userManager;
+            this.ordersService = ordersService;
+            this.fullContactInfosService = fullContactInfosService;
 
             this.CartItems = new List<OrderItemViewModel>();
         }
@@ -85,8 +98,6 @@ namespace IzgodnoKupi.Web.Controllers
                 myCartModel.OrderItems = new List<OrderItemViewModel>();
             }
 
-            myCartModel.ShippingTax = Constants.ShippingTax;
-
             foreach (var item in myCartModel.OrderItems)
             {
                 myCartModel.TotalAmountInclTax += item.TotalPrice;
@@ -94,8 +105,14 @@ namespace IzgodnoKupi.Web.Controllers
 
             myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
             myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
-            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
-            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
+
+            if (myCartModel.TotalAmountInclTax < Constants.MinPriceFreeShipping && myCartModel.OrderItems.Count > 0)
+            {
+                myCartModel.ShippingTax = Constants.ShippingTax;
+            }
+
+            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
 
             ViewBag.Count = myCartModel.OrderItems.Count;
             ViewBag.TotalAmount = myCartModel.TotalAmount;
@@ -136,34 +153,80 @@ namespace IzgodnoKupi.Web.Controllers
         [Authorize]
         public IActionResult CheckOut(FullContactInfoViewModel fullContactInfo)
         {
-            MyCartViewModel myCartModel = new MyCartViewModel();
+            Order newOrder = new Order();
             var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
             //var sessionData = null;
             if (sessionData != null && sessionData != string.Empty)
             {
-                var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
-                myCartModel.OrderItems = data;
+                var orderItemsViewModels = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
+                var orderItems = new HashSet<OrderItem>();
 
+                foreach (var orderItem in orderItemsViewModels)
+                {
+                    OrderItem item = new OrderItem()
+                    {
+                        ProductId = orderItem.Product.Id.Value,
+                        Quantity = orderItem.Quantity,
+                        UnitPrice = orderItem.Product.Price,
+                        SubTotal = orderItem.TotalPrice,
+                        OrderedDate = DateTime.UtcNow,
+                        ItemWeight = orderItem.Quantity * orderItem.Product.Weight,
+                        ItemDiscount = ((double)orderItem.TotalPrice * orderItem.Product.Discount) / 100
+                    };
+                    orderItems.Add(item);
+                }
+
+                newOrder.OrderItems = orderItems;
             }
             else
             {
-                myCartModel.OrderItems = new List<OrderItemViewModel>();
+                return View("EmptyCart");
             }
 
-            myCartModel.ShippingTax = Constants.ShippingTax;
+            newOrder.ShippingTax = Constants.ShippingTax;
 
-            foreach (var item in myCartModel.OrderItems)
+            foreach (var item in newOrder.OrderItems)
             {
-                myCartModel.TotalAmountInclTax += item.TotalPrice;
+                newOrder.TotalAmountInclTax += item.SubTotal;
             }
 
-            myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
-            myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
-            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
-            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
+            newOrder.UserId = this.userManager.GetUserId(User);
 
-            ViewBag.Count = myCartModel.OrderItems.Count;
-            ViewBag.TotalAmount = myCartModel.TotalAmount;
+            newOrder.OrderDate = DateTime.UtcNow;
+            newOrder.OrderStatus = OrderStatus.Confirmed;
+            newOrder.PaymentMethod = PaymentMethod.PayToCourier;
+            newOrder.ShippingMethod = ShippingMethod.ToAddress;
+
+            newOrder.TotalAmountExclTax = Math.Round(newOrder.TotalAmountInclTax / Constants.TaxAmount, 2);
+            newOrder.TaxAmount = newOrder.TotalAmountInclTax - newOrder.TotalAmountExclTax;
+            newOrder.TotalAmountInclTax += newOrder.ShippingTax;
+            
+            FullContactInfo info = new FullContactInfo()
+            {
+                UserID = this.userManager.GetUserId(User),
+                FirstName = fullContactInfo.FirstName,
+                LastName = fullContactInfo.LastName,
+                PhoneNumber = fullContactInfo.PhoneNumber,
+                Address = fullContactInfo.Address,
+                City = fullContactInfo.City,
+                Area = fullContactInfo.Area,
+                PostCode = fullContactInfo.PostCode,
+                CompanyName = fullContactInfo.CompanyName,
+                EIK = fullContactInfo.EIK,
+                BGEIK = fullContactInfo.BGEIK,
+                CompanyCity = fullContactInfo.CompanyCity,
+                CompanyAddress = fullContactInfo.CompanyAddress,
+                MOL = fullContactInfo.MOL,
+                Note = fullContactInfo.Note
+
+            };
+
+
+            fullContactInfosService.Add(info);
+
+            info.Orders.Add(newOrder);
+
+            ordersService.AddOrder(newOrder);
 
             return View("OrderCompleted");
         }
