@@ -3,6 +3,7 @@ using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -58,6 +59,7 @@ namespace IzgodnoKupi.Services
         {
             return this.ordersRepo.All
                         .Where(c => c.UserId == id)
+                        .Include(x => x.OrderItems)
                         .FirstOrDefault(c => c.OrderStatus == OrderStatus.NotCompleted);
         }
 
