@@ -12,10 +12,12 @@ namespace IzgodnoKupi.Services.Contracts
 
         IQueryable<Order> GetByUser(string id);
 
+        Order GetByUserAndNotCompleted(string id);
+
         void AddOrder(Order order);
 
-        void Update(Guid id);
+        void Update(Order order);
 
-        void Delete(Guid? id);
+        void Delete(Order order);
     }
 }

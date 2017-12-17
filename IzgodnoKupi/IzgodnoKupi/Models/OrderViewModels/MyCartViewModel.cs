@@ -1,4 +1,5 @@
-﻿using IzgodnoKupi.Web.Models.ContactInfoViewModels;
+﻿using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Web.Models.ContactInfoViewModels;
 using System.Collections.Generic;
 
 namespace IzgodnoKupi.Web.Models.OrderViewModels
@@ -10,6 +11,13 @@ namespace IzgodnoKupi.Web.Models.OrderViewModels
         public MyCartViewModel()
         {
             this.orderItems = new HashSet<OrderItemViewModel>();
+        }
+
+        public MyCartViewModel(Order order)
+        {
+            this.UserId = order.UserId;
+            this.FullContactInfo = new FullContactInfoViewModel(order.FullContactInfo);
+            this.OrderItems = new HashSet<OrderItemViewModel>();
         }
         
         public string UserId { get; set; }

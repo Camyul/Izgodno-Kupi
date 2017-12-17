@@ -1,6 +1,7 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using System;
 using System.Linq;
@@ -27,13 +28,10 @@ namespace IzgodnoKupi.Services
             this.context.Commit();
         }
 
-        public void Delete(Guid? id)
+        public void Delete(Order order)
         {
-            Guard.WhenArgument(id, nameof(id)).IsNull().Throw();
-
-            var entity = this.GetById(id.Value);
-            entity.IsDeleted = true;
-            this.ordersRepo.Update(entity);
+            order.IsDeleted = true;
+            this.ordersRepo.Update(order);
             this.context.Commit();
         }
 
@@ -56,10 +54,16 @@ namespace IzgodnoKupi.Services
                         .OrderBy(c => c.OrderDate);
         }
 
-        public void Update(Guid id)
+        public Order GetByUserAndNotCompleted(string id)
         {
-            Order orderToUpdate = this.ordersRepo.GetById(id);
-            this.ordersRepo.Update(orderToUpdate);
+            return this.ordersRepo.All
+                        .Where(c => c.UserId == id)
+                        .FirstOrDefault(c => c.OrderStatus == OrderStatus.NotCompleted);
+        }
+
+        public void Update(Order order)
+        {
+            this.ordersRepo.Update(order);
 
             this.context.Commit();
         }

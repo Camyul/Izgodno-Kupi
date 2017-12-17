@@ -16,7 +16,7 @@ namespace IzgodnoKupi.Data.Model
             this.orderItems = new HashSet<OrderItem>();
             this.ShippingMethod = ShippingMethod.ToOffice;
             // this.OrderDate = DateTime.UtcNow.Date;
-            // this.OrderStatus = OrderStatus.Confirmed;
+            this.OrderStatus = OrderStatus.NotCompleted;
         }
 
         [ForeignKey("User")]
