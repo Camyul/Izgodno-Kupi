@@ -37,7 +37,7 @@ section.sky-form{
 	font-weight: 400;
 	color: #555555;
 	cursor: pointer;
-	text-transform: capitalize;
+	/*text-transform: capitalize;*/
 	width: 100%;
 	margin-top: 0;
 	  font-family: 'Arimo', sans-serif;

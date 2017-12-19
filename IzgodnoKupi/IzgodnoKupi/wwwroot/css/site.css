@@ -53,19 +53,28 @@ input.check-out:hover {
     cursor: pointer;
 }
 
-/* The container CheckBox*/
-.containerCheckBox {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.oder-complete-header {
+    color: #ed645c;
+    font-weight: bold;
 }
+
+.oder-complete-text {
+    color: #6FC9EB;
+
+}
+    /* The container CheckBox*/
+    .containerCheckBox {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
 
 /* Hide the browser's default checkbox */
 .containerCheckBox input {
@@ -116,4 +125,9 @@ input.check-out:hover {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
 }

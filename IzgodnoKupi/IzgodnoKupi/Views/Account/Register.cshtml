@@ -33,13 +33,46 @@
                         </label>
                     </div>
                     <div class="sky-form">
-                        <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>i agree Terms & conditions &nbsp;<a class="terms" href="#"> terms of service</a> </label>
+                        <label id="register-submit" class="checkbox"><input type="checkbox" name="checkbox"><i></i>съгласен съм с&nbsp;<a id="showModal" class="terms" href="#" onclick="modal.open()"> условията за ползване</a> </label>
                     </div>
-                    <div>
-                        <input type="submit" value="Регистрирай ме" id="register-submit">
+                    <div id="register-container" class="not-active">
+                        <input type="submit" value="Регистрирай ме">
                     </div>
                 </form>
                 <!-- /Form -->
+                <!---Modal-->
+                <div id="modal" class="modal">
+                    <div class="modal-dialog animated">
+                        <div class="modal-content">
+                            <form class="form-horizontal" method="get">
+                                <div class="modal-header text-center">
+                                    <strong>Условия за ползване</strong>
+                                </div>
+                                <div class="modal-body text-justify">
+                                            &nbsp;1. Достъпът до сайта за регистриране на акаунт и създаване на поръчка е позволен на всеки клиент.</br>
+                                            &nbsp;2. Всички цени на сайта са обявени в лева (BGN) с включено ДДС.</br>
+                                            &nbsp;3. Цената на продукт не включва цената за доставка и дължимите такси при плащане.</br>
+                                            &nbsp;4. Като във всички случаи преди завършването на поръчката ИЗГОДНО КУПИ ще посочи на сайта стойността на допълнителните разходи, които клиентът трябва да заплати.</br>
+                                            &nbsp;5. Цените на сайта, задраскани с линия, посочват старата цена на стоката в магазина. Тези цени имат информативен характер и нямат юридическа стойност.</br>
+                                            &nbsp;6. ИЗГОДНО КУПИ си запазва правото да променя цените на стоките и услугите по всяко време, без предварително да известява за това клиента.</br>
+                                            &nbsp;7. Цената на продуктите и услугите е тази, която е посочена в момента на поръчката в рамките на складовите наличности и/или за периода на промоционалния период, ако има такъв.</br>
+                                            &nbsp;8. ИЗГОДНО КУПИ не гарантира наличността на никой продукт и/или услуга, който може да бъде закупен от сайта.
+                                    <div class="me-one">
+                                            <ul>
+                                                <li>
+                                                    <a id="term-and-condition" href="#">Виж пълните условия</a>
+                                                </li>
+                                            </ul>
+                                    </div>        
+                                        </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" type="submit" onclick="modal.close();">ОK</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal-->
             </div>
         </div>
 
@@ -74,5 +107,17 @@
 </div>*@
 
 @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#register-submit :checkbox").change(function () {
+                if (this.checked) {
+                    $('#register-container').removeClass('not-active');
+                }
+                else {
+                    $('#register-container').addClass('not-active');
+                }
+            });
+        });
+</script>
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }

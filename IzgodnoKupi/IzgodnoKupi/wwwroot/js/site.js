@@ -30,3 +30,39 @@ function displayContactInfo() {
 function dataForCompany() {
    $('.compani-info').toggleClass('hidden');
 };
+
+//Modal
+window.onload = function () {
+    var modal = new RModal(document.getElementById('modal'), {
+        //content: 'Abracadabra'
+        beforeOpen: function (next) {
+            console.log('beforeOpen');
+            next();
+        }
+        , afterOpen: function () {
+            console.log('opened');
+        }
+
+        , beforeClose: function (next) {
+            console.log('beforeClose');
+            next();
+        }
+        , afterClose: function () {
+            console.log('closed');
+        }
+        // , bodyClass: 'modal-open'
+        // , dialogClass: 'modal-dialog'
+        // , dialogOpenClass: 'animated fadeIn'
+        // , dialogCloseClass: 'animated fadeOut'
+
+        // , focus: true
+        // , focusElements: ['input.form-control', 'textarea', 'button.btn-primary']
+
+        // , escapeClose: true
+    });
+
+    window.modal = modal;
+}
+//Modal
+
+//Register checkbox
