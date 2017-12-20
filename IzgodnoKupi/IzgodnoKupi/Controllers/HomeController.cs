@@ -50,14 +50,22 @@ namespace IzgodnoKupi.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult TermAndConditions()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
-        public IActionResult TermAndConditions()
+        public IActionResult Shipping()
+        {
+            return View();
+        }
+
+        public IActionResult Payment()
+        {
+            return View();
+        }
+
+        public IActionResult ForOur()
         {
             return View();
         }
