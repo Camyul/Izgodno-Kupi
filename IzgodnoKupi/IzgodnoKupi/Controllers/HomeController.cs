@@ -26,16 +26,16 @@ namespace IzgodnoKupi.Controllers
         public IActionResult Index()
         {
             var categories = this.categiriesService.GetAllCategoriesSortedByName()
-               .Select(x => new CategoriesNavigationViewModel(x))
-               .ToList();
+                    .Select(x => new CategoriesNavigationViewModel(x))
+                    .ToList();
 
          
                 var products = this.productsService
-               .GetAll()
-               .OrderByDescending(x => x.CreatedOn)
-               .Take(8)
-               .Select(x => new PreviewProductViewModel(x))
-               .ToList();
+                    .GetAll()
+                    .OrderByDescending(x => x.CreatedOn)
+                    .Take(8)
+                    .Select(x => new PreviewProductViewModel(x))
+                    .ToList();
 
             //var viewCategory = new List<CategoriesNavigationViewModel>();
 
@@ -54,6 +54,11 @@ namespace IzgodnoKupi.Controllers
         {
             ViewData["Message"] = "Your application description page.";
 
+            return View();
+        }
+
+        public IActionResult TermAndConditions()
+        {
             return View();
         }
 
