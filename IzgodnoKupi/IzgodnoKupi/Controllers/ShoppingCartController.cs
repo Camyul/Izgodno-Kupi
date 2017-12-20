@@ -69,6 +69,9 @@ namespace IzgodnoKupi.Web.Controllers
             if (searchedItem != null)
             {
                 myOrder.OrderItems.Remove(searchedItem);
+
+                myOrder.TotalAmountInclTax = myOrder.TotalAmountInclTax - searchedItem.SubTotal;
+
                 ordersService.Update(myOrder);
             }
 
@@ -166,6 +169,13 @@ namespace IzgodnoKupi.Web.Controllers
             item.SubTotal = productToAdd.Price * quantity;
 
             myOrder.OrderItems.Add(item);
+
+            decimal sum = 0;
+            foreach (var orderItem in myOrder.OrderItems)
+            {
+                sum += orderItem.SubTotal;
+            }
+            myOrder.TotalAmountInclTax = sum;
 
             ordersService.Update(myOrder);
 
