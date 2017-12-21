@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using IzgodnoKupi.Data;
-using IzgodnoKupi.Models;
-using IzgodnoKupi.Services;
+﻿using IzgodnoKupi.Data;
 using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Repositories;
-using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Data.SaveContext;
-using System.Threading;
-using Newtonsoft.Json.Serialization;
+using IzgodnoKupi.Models;
+using IzgodnoKupi.Services;
+using IzgodnoKupi.Services.Contracts;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Threading;
 
 namespace IzgodnoKupi
 {
@@ -48,7 +44,16 @@ namespace IzgodnoKupi
             services.AddScoped(typeof(IFullContactInfosService), typeof(FullContactInfosService));
             services.AddScoped(typeof(IBagService), typeof(BagService));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                // Password settings
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+                //options.Password.RequiredUniqueChars = 2;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

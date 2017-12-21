@@ -28,6 +28,10 @@ namespace IzgodnoKupi.Services
                         .Where(c => c.UserId == id)
                         .Include(x => x.OrderItems)
                         .FirstOrDefault(c => c.OrderStatus == OrderStatus.NotCompleted);
+            if (result == null)
+            {
+                return 0m;
+            }
 
             return result.TotalAmountInclTax;
         }
@@ -38,6 +42,11 @@ namespace IzgodnoKupi.Services
                         .Where(c => c.UserId == id)
                         .Include(x => x.OrderItems)
                         .FirstOrDefault(c => c.OrderStatus == OrderStatus.NotCompleted);
+
+            if (result == null)
+            {
+                return 0;
+            }
 
             return result.OrderItems.Count;
         }
