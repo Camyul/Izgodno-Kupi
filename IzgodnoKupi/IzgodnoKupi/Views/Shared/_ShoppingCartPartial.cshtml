@@ -1,14 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using IzgodnoKupi.Services.Contracts
 
+@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @inject IBagService bagService
 
 @{ 
-    string userId = UserManager.GetUserId(User);
-    decimal totalPrice = bagService.TotalAmount(userId);
-    int productsCount = bagService.Count(userId);
+
+decimal totalPrice = 0;
+int productsCount = 0;
 }
+
+@if (SignInManager.IsSignedIn(User))
+{
+    string userId = UserManager.GetUserId(User);
+    totalPrice = bagService.TotalAmount(userId);
+    productsCount = bagService.Count(userId);
+}
+
 <div class="cart box_1">
     @*<span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span>)*@
     <a asp-area="" asp-controller="ShoppingCart" asp-action="MyCart">
