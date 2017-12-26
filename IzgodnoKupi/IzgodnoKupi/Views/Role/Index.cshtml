@@ -1,0 +1,35 @@
+﻿@using IzgodnoKupi.Web.Models.RoleViewModels
+
+@model IEnumerable<RoleViewModel>
+
+<h2 class="text-center">Роли</h2>
+
+<p>
+    <a class="btn btn-warning" asp-action="AddRole"><i class="glyphicon glyphicon-plus"></i>Нова Роля</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Action</th> 
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="EditRole" asp-route-id="@item.Id">Редактирай</a>
+                    <a class="btn btn-danger" asp-action="DeleteRole" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
