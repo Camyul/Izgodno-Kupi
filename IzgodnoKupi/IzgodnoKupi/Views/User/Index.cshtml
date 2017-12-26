@@ -1,0 +1,40 @@
+﻿@using IzgodnoKupi.Web.Models.UserViewModels
+
+@model IEnumerable<UserListViewModel>
+
+
+<h2 class="text-center">Потребители</h2>
+
+<p>
+    <a class="btn btn-warning" asp-action="AddUser"><i class="glyphicon glyphicon-plus"></i>Нов Потребител</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Role Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.RoleName)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="EditUser" asp-route-id="@user.Id"><i class="glyphicon glyphicon-pencil"></i>Редактирай</a>
+                    <a class="btn btn-danger" asp-action="DeleteUser" asp-route-id="@user.Id"><i class="glyphicon glyphicon-trash"></i>Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

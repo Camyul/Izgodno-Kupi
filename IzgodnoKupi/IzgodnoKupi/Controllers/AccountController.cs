@@ -227,6 +227,26 @@ namespace IzgodnoKupi.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //My code - Create Role "NormalUser"
+                    if (!roleManager.RoleExistsAsync("NormalUser").Result)
+                    {
+                        IdentityRole role = new IdentityRole();
+                        role.Name = "NormalUser";
+
+                        IdentityResult roleResult = roleManager.CreateAsync(role).Result;
+
+                        if (!roleResult.Succeeded)
+                        {
+                            ModelState.AddModelError("",
+                             "Error while creating role!");
+                            return View();
+                        }
+                    }
+
+                    _userManager.AddToRoleAsync(user, "NormalUser").Wait();
+
+                    //end My code
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

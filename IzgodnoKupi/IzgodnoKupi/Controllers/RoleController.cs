@@ -1,5 +1,6 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Web.Models.RoleViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace IzgodnoKupi.Web.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class RoleController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
