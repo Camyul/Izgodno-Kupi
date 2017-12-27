@@ -86,6 +86,9 @@ namespace IzgodnoKupi
             services.AddMemoryCache();
             services.AddSession();
 
+            // Add Database Initializer
+            services.AddScoped<IDbInitializer, DbInitializer>();
+
             services.AddMvc()
                 .AddJsonOptions(options => {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
