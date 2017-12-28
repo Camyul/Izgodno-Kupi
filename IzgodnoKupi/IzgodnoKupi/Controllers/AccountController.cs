@@ -385,7 +385,8 @@ namespace IzgodnoKupi.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+               // if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+               if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -395,8 +396,8 @@ namespace IzgodnoKupi.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendEmailAsync(model.Email, "Промяна на Паролата",
+                   $"Можете да промените паролата си на следния линк: <a href='{callbackUrl}'>Нова Парола</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 

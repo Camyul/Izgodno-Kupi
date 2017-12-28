@@ -97,6 +97,9 @@ namespace IzgodnoKupi
 
             //Routes to Lower Case
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            // Send Email
+            services.Configure<AuthMessageSenderOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,11 +112,14 @@ namespace IzgodnoKupi
                 context.Database.Migrate();
             }
 
+            var builder = new ConfigurationBuilder();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
+                builder.AddUserSecrets<Startup>();
             }
             else
             {
