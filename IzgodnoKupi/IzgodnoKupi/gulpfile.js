@@ -46,7 +46,7 @@ gulp.task("clean:css", function (cb) {
 gulp.task("clean", ["clean:js", "cleanTheme:js", "cleanTemp:js", "clean:css"]);
 
 gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
+    return gulp.src([paths.js, "!" + paths.themeMinJs], { base: "." })
         .pipe(concat(paths.tempConcatJsDest))
         .pipe(uglify())
         .pipe(gulp.dest("."));

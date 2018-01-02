@@ -17,13 +17,13 @@
                     <div>
                         <label asp-for="Email">
                             <input asp-for="Email" class="form-control" placeholder="Email" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            @*<span asp-validation-for="Email" class="text-danger"></span>*@
                         </label>
                     </div>
                     <div>
                         <label asp-for="Password">
                             <input asp-for="Password" class="form-control" placeholder="Парола" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            @*<span asp-validation-for="Password" class="text-danger"></span>*@
                         </label>
                     </div>
                     <div>
@@ -107,17 +107,6 @@
 </div>*@
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $("#register-submit :checkbox").change(function () {
-                if (this.checked) {
-                    $('#register-container').removeClass('not-active');
-                }
-                else {
-                    $('#register-container').addClass('not-active');
-                }
-            });
-        });
-</script>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+    @await Html.PartialAsync("_ValidationScriptsPartial");
+    @await Html.PartialAsync("_RegisterPageScriptsPartial");
 }

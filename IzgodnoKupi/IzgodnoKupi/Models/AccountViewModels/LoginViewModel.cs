@@ -4,12 +4,12 @@ namespace IzgodnoKupi.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [EmailAddress]
         [Display(Name = "Email:")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [DataType(DataType.Password)]
         [Display(Name = "Парола:")]
         public string Password { get; set; }

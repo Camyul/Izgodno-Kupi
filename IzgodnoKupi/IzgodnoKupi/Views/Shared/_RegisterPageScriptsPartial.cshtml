@@ -1,0 +1,48 @@
+﻿<script>
+    (function registerCheckbox() {
+            console.log('loaded');
+        $("#register-submit :checkbox").change(function () {
+            console.log('changed');
+            if (this.checked) {
+                $('#register-container').removeClass('not-active');
+            }
+            else {
+                $('#register-container').addClass('not-active');
+            }
+        });
+    })();
+
+    //Modal
+    window.onload = function () {
+        var modal = new RModal(document.getElementById('modal'), {
+            //content: 'Abracadabra'
+            beforeOpen: function (next) {
+                console.log('beforeOpen');
+                next();
+            }
+            , afterOpen: function () {
+                console.log('opened');
+            }
+
+            , beforeClose: function (next) {
+                console.log('beforeClose');
+                next();
+            }
+            , afterClose: function () {
+                console.log('closed');
+            }
+            // , bodyClass: 'modal-open'
+            // , dialogClass: 'modal-dialog'
+            // , dialogOpenClass: 'animated fadeIn'
+            // , dialogCloseClass: 'animated fadeOut'
+
+            // , focus: true
+            // , focusElements: ['input.form-control', 'textarea', 'button.btn-primary']
+
+            // , escapeClose: true
+        });
+
+        window.modal = modal;
+    }
+//Modal
+</script>

@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace IzgodnoKupi.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
         [Display(Name = "Паролата")]
         [StringLength(100, ErrorMessage = "{0} трябва да има поне {2} и максимум {1} символа дължина.", MinimumLength = 6)]
         [DataType(DataType.Password)]
