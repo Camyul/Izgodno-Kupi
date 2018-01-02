@@ -49,7 +49,7 @@ namespace IzgodnoKupi.Data
             //Create the default Admin account and apply the Administrator role
 
             string email = "caves.computers@gmail.com";
-            string password = "12345";
+            string password = "Test12";
 
             var user = new User { UserName = email, Email = email };
 
