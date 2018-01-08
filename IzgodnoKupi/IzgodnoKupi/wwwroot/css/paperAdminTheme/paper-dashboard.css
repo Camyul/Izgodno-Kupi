@@ -241,18 +241,18 @@ hr {
   width: 260px;
   display: block;
   font-weight: 200; }
-  .sidebar .logo,
-  .off-canvas-sidebar .logo {
+  .sidebar .admin-logo,
+  .off-canvas-sidebar .admin-logo {
     padding: 18px 0px;
     margin: 0 20px; }
-    .sidebar .logo p,
-    .off-canvas-sidebar .logo p {
+    .sidebar .admin-logo p,
+    .off-canvas-sidebar .admin-logo p {
       float: left;
       font-size: 20px;
       margin: 10px 10px;
       line-height: 20px; }
-    .sidebar .logo .simple-text,
-    .off-canvas-sidebar .logo .simple-text {
+    .sidebar .admin-logo .simple-text,
+    .off-canvas-sidebar .admin-logo .simple-text {
       text-transform: uppercase;
       padding: 4px 0px;
       display: block;
@@ -329,17 +329,17 @@ hr {
   .off-canvas-sidebar[data-background-color="white"]:after,
   .off-canvas-sidebar[data-background-color="white"]:before {
     background-color: #FFFFFF; }
-  .sidebar .logo, .sidebar[data-background-color="white"] .logo,
-  .off-canvas-sidebar .logo,
-  .off-canvas-sidebar[data-background-color="white"] .logo {
+  .sidebar .admin-logo, .sidebar[data-background-color="white"] .admin-logo,
+  .off-canvas-sidebar .admin-logo,
+  .off-canvas-sidebar[data-background-color="white"] .admin-logo {
     border-bottom: 1px solid rgba(102, 97, 91, 0.3); }
-    .sidebar .logo p, .sidebar[data-background-color="white"] .logo p,
-    .off-canvas-sidebar .logo p,
-    .off-canvas-sidebar[data-background-color="white"] .logo p {
+    .sidebar .admin-logo p, .sidebar[data-background-color="white"] .admin-logo p,
+    .off-canvas-sidebar .admin-logo p,
+    .off-canvas-sidebar[data-background-color="white"] .admin-logo p {
       color: #66615B; }
-    .sidebar .logo .simple-text, .sidebar[data-background-color="white"] .logo .simple-text,
-    .off-canvas-sidebar .logo .simple-text,
-    .off-canvas-sidebar[data-background-color="white"] .logo .simple-text {
+    .sidebar .admin-logo .simple-text, .sidebar[data-background-color="white"] .admin-logo .simple-text,
+    .off-canvas-sidebar .admin-logo .simple-text,
+    .off-canvas-sidebar[data-background-color="white"] .admin-logo .simple-text {
       color: #66615B; }
   .sidebar .nav li:not(.active) > a, .sidebar[data-background-color="white"] .nav li:not(.active) > a,
   .off-canvas-sidebar .nav li:not(.active) > a,
@@ -353,14 +353,14 @@ hr {
   .off-canvas-sidebar[data-background-color="black"]:after,
   .off-canvas-sidebar[data-background-color="black"]:before {
     background-color: #212120; }
-  .sidebar[data-background-color="black"] .logo,
-  .off-canvas-sidebar[data-background-color="black"] .logo {
+  .sidebar[data-background-color="black"] .admin-logo,
+  .off-canvas-sidebar[data-background-color="black"] .admin-logo {
     border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
-    .sidebar[data-background-color="black"] .logo p,
-    .off-canvas-sidebar[data-background-color="black"] .logo p {
+    .sidebar[data-background-color="black"] .admin-logo p,
+    .off-canvas-sidebar[data-background-color="black"] .admin-logo p {
       color: #FFFFFF; }
-    .sidebar[data-background-color="black"] .logo .simple-text,
-    .off-canvas-sidebar[data-background-color="black"] .logo .simple-text {
+    .sidebar[data-background-color="black"] .admin-logo .simple-text,
+    .off-canvas-sidebar[data-background-color="black"] .admin-logo .simple-text {
       color: #FFFFFF; }
   .sidebar[data-background-color="black"] .nav li:not(.active) > a,
   .off-canvas-sidebar[data-background-color="black"] .nav li:not(.active) > a {
@@ -2435,7 +2435,7 @@ textarea.form-control {
       display: block;
       content: "";
       z-index: 1; }
-    .off-canvas-sidebar .logo {
+    .off-canvas-sidebar .admin-logo {
       position: relative;
       z-index: 4;
       padding-top: 11px;

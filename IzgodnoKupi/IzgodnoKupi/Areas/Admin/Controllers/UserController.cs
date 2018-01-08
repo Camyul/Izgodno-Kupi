@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IzgodnoKupi.Web.Controllers
+namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "Administrator")]
     public class UserController : Controller
     {
@@ -96,14 +97,14 @@ namespace IzgodnoKupi.Web.Controllers
 
             if (!String.IsNullOrEmpty(id))
             {
-               User user = await userManager.FindByIdAsync(id);
+                User user = await userManager.FindByIdAsync(id);
 
                 if (user != null)
                 {
                     model.Email = user.Email;
 
                     string role = userManager.GetRolesAsync(user).Result.Single();
-                    
+
                     model.ApplicationRoleId = roleManager.Roles.Single(r => r.Name == role).Id;
                 }
             }
@@ -171,7 +172,7 @@ namespace IzgodnoKupi.Web.Controllers
             }
             return View("DeleteUser", model);
         }
-        
+
         [HttpPost, ActionName("DeleteUser")]
         public async Task<IActionResult> DeleteApplicationUser(string id)
         {

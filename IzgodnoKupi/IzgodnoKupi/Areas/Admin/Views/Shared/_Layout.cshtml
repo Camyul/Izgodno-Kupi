@@ -21,7 +21,7 @@
             <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
             <link href="~/css/paperAdminTheme/themify-icons.css" rel="stylesheet">
 
-            @*<link rel="stylesheet" href="~/css/site.css" />*@
+            <link rel="stylesheet" href="~/css/site.css" />
         </environment>
 
         <environment exclude="Development">
@@ -29,7 +29,7 @@
                   asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
                   asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
 
-            @*<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         </environment>
 
     </head>
@@ -41,7 +41,7 @@
                 Tip 2: you can change the color of the active button using the data-active-color="primary | info | success | warning | danger"
             -->
                 <div class="sidebar-wrapper">
-                    <div class="logo">
+                    <div class="admin-logo">
                         <a href="http://www.creative-tim.com" class="simple-text">
                             Креатив Тим
                         </a>
@@ -54,13 +54,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="user.html">
-                                <i class="ti-user"></i>
-                                <p>User Profile</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="User" asp-action="Index"><i class="ti-user"></i><p>Users</p></a>
+                            <a asp-area="Admin" asp-controller="User" asp-action="Index"><i class="ti-user"></i><p>Users</p></a>
                         </li>
                         <li>
                             <a href="table.html">
