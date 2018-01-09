@@ -1,0 +1,47 @@
+﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
+@model IEnumerable<CategoryViewModel>
+
+<h2 class="text-center">Категории</h2>
+
+<p>
+    <a class="btn btn-warning" asp-action="AddCategory"><i class="glyphicon glyphicon-plus"></i>Нова Категория</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShowOnHomePage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <div class="checkbox not-active">
+                        <input asp-for="@item.ShowOnHomePage" />
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a>
+                    <a class="btn btn-info" asp-area="Admin" asp-controller="Category" asp-action="Details" asp-route-id="@item.Id">Детайли</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

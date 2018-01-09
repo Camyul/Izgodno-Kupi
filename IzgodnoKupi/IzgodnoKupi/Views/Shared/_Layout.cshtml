@@ -32,7 +32,7 @@
             <!---->
             <div class="top-nav">
                 <ul class="memenu skyblue">
-                    @*<li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>*@
+                    <li class="active"><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
                     <li class="grid">
                         <a href="#">Категории</a>
                         <div class="mepanel">
@@ -78,8 +78,6 @@
                         </div>
                     </li>
                     <li class="grid"><a asp-area="" asp-controller="Product" asp-action="Index">Продукти</a></li>
-                    <li class="grid"><a asp-area="" asp-controller="Category" asp-action="Index">Категории</a></li>
-                    <li class="grid"><a asp-area="" asp-controller="Role" asp-action="Index">Роли</a></li>
                 @await Html.PartialAsync("_LoginPartial")
                 </ul>
             </div>

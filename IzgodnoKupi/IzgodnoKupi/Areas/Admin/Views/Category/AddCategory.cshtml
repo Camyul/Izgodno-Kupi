@@ -1,0 +1,37 @@
+﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
+@model CategoryViewModel
+
+<h4 class="text-center">Създаване на категория</h4>
+<hr />
+<div class="row">
+    <div class="form-horizontal">
+        <form asp-controller="Category" asp-action="AddCategory" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @Html.Label("", "Име", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("", "Покажи на първата страница", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        <input asp-for="ShowOnHomePage" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-6">
+                    <input type="submit" class="btn btn-success" value="Добави" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
