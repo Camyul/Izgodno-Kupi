@@ -10,8 +10,8 @@
     ProductViewModel product = ViewData["product"] as ProductViewModel;
 }
 
-            <h4 class="text-center">Добавяне на нов продукт</h4>
-            <hr />
+<h4 class="text-center">Добавяне на нов продукт</h4>
+<hr />
 
 <div class="row">
     <div class="form-horizontal">
@@ -23,7 +23,7 @@
                 @Html.Label("", "Име", new { @class = "control-label col-md-2 col-md-offset-3" })
                 <div class="col-md-3">
                     @*@Html.TextBox("Name", null, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })*@
                     <input asp-for="Name" type="text" class="form-control" placeholder="Име" value="">
                     <span asp-validation-for="Name" class="text-danger field-validation-valid"></span>
                 </div>

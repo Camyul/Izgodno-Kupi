@@ -43,11 +43,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
-                <td  class="productName">
+                <td class="productName">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsPublished)
+                    <div class="checkbox not-active">
+                        <input asp-for="@item.IsPublished" />
+                    </div>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductAvailability)
@@ -62,11 +64,13 @@
                     @Html.DisplayFor(modelItem => item.Price)лв.
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsFreeShipping)
+                    <div class="checkbox not-active">
+                        <input asp-for="@item.IsFreeShipping" />
+                    </div>
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a>
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Детайли</a>
+                    <a class="btn btn-info" asp-area="" asp-action="Details" asp-route-id="@item.Id">Детайли</a>
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
                 </td>
             </tr>

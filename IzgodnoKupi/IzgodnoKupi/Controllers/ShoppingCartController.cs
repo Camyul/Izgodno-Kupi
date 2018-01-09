@@ -284,7 +284,9 @@ namespace IzgodnoKupi.Web.Controllers
 
             ordersService.Update(myOrder);
 
-            return View("OrderCompleted");
+            MyCartViewModel myCartModel = new MyCartViewModel();
+
+            return View("OrderCompleted", myCartModel);
         }
     }
 }
