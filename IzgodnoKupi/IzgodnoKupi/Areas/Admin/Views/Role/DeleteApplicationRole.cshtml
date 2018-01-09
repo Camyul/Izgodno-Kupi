@@ -1,0 +1,32 @@
+﻿@using IzgodnoKupi.Web.Models.RoleViewModels
+
+@model RoleViewModel
+
+<h4 class="text-danger">Изтриване на Роля @Model.RoleName</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="DeleteRole">
+            <div class="row">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Id)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RoleName)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.RoleName)
+                        </dd>
+                    </dl>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Изтрий" class="btn btn-danger" />
+                <a class="btn btn-primary" asp-action="Index">Към списъка</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,4 @@
-﻿using Bytes2you.Validation;
-using IzgodnoKupi.Web.Models.RoleViewModels;
+﻿using IzgodnoKupi.Web.Models.RoleViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IzgodnoKupi.Web.Controllers
+namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = "Administrator")]
     public class RoleController : Controller
     {
@@ -55,11 +55,11 @@ namespace IzgodnoKupi.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityRole applicationRole =  new IdentityRole();
+                IdentityRole applicationRole = new IdentityRole();
 
                 applicationRole.Name = model.RoleName;
 
-                IdentityResult roleRuslt =  await roleManager.CreateAsync(applicationRole);
+                IdentityResult roleRuslt = await roleManager.CreateAsync(applicationRole);
 
                 if (roleRuslt.Succeeded)
                 {

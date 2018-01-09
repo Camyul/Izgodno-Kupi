@@ -12,7 +12,7 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Action</th> 
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -26,8 +26,8 @@
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
                 <td>
-                    <a class="btn btn-success" asp-action="EditRole" asp-route-id="@item.Id">Редактирай</a>
-                    <a class="btn btn-danger" asp-action="DeleteRole" asp-route-id="@item.Id">Изтрий</a>
+                    <a class="btn btn-success" asp-action="EditRole" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> Редактирай</a>
+                    <a class="btn btn-danger" asp-action="DeleteRole" asp-route-id="@item.Id"><i class="glyphicon glyphicon-trash"></i> Изтрий</a>
                 </td>
             </tr>
         }
