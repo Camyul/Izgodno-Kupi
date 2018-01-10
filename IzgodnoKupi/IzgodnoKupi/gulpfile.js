@@ -27,6 +27,7 @@ paths.tempWebConcatMinCss = paths.webroot + "css/web-temp.min.css";
 paths.tempModalConcatMinCss = paths.webroot + "css/modal-temp.min.css";
 paths.tempAdminConcatMinCss = paths.webroot + "css/admin-temp.min.css";
 paths.AdminAnimateMinCss = paths.webroot + "css/paperAdminTheme/animate.min.css";
+paths.siteCss = paths.webroot + "css/site.css";
 
 paths.concatWebCssDest = paths.webroot + "css/site.min.css";
 paths.concatAdminCssDest = paths.webroot + "css/admin-site.min.css";
@@ -127,14 +128,14 @@ gulp.task("minLightTheme:css", function () {
 });
 //Concat and Minify all Css modal-temp.min.css
 gulp.task("minModal:css", function () {
-    return gulp.src([paths.modalCss, "!" + paths.minCss])
+    return gulp.src([paths.modalCss, paths.siteCss, "!" + paths.minCss])
         .pipe(concat(paths.tempModalConcatMinCss))
         .pipe(cssmin())
         .pipe(gulp.dest("."));
 });
 //Concat and Minify all Css admin-temp.min.css
 gulp.task("minPaperAdmin:css", function () {
-    return gulp.src([paths.paperAdminCss, "!" + paths.minCss])
+    return gulp.src([paths.paperAdminCss, paths.siteCss, "!" + paths.minCss])
         .pipe(concat(paths.tempAdminConcatMinCss))
         .pipe(cssmin())
         .pipe(gulp.dest("."));
