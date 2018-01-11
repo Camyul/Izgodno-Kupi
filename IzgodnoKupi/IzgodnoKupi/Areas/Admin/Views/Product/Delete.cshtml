@@ -1,0 +1,82 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+@model ProductViewModel
+
+
+<h3 class="text-danger text-center">Сигурни ли сте че искате да изтриете продукт @Model.Name!</h3>
+<div>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductAvailability)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductAvailability)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductAvailability)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductAvailability)
+        </dd>
+        <p>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </dt>
+        <dd>
+            <div class="checkbox not-active">
+                <input asp-for="@Model.IsPublished" />
+            </div>
+        </dd>
+        </p>
+        <p>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsFreeShipping)
+        </dt>
+        <dd>
+            <div class="checkbox not-active">
+                <input asp-for="@Model.IsFreeShipping" />
+            </div>
+        </dd>
+        </p>
+    </dl>
+</div>
+<div>
+    @*This make POST request*@
+    <form class="col-md-offset-2" asp-area="Admin" asp-controller="Product" asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Изтрий" class="btn btn-danger" />
+        <a class="btn btn-primary" asp-action="Index">Към списъка</a>
+    </form>
+</div>

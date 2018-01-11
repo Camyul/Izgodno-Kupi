@@ -77,7 +77,7 @@ namespace IzgodnoKupi.Services
 
         public void Delete(Product product)
         {
-            this.productsRepo.Update(product);
+            this.productsRepo.Delete(product);
             this.context.Commit();
         }
     }

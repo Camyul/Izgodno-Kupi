@@ -5,6 +5,8 @@ using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,6 +41,72 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             return View(products);
         }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Product product = productsService.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            ProductViewModel viewModelProduct = new ProductViewModel(product);
+
+            var categories = this.categiriesService.GetAllCategoriesSortedByName()
+               // .Select(x => new CategoriesNavigationViewModel(x))
+               .ToList();
+
+            var viewCategory = new List<CategoriesNavigationViewModel>();
+
+            foreach (var cat in categories)
+            {
+                viewCategory.Add(new CategoriesNavigationViewModel(cat));
+            }
+
+            ViewData["categories"] = viewCategory;
+            ViewData["product"] = viewModelProduct;
+
+            return View(viewModelProduct);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Guid id, Product product)
+        {
+            if (id != product.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    productsService.Update(product);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(product);
+        }
+
 
         [HttpGet]
         public IActionResult AddProduct()
@@ -85,6 +153,54 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             this.productsService.AddProduct(product);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Product product = productsService.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            ProductViewModel viewModelProduct = new ProductViewModel(product);
+
+            return View(viewModelProduct);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Product product = productsService.GetById(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            product.DeletedOn = DateTime.Now;
+
+            productsService.Delete(product);
+
+            return RedirectToAction("Index");
+        }
+
+        private bool ProductExists(Guid id)
+        {
+            return productsService.GetById(id) == null ? false : true;
         }
 
         //[HttpPost]
