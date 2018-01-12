@@ -1,7 +1,7 @@
 ﻿using IzgodnoKupi.Web.Models.ProductViewModels;
 using Newtonsoft.Json;
 
-namespace IzgodnoKupi.Web.Models.OrderViewModels
+namespace IzgodnoKupi.Web.Models.OrderItemViewModels
 {
     public class OrderItemViewModel
     {

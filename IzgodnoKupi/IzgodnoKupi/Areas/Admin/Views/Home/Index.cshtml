@@ -1,3 +1,51 @@
-﻿
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
+@model IList<OrderListViewModel>
 
-This is Admin Area
+<h2 class="text-center">Продукти</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].FullContactInfo.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].TotalAmountInclTax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].OrderStatus)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   @item.OrderDate.ToString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullContactInfo.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalAmountInclTax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Редакция</a>
+                    <a class="btn btn-info" asp-controller="Order" asp-action="Details" asp-route-id="@item.Id">Преглед</a>
+                    @*<a class="btn btn-danger" asp-controller="Order" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

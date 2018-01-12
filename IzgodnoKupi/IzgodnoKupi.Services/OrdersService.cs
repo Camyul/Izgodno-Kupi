@@ -40,7 +40,9 @@ namespace IzgodnoKupi.Services
         {
             return this.ordersRepo
                 .All
-                .Where(c => c.IsDeleted == false);
+                .Where(c => c.IsDeleted == false)
+                .Include(x => x.OrderItems)
+                .Include(x => x.FullContactInfo);
         }
 
         public Order GetById(Guid? id)

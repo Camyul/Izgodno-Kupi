@@ -5,17 +5,14 @@ using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.ContactInfoViewModels;
-using IzgodnoKupi.Web.Models.OrderViewModels;
+using IzgodnoKupi.Web.Models.OrderItemViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IzgodnoKupi.Web.Controllers
 {
