@@ -1,0 +1,115 @@
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
+@using IzgodnoKupi.Data.Model.Enums
+@model OrderViewModel
+
+<h4 class="text-center">Редактиране</h4>
+
+<hr />
+<div class="row">
+    <div class="">
+        <form asp-controller="Order" asp-action="Edit" method="post">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div id="contact-info" class="contact-info">
+                    <h4 class="text-center">Данни за доставка</h4>
+                    <hr />
+                    <input asp-for="FullContactInfoId" class="hidden" />
+                    <input asp-for="UserId" class="hidden" />
+                    <div class="col-md-6 form-group">
+                        @Html.LabelFor(x => x.FullContactInfo.FirstName)
+                        <input asp-for="FullContactInfo.FirstName" class="form-control" tabindex="1" />
+                        <span asp-validation-for="FullContactInfo.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label asp-for="FullContactInfo.Area"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.Area, new { @class = "form-control", tabindex = "4" })
+                        <span asp-validation-for="FullContactInfo.Area" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label asp-for="FullContactInfo.LastName"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.LastName, new { @class = "form-control", tabindex = "2" })
+                        <span asp-validation-for="FullContactInfo.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label asp-for="FullContactInfo.City"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.City, new { @class = "form-control", tabindex = "5" })
+                        <span asp-validation-for="FullContactInfo.City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label asp-for="FullContactInfo.PhoneNumber"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.PhoneNumber, new { @class = "form-control", tabindex = "3" })
+                        <span asp-validation-for="FullContactInfo.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label asp-for="FullContactInfo.Address"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.Address, new { @class = "form-control", tabindex = "6" })
+                        <span asp-validation-for="FullContactInfo.Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.CompanyName"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.CompanyName, new { @class = "form-control", tabindex = "8" })
+                        <span asp-validation-for="FullContactInfo.CompanyName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.CompanyCity"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.CompanyCity, new { @class = "form-control", tabindex = "9" })
+                        <span asp-validation-for="FullContactInfo.CompanyCity" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.CompanyAddress"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.CompanyAddress, new { @class = "form-control", tabindex = "10" })
+                        <span asp-validation-for="FullContactInfo.CompanyAddress" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.MOL"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.MOL, new { @class = "form-control", tabindex = "11" })
+                        <span asp-validation-for="FullContactInfo.MOL" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.EIK"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.EIK, new { @class = "form-control", tabindex = "12" })
+                        <span asp-validation-for="FullContactInfo.EIK" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 form-group compani-info">
+                        <label asp-for="FullContactInfo.BGEIK"></label>
+                        @Html.TextBoxFor(x => x.FullContactInfo.BGEIK, new { @class = "form-control", tabindex = "13" })
+                        <span asp-validation-for="FullContactInfo.BGEIK" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label asp-for="FullContactInfo.Note"></label>
+                        @Html.TextAreaFor(x => x.FullContactInfo.Note, new { @class = "form-control", tabindex = "14" })
+                        <span asp-validation-for="FullContactInfo.Note" class="text-danger"></span>
+                    </div>
+            </div>
+
+            @*in table display model.OrderItems*@
+
+            <div class="form-group">
+                @Html.Label("", "Статус на поръчката", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <select asp-for="OrderStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                @Html.Label("", "Видима", new { @class = "control-label col-md-2 col-md-offset-3" })
+                <div class="col-md-3">
+                    <div class="checkbox">
+                        <input asp-for="IsPublished" />
+                    </div>
+                </div>
+            </div>*@
+
+
+            <div class="form-group">
+                <div class="col-md-3 col-md-offset-6">
+                    @*<input type="submit" class="btn btn-success" value="Add" name="@product" />*@
+                    <input type="submit" class="btn btn-success" value="Запиши" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

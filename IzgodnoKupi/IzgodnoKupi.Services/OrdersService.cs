@@ -40,14 +40,20 @@ namespace IzgodnoKupi.Services
         {
             return this.ordersRepo
                 .All
-                .Where(c => c.IsDeleted == false)
                 .Include(x => x.OrderItems)
                 .Include(x => x.FullContactInfo);
         }
 
         public Order GetById(Guid? id)
         {
-            return id.HasValue ? this.ordersRepo.GetById(id) : null;
+            if (id.HasValue)
+            {
+                return this.ordersRepo.GetById(id);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IQueryable<Order> GetByUser(string id)

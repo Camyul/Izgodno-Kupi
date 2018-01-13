@@ -1,0 +1,58 @@
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
+@using IzgodnoKupi.Data.Model.Enums
+
+@model IList<OrderListViewModel>
+
+<h2 class="text-center">Продукти</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model[0].OrderDate)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model[0].FullContactInfo.LastName)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model[0].TotalAmountInclTax)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model[0].OrderStatus)
+            </th>
+            <th class="text-center">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @item.OrderDate.ToString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullContactInfo.LastName)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.TotalAmountInclTax)
+                </td>
+                <td>
+                    @if (item.OrderStatus == OrderStatus.Confirmed)
+                    {
+                        <div class="text-danger text-center">
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </div>
+                    }
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Edit" asp-route-id="@item.Id">Редакция</a>
+                    <a class="btn btn-info" asp-controller="Order" asp-action="Details" asp-route-id="@item.Id">Преглед</a>
+                    <a class="btn btn-danger" asp-controller="Order" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

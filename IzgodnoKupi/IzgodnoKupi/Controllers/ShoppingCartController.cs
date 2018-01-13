@@ -207,10 +207,10 @@ namespace IzgodnoKupi.Web.Controllers
             }
 
 
-            foreach (var item in myOrder.OrderItems)
-            {
-                myOrder.TotalAmountInclTax += item.SubTotal;
-            }
+            //foreach (var item in myOrder.OrderItems)
+            //{
+            //    myOrder.TotalAmountInclTax += item.SubTotal;
+            //}
 
             if (myOrder.TotalAmountInclTax < Constants.MinPriceFreeShipping && myOrder.OrderItems.Count > 0)
             {

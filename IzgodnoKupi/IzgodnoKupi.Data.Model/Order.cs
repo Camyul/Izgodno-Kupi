@@ -58,6 +58,11 @@ namespace IzgodnoKupi.Data.Model
 
         public virtual FullContactInfo FullContactInfo { get; set; }
 
+        public object Where(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
+        }
+
         [ForeignKey("ShortContactInfo")]
         public Guid? ShortContactInfoId { get; set; }
 
