@@ -39,6 +39,20 @@ namespace IzgodnoKupi.Services
 
         public OrderItem GetById(Guid? id)
         {
+            //if (id.HasValue)
+            //{
+            //    return this.orderItemsRepo
+            //        .All
+            //        .Where(i => i.Id == id)
+            //        .Include(x => x.Product)
+            //        .FirstOrDefault();
+            //    //.GetById(id);
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+
             return id.HasValue ? this.orderItemsRepo.GetById(id) : null;
         }
 

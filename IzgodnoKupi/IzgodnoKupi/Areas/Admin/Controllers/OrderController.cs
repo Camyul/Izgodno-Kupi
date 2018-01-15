@@ -2,8 +2,11 @@
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Models.OrderItemViewModel;
 using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel;
 using IzgodnoKupi.Web.Models.ContactInfoViewModels;
+using IzgodnoKupi.Web.Models.OrderItemViewModels;
+using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +23,17 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     {
         private readonly IOrdersService ordersService;
         private readonly IFullContactInfosService fullContactInfosService;
+        private readonly IProductsService productService;
 
-        public OrderController(IOrdersService ordersService, IFullContactInfosService fullContactInfosService)
+        public OrderController(IOrdersService ordersService, IFullContactInfosService fullContactInfosService, IProductsService productService)
         {
             Guard.WhenArgument(ordersService, "ordersService").IsNull().Throw();
             Guard.WhenArgument(fullContactInfosService, "fullContactInfoService").IsNull().Throw();
+            Guard.WhenArgument(productService, "productService").IsNull().Throw();
 
             this.ordersService = ordersService;
             this.fullContactInfosService = fullContactInfosService;
+            this.productService = productService;
         }
 
         public IActionResult Index()
@@ -61,6 +67,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             OrderViewModel viewModelOrder = new OrderViewModel(order);
+            foreach (var item in order.OrderItems)
+            {
+                OrderItemAdminViewModel newItem = new OrderItemAdminViewModel(item);
+                newItem.Product = new ProductViewModel(this.productService.GetById(item.ProductId));
+                viewModelOrder.OrderItems.Add(newItem);
+            }
 
             return View(viewModelOrder);
         }
@@ -99,7 +111,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
                     Order order = ordersService.GetById(id);
 
-                    order.OrderItems = orderViewModel.OrderItems;
+                    //order.OrderItems = orderViewModel.OrderItems;
                     order.OrderStatus = orderViewModel.OrderStatus;
                     //order.PaymentMethod = orderViewModel.PaymentMethod;
                     //order.ShippingMethod = orderViewModel.ShippingMethod;

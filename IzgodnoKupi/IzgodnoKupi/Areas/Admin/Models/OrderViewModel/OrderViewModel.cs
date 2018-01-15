@@ -1,6 +1,6 @@
 ﻿using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
-using IzgodnoKupi.Models;
+using IzgodnoKupi.Web.Areas.Admin.Models.OrderItemViewModel;
 using System;
 using System.Collections.Generic;
 
@@ -8,16 +8,18 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
 {
     public class OrderViewModel
     {
+        private ICollection<OrderItemAdminViewModel> orderItems;
+
         public OrderViewModel()
         {
-
+            this.orderItems = new HashSet<OrderItemAdminViewModel>();
         }
         public OrderViewModel(Order order)
         {
             this.Id = order.Id;
             this.OrderDate = order.OrderDate;
             this.UserId = order.UserId;
-            this.OrderItems = order.OrderItems;
+            this.OrderItems = new HashSet<OrderItemAdminViewModel>();
             this.TotalAmountInclTax = order.TotalAmountInclTax;
             this.TotalAmountExclTax = order.TotalAmountExclTax;
             this.OrderStatus = order.OrderStatus;
@@ -29,13 +31,26 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
             this.FullContactInfoId = order.FullContactInfoId;
             //this.ShortContactInfo = order.ShortContactInfo;
             this.ShippingTax = order.ShippingTax;
+
+
         }
 
         public Guid Id { get; set; }
 
         public string UserId { get; set; }
 
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItemAdminViewModel> OrderItems
+        {
+            get
+            {
+                return this.orderItems;
+            }
+
+            set
+            {
+                this.orderItems = value;
+            }
+        }
 
         public DateTime OrderDate { get; set; }
 

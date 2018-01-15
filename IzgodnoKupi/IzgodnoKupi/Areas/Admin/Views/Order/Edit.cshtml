@@ -82,8 +82,8 @@
                         <span asp-validation-for="FullContactInfo.Note" class="text-danger"></span>
                     </div>
             </div>
-
-            @*in table display model.OrderItems*@
+            
+            @Html.Partial("_CartItemsPartials", @Model.OrderItems)
 
             <div class="form-group">
                 @Html.Label("", "Статус на поръчката", new { @class = "control-label col-md-2 col-md-offset-3" })
