@@ -12,7 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div id="contact-info" class="contact-info">
-                    <h4 class="text-center">Данни за доставка</h4>
+                    <h5 class="text-center">Данни за доставка</h5>
                     <hr />
                     <input asp-for="FullContactInfoId" class="hidden" />
                     <input asp-for="UserId" class="hidden" />
@@ -82,26 +82,43 @@
                         <span asp-validation-for="FullContactInfo.Note" class="text-danger"></span>
                     </div>
             </div>
-            
+            <hr />
+
             @Html.Partial("_CartItemsPartials", @Model.OrderItems)
+
+            <div class="form-group">
+
+                <input type="hidden" asp-for="@Model.TotalAmountExclTax" />
+                <div class="control-label order-total-label text-right col-md-2 col-md-offset-8">Сума без ДДС:</div>
+                <div class="control-label order-total-digit text-right col-md-2">@Model.TotalAmountExclTax лв.</div>
+
+                <input type="hidden" asp-for="@Model.TaxAmount" />
+                <div class="control-label order-total-label text-right col-md-2 col-md-offset-8">ДДС:</div>
+                <div class="control-label order-total-digit text-right col-md-2">@Model.TaxAmount лв.</div>
+
+                <input type="hidden" asp-for="@Model.TotalAmountInclTax" />
+                <div class="control-label order-total-label text-right col-md-2 col-md-offset-8">Сума с ДДС:</div>
+                <div class="control-label order-total-digit text-right col-md-2">@Model.TotalAmountInclTax лв.</div>
+
+                <input type="hidden" asp-for="@Model.ShippingTax" />
+                <div class="control-label order-total-label text-right col-md-2 col-md-offset-8">Доставка:</div>
+                <div class="control-label order-total-digit text-right col-md-2">@Model.ShippingTax лв.</div>
+
+                <div class="control-label order-total-label text-right col-md-2 col-md-offset-8">Обща сума:</div>
+                <div class="control-label order-total-digit text-right col-md-2">@ViewBag.TotalSum лв.</div>
+
+            </div>
+            <hr />
 
             <div class="form-group">
                 @Html.Label("", "Статус на поръчката", new { @class = "control-label col-md-2 col-md-offset-3" })
                 <div class="col-md-3">
-                    <select asp-for="OrderStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()">
-                        <option selected="selected" value="">Please select</option>
+                    <select class="form-control" asp-for="OrderStatus" asp-items="@Html.GetEnumSelectList<OrderStatus>()">
+                        @*<option selected="selected" value="">Please select</option>*@
                     </select>
                 </div>
             </div>
-
-            @*<div class="form-group">
-                @Html.Label("", "Видима", new { @class = "control-label col-md-2 col-md-offset-3" })
-                <div class="col-md-3">
-                    <div class="checkbox">
-                        <input asp-for="IsPublished" />
-                    </div>
-                </div>
-            </div>*@
+            <hr />
 
 
             <div class="form-group">

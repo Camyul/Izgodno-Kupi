@@ -67,12 +67,15 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             OrderViewModel viewModelOrder = new OrderViewModel(order);
+
             foreach (var item in order.OrderItems)
             {
                 OrderItemAdminViewModel newItem = new OrderItemAdminViewModel(item);
                 newItem.Product = new ProductViewModel(this.productService.GetById(item.ProductId));
                 viewModelOrder.OrderItems.Add(newItem);
             }
+
+            ViewBag.TotalSum = viewModelOrder.TotalAmountInclTax + viewModelOrder.ShippingTax;
 
             return View(viewModelOrder);
         }
