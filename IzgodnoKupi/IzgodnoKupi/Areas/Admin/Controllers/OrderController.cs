@@ -48,7 +48,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public IActionResult Details(Guid id)
         {
             if (id == null)
             {
@@ -60,6 +60,39 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
                 //.GetById(id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            OrderViewModel viewModelOrder = new OrderViewModel(order);
+
+            foreach (var item in order.OrderItems)
+            {
+                OrderItemAdminViewModel newItem = new OrderItemAdminViewModel(item);
+                newItem.Product = new ProductViewModel(this.productService.GetById(item.ProductId));
+                viewModelOrder.OrderItems.Add(newItem);
+            }
+
+            ViewBag.TotalSum = viewModelOrder.TotalAmountInclTax + viewModelOrder.ShippingTax;
+
+            return View(viewModelOrder);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Order order = ordersService
+                .GetAll()
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+            //.GetById(id);
 
             if (order == null)
             {
