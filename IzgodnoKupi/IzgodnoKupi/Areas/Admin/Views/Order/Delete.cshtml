@@ -1,0 +1,164 @@
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
+@model OrderViewModel
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <h2 class="text-danger text-uppercase text-center">Изтриване на Поръчката</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-5">
+
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title text-center">Поръчка</h4>
+                    </div>
+                    <hr>
+                    <div class="text-center">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-1">
+                                <h5><small>Поръчка</small><br />@{@Model.TotalAmountInclTax}лв.</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><small>Доставка</small><br />@Model.ShippingTax</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><small>Общо</small><br />@{@ViewBag.TotalSum}лв.</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @Html.Partial("_CartItemsDetailsPartial", Model.OrderItems)
+
+            </div>
+            <div class="col-lg-8 col-md-7">
+                <div class="card">
+                    <div class="header text-center text-uppercase">
+                        <h4 class="title">Данни за доставка</h4>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Име</label>
+                                    <input asp-for="FullContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Фамилия</label>
+                                    <input asp-for="FullContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>GSM</label>
+                                    <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Статус на Поръчката</label>
+                                    <input asp-for="OrderStatus" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Област</label>
+                                    <input asp-for="FullContactInfo.Area" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Град</label>
+                                    <input asp-for="FullContactInfo.City" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Адрес за Доставка</label>
+                                    <input asp-for="FullContactInfo.Address" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Забележка</label>
+                                    <textarea asp-for="FullContactInfo.Note" rows="3" class="form-control border-input not-active"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="header text-center text-uppercase">
+                        <h4 class="title">Данни за Фактура</h4>
+                    </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>ЕИК по БУЛСТАТ</label>
+                                    <input asp-for="FullContactInfo.EIK" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Идентификационен номер по ДДС</label>
+                                    <input asp-for="FullContactInfo.BGEIK" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Име на фирмата</label>
+                                    <input asp-for="FullContactInfo.CompanyName" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Населено място</label>
+                                    <input asp-for="FullContactInfo.CompanyCity" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Адрес по регистрация</label>
+                                    <input asp-for="FullContactInfo.CompanyAddress" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>МОЛ</label>
+                                    <input asp-for="FullContactInfo.MOL" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="text-center">
+                        @*This make POST request*@
+                        <form asp-area="Admin" asp-controller="Order" asp-action="Delete">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="submit" value="Изтрий" class="btn btn-danger" />
+                            <a class="btn btn-primary" asp-action="Index">Към списъка</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

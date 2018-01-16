@@ -176,6 +176,61 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View(orderViewModel);
         }
 
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Order order = ordersService
+                .GetAll()
+                .Where(x => x.Id == id)
+                .FirstOrDefault();
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            OrderViewModel viewModelOrder = new OrderViewModel(order);
+
+            foreach (var item in order.OrderItems)
+            {
+                OrderItemAdminViewModel newItem = new OrderItemAdminViewModel(item);
+                newItem.Product = new ProductViewModel(this.productService.GetById(item.ProductId));
+                viewModelOrder.OrderItems.Add(newItem);
+            }
+
+            ViewBag.TotalSum = viewModelOrder.TotalAmountInclTax + viewModelOrder.ShippingTax;
+
+            return View(viewModelOrder);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Order order = ordersService.GetById(id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            order.DeletedOn = DateTime.Now;
+
+            ordersService.Delete(order);
+
+            return RedirectToAction("Index");
+        }
+
         private bool OrderExists(Guid id)
         {
             return ordersService.GetById(id) == null ? false : true;
