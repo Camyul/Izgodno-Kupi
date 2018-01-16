@@ -1,0 +1,32 @@
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderItemViewModel
+@model ICollection<OrderItemAdminViewModel>
+
+@foreach (var item in Model)
+{
+    <div class="card card-user">
+        <div class="image">
+            @*<img src="" alt="..." />*@
+        </div>
+        <div class="content">
+            <div class="author">
+                <img class="avatar border-white" src="@item.Product.Picture.ImageUrl" alt="..." />
+                <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@item.Product.Id"><h4 class="title">@item.Product.Name</h4></a>
+            </div>
+            <p class="description text-center"></p>
+        </div>
+        <hr>
+        <div class="text-center">
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1">
+                    <h5><small>Цена</small><br />@{@item.UnitPrice}лв.</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5><small>Количество</small><br />@item.Quantity</h5>
+                </div>
+                <div class="col-md-3">
+                    <h5><small>Общо</small><br />@{@item.SubTotal}лв.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+}

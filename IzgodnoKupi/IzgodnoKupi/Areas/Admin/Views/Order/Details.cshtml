@@ -1,108 +1,37 @@
 ﻿@using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
-@using IzgodnoKupi.Data.Model.Enums
 @model OrderViewModel
 
 <div class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-4 col-md-5">
-                <div class="card card-user">
-                    <div class="image">
-                        <img src="assets/img/background.jpg" alt="..." />
-                    </div>
-                    <div class="content">
-                        <div class="author">
-                            <img class="avatar border-white" src="assets/img/faces/face-2.jpg" alt="..." />
-                            <h4 class="title">
-                                Chet Faker<br />
-                                <a href="#"><small>chetfaker</small></a>
-                            </h4>
-                        </div>
-                        <p class="description text-center">
-                            "I like the way you work it <br>
-                            No diggity <br>
-                            I wanna bag it up"
-                        </p>
+
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title text-center">Поръчка</h4>
                     </div>
                     <hr>
                     <div class="text-center">
                         <div class="row">
                             <div class="col-md-3 col-md-offset-1">
-                                <h5>12<br /><small>Files</small></h5>
+                                <h5><small>Поръчка</small><br />@{@Model.TotalAmountInclTax}лв.</h5>
                             </div>
                             <div class="col-md-4">
-                                <h5>2GB<br /><small>Used</small></h5>
+                                <h5><small>Доставка</small><br />@Model.ShippingTax</h5>
                             </div>
                             <div class="col-md-3">
-                                <h5>24,6$<br /><small>Spent</small></h5>
+                                <h5><small>Общо</small><br />@{@ViewBag.TotalSum}лв.</h5>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Team Members</h4>
-                    </div>
-                    <div class="content">
-                        <ul class="list-unstyled team-members">
-                            <li>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <div class="avatar">
-                                            <img src="assets/img/faces/face-0.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        DJ Khaled
-                                        <br />
-                                        <span class="text-muted"><small>Offline</small></span>
-                                    </div>
-                                    <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <div class="avatar">
-                                            <img src="assets/img/faces/face-1.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        Creative Tim
-                                        <br />
-                                        <span class="text-success"><small>Available</small></span>
-                                    </div>
-                                    <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <div class="avatar">
-                                            <img src="assets/img/faces/face-3.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-6">
-                                        Flume
-                                        <br />
-                                        <span class="text-danger"><small>Busy</small></span>
-                                    </div>
-                                    <div class="col-xs-3 text-right">
-                                        <btn class="btn btn-sm btn-success btn-icon"><i class="fa fa-envelope"></i></btn>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+
+                @Html.Partial("_CartItemsDetailsPartial", Model.OrderItems)
+                
             </div>
             <div class="col-lg-8 col-md-7">
                 <div class="card">
-                    <div class="header">
+                    <div class="header text-center text-uppercase">
                         <h4 class="title">Данни за доставка</h4>
                     </div>
                     <div class="content">
@@ -121,10 +50,16 @@
                             </div>
                         </div>
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>GSM</label>
                                         <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input not-active" >
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Статус на Поръчката</label>
+                                        <input asp-for="OrderStatus" type="text" class="form-control border-input not-active">
                                     </div>
                                 </div>
                             </div>
@@ -142,12 +77,6 @@
                                         <input asp-for="FullContactInfo.City" type="text" class="form-control border-input not-active">
                                     </div>
                                 </div>
-                                @*<div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Пощенски Код</label>
-                                        <input asp-for="FullContactInfo.PostCode" type="number" class="form-control border-input not-active">
-                                    </div>
-                                </div>*@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -157,19 +86,68 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Забележка</label>
-                                        <textarea asp-for="FullContactInfo.Note" rows="3" class="form-control border-input not-active"></textarea>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Забележка</label>
+                                    <textarea asp-for="FullContactInfo.Note" rows="3" class="form-control border-input not-active"></textarea>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <a class="btn btn-success" asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">Редактирай</a>
-                                <a class="btn btn-info" asp-controller="Order" asp-action="Index" asp-route-id="@Model.Id">Към списъка</a>
+                        </div>
+                        </div>
+                        <hr />
+                        <div class="header text-center text-uppercase">
+                            <h4 class="title">Данни за Фактура</h4>
+                        </div>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>ЕИК по БУЛСТАТ</label>
+                                    <input asp-for="FullContactInfo.EIK" type="text" class="form-control border-input not-active">
+                                </div>
                             </div>
-                            <div class="clearfix"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Идентификационен номер по ДДС</label>
+                                    <input asp-for="FullContactInfo.BGEIK" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Име на фирмата</label>
+                                    <input asp-for="FullContactInfo.CompanyName" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Населено място</label>
+                                    <input asp-for="FullContactInfo.CompanyCity" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Адрес по регистрация</label>
+                                    <input asp-for="FullContactInfo.CompanyAddress" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>МОЛ</label>
+                                    <input asp-for="FullContactInfo.MOL" type="text" class="form-control border-input not-active">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="text-center">
+                            <a class="btn btn-success" asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">Редактирай</a>
+                            <a class="btn btn-info" asp-controller="Order" asp-action="Index" asp-route-id="@Model.Id">Към списъка</a>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
