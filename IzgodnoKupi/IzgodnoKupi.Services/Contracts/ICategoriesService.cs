@@ -12,6 +12,8 @@ namespace IzgodnoKupi.Services.Contracts
 
         Category GetById(Guid? id);
 
+        Category GetByName(string name);
+
         void AddCategory(Category category);
 
         void Update(Category category);

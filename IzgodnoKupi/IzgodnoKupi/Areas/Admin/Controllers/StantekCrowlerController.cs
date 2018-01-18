@@ -39,10 +39,31 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             htmlDocument.LoadHtml(html);
 
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-
+            AddCategoriesToDb(categories);
             
 
             return RedirectToAction("Index", "Home", new { area = "Admin" });
+        }
+
+        private void AddCategoriesToDb(IList<CategoryStantekViewModel> categories)
+        {
+            foreach (var cat in categories)
+            {
+                bool isCategoryExist = categiriesService.GetByName(cat.Name) != null;
+
+                if (isCategoryExist)
+                {
+                    continue;
+                }
+
+                Category categoryToAdd = new Category()
+                {
+                    Name = cat.Name,
+                    ShowOnHomePage = true
+                };
+
+                categiriesService.AddCategory(categoryToAdd);
+            }
         }
 
         private IList<CategoryStantekViewModel> GetCategoriesToList(HtmlDocument htmlDocument)

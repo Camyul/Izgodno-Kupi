@@ -54,6 +54,24 @@ namespace IzgodnoKupi.Services
             return result;
         }
 
+        public Category GetByName(string name)
+        {
+            Category result = null;
+            if (name != null || name != string.Empty)
+            {
+                Category product = this.categoriesRepo.All
+                    .Where(x => x.Name == name)
+                    .SingleOrDefault();
+
+                if (product != null)
+                {
+                    result = product;
+                }
+            }
+
+            return result;
+        }
+
         public void AddCategory(Category category)
         {
             this.categoriesRepo.Add(category);
