@@ -14,6 +14,8 @@ namespace IzgodnoKupi.Services.Contracts
 
         Category GetByName(string name);
 
+        IQueryable<Category> GetAllCategoriesForHomePage();
+
         void AddCategory(Category category);
 
         void Update(Category category);

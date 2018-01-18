@@ -59,7 +59,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Category categoryToAdd = new Category()
                 {
                     Name = cat.Name,
-                    ShowOnHomePage = true
+                    ShowOnHomePage = false
                 };
 
                 categiriesService.AddCategory(categoryToAdd);

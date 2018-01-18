@@ -36,6 +36,14 @@ namespace IzgodnoKupi.Services
             return result;
         }
 
+        public IQueryable<Category> GetAllCategoriesForHomePage()
+        {
+            var result = this.categoriesRepo.All
+                                 .Where(x => x.ShowOnHomePage == true);
+
+            return result;
+        }
+
         public Category GetById(Guid? id)
         {
             Category result = null;
