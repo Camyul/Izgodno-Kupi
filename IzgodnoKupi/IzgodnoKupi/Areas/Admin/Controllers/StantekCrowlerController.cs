@@ -2,14 +2,13 @@
 using HtmlAgilityPack;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System;
-using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {

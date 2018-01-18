@@ -1,9 +1,11 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IzgodnoKupi.Web.Controllers
@@ -42,34 +44,35 @@ namespace IzgodnoKupi.Web.Controllers
             return View(viewModel);
         }
 
-        //public IActionResult ProductsByCategory(Guid? id)
-        //{
-        //    Guard.WhenArgument(id, "Category Id").IsNull().Throw();
+        public IActionResult ByCategory(Guid? id)
+        {
+            Guard.WhenArgument(id, "Category Id").IsNull().Throw();
 
-        //    var products = this.productsService
-        //                    .GetByCategory(id)
-        //                    .ToList();
+            var products = this.productsService
+                            .GetByCategory(id)
+                            .ToList();
 
-        //    var categories = this.categiryService.GetAllCategoriesSortedByName()
-        //        .ToList();
+            var categories = this.categiriesService.GetAllCategoriesSortedByName()
+                .ToList();
 
-        //    var viewCategory = new List<CategoriesNavigationViewModel>();
-        //    foreach (var cat in categories)
-        //    {
-        //        viewCategory.Add(new CategoriesNavigationViewModel(cat));
-        //    }
+            var viewCategory = new List<CategoriesNavigationViewModel>();
 
-        //    var viewProducts = new List<ProductViewModel>();
-        //    foreach (var product in products)
-        //    {
-        //        viewProducts.Add(new ProductViewModel(product));
-        //    }
+            foreach (var cat in categories)
+            {
+                viewCategory.Add(new CategoriesNavigationViewModel(cat));
+            }
 
-        //    ViewData["categories"] = viewCategory;
-        //    ViewData["products"] = viewProducts;
+            var viewProducts = new List<ProductViewModel>();
+            foreach (var product in products)
+            {
+                viewProducts.Add(new ProductViewModel(product));
+            }
 
-        //    return View("Index");
-        //}
+            ViewData["categories"] = viewCategory;
+            ViewData["products"] = viewProducts;
+
+            return View();
+        }
 
         //[HttpPost]
         //[AjaxOnly]

@@ -39,7 +39,8 @@ namespace IzgodnoKupi.Services
         public IQueryable<Category> GetAllCategoriesForHomePage()
         {
             var result = this.categoriesRepo.All
-                                 .Where(x => x.ShowOnHomePage == true);
+                                 .Where(x => x.ShowOnHomePage == true)
+                                 .OrderBy(c => c.Name);
 
             return result;
         }
