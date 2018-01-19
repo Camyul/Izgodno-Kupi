@@ -3,12 +3,14 @@ using HtmlAgilityPack;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
+using IzgodnoKupi.Web.Areas.Admin.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -30,18 +32,83 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> GetProducts()
         {
-            var url = "http://stantek.com/";
+            var rootUrl = "http://stantek.com/";
             var httpClient = new HttpClient();
-            var html = await httpClient.GetStringAsync(url);
+            var html = await httpClient.GetStringAsync(rootUrl);
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
 
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-            AddCategoriesToDb(categories);
-            
+            //AddCategoriesToDb(categories);
 
+            //foreach (var cat in categories)
+            //{
+
+            //}
+
+            
+            IList <ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl);
+            //AddProductsToDb(products);
+
+            
             return RedirectToAction("Index", "Home", new { area = "Admin" });
+        }
+
+        private void AddProductsToDb(IList<ProductStantekViewModel> products)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(HttpClient httpClient, string rootUrl, string categoryUrl)
+        {
+            var html = await httpClient.GetStringAsync(rootUrl + categoryUrl);
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            var pagesDiv = htmlDocument.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("pages"))
+                .FirstOrDefault();
+
+            if (pagesDiv != null)
+            {
+                IList<HtmlNode> pagesAnchor = pagesDiv.Descendants("a").ToList();
+                var pageOneUrl = pagesAnchor[0].ChildAttributes("href").FirstOrDefault().Value;
+                var lastPageUrl = pagesAnchor[pagesAnchor.Count - 2].ChildAttributes("href").FirstOrDefault().Value;
+                var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
+                var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
+
+                IList<ProductStantekViewModel> productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1");
+                //for (int i = 1; i <= pagesNumber; i++)
+                //{
+                //      var productFromPage = GetProductsFromPage(pagesUrl + i.ToString());
+                //}
+            }
+            else
+            {
+                IList<ProductStantekViewModel> productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl);
+            }
+
+            IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
+                
+            return result;
+        }
+
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl)
+        {
+            var html = await httpClient.GetStringAsync(rootUrl + productPageUrl);
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            var productsDivs = htmlDocument.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("item"))
+                .ToList();
+
+            return null;
         }
 
         private void AddCategoriesToDb(IList<CategoryStantekViewModel> categories)

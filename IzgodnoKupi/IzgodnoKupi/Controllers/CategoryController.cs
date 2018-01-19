@@ -10,21 +10,21 @@ using System.Linq;
 
 namespace IzgodnoKupi.Web.Controllers
 {
-    public class CategoryController : Controller
-    {
-        private readonly ICategoriesService categoryService;
+    //public class CategoryController : Controller
+    //{
+    //    private readonly ICategoriesService categoryService;
 
-        public CategoryController(ICategoriesService categoryService)
-        {
-            Guard.WhenArgument(categoryService, "categoryService").IsNull().Throw();
+    //    public CategoryController(ICategoriesService categoryService)
+    //    {
+    //        Guard.WhenArgument(categoryService, "categoryService").IsNull().Throw();
 
-            this.categoryService = categoryService;
-        }
+    //        this.categoryService = categoryService;
+    //    }
 
-        
 
-        
 
-        
-    }
+
+
+
+    //}
 }

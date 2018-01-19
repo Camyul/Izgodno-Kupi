@@ -97,5 +97,6 @@ namespace IzgodnoKupi.Web.Controllers
         //        return this.PartialView("_FilteredProductsPartial", viewProducts);
         //    }
         //}
+
     }
 }
