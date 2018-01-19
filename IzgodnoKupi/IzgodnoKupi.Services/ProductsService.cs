@@ -4,6 +4,7 @@ using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IzgodnoKupi.Services
@@ -66,6 +67,16 @@ namespace IzgodnoKupi.Services
         public void AddProduct(Product product)
         {
             this.productsRepo.Add(product);
+            this.context.Commit();
+        }
+
+        public void AddListOfProducts(IList<Product> products)
+        {
+            foreach (var product in products)
+            {
+                this.productsRepo.Add(product);
+            }
+
             this.context.Commit();
         }
 
