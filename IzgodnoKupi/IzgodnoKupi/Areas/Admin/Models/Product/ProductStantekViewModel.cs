@@ -5,7 +5,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.Product
     {
         public string ProductUrl { get; set; }
 
-        public string Name { get; set; }
+        public ProductDetailsStantekViewModel ProductToAdd { get; set; }
 
     }
 }

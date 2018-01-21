@@ -72,6 +72,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .Equals("pages"))
                 .FirstOrDefault();
 
+            IList<ProductStantekViewModel> productFromPage = new List<ProductStantekViewModel>();
             if (pagesDiv != null)
             {
                 IList<HtmlNode> pagesAnchor = pagesDiv.Descendants("a").ToList();
@@ -80,7 +81,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
                 var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
 
-                IList<ProductStantekViewModel> productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1");
+                productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1");
                 //for (int i = 1; i <= pagesNumber; i++)
                 //{
                 //      var productFromPage = GetProductsFromPage(pagesUrl + i.ToString());
@@ -88,12 +89,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
             else
             {
-                IList<ProductStantekViewModel> productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl);
+                productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl);
             }
 
             IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
                 
-            return result;
+            return productFromPage;
         }
 
         private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl)
@@ -107,6 +108,56 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .Where(node => node.GetAttributeValue("class", "")
                 .Equals("item"))
                 .ToList();
+
+            IList<string> productsLinks = new List<string>();
+
+            foreach (var div in productsDivs)
+            {
+                var link = div.Descendants("a").FirstOrDefault()
+                                    .ChildAttributes("href").FirstOrDefault()
+                                    .Value;
+
+                productsLinks.Add(link);
+            }
+
+            IList<ProductStantekViewModel> products = new List<ProductStantekViewModel>();
+
+            foreach (var link in productsLinks)
+            {
+                ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link);
+                products.Add(product);
+            }
+
+
+            return products;
+        }
+
+        private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link)
+        {
+            var html = await httpClient.GetStringAsync(rootUrl + link);
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            var productDiv = htmlDocument.DocumentNode.Descendants("div")
+               .Where(node => node.GetAttributeValue("class", "")
+               .Equals("itemonly"))
+               .FirstOrDefault();
+
+            string name = productDiv.Descendants("div")
+               .Where(node => node.GetAttributeValue("class", "")
+               .Equals("title"))
+               .FirstOrDefault()
+               .InnerText
+               .Trim();
+
+            if (name.Length > 199)
+            {
+                name = name.Substring(0, 199);
+            }
+
+            ProductStantekViewModel product = new ProductStantekViewModel();
+            product.ProductToAdd.Name = name;
 
             return null;
         }
