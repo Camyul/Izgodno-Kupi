@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System;
+using IzgodnoKupi.Common;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -84,7 +85,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1");
                 //for (int i = 1; i <= pagesNumber; i++)
                 //{
-                //      var productFromPage = GetProductsFromPage(pagesUrl + i.ToString());
+                //      var productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString());
                 //}
             }
             else
@@ -140,26 +141,75 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             htmlDocument.LoadHtml(html);
 
             var productDiv = htmlDocument.DocumentNode.Descendants("div")
-               .Where(node => node.GetAttributeValue("class", "")
-               .Equals("itemonly"))
-               .FirstOrDefault();
+                                           .Where(node => node.GetAttributeValue("class", "")
+                                           .Equals("itemonly"))
+                                           .FirstOrDefault();
 
             string name = productDiv.Descendants("div")
-               .Where(node => node.GetAttributeValue("class", "")
-               .Equals("title"))
-               .FirstOrDefault()
-               .InnerText
-               .Trim();
-
-            if (name.Length > 199)
+                                       .Where(node => node.GetAttributeValue("class", "")
+                                       .Equals("title"))
+                                       .FirstOrDefault()
+                                       .InnerText
+                                       .Trim();
+            
+            if (name.Length > ValidationConstants.StandartMaxLength)
             {
-                name = name.Substring(0, 199);
+                name = name.Substring(0, ValidationConstants.StandartMaxLength);
             }
 
-            ProductStantekViewModel product = new ProductStantekViewModel();
-            product.ProductToAdd.Name = name;
+            var pictureUrl = productDiv.Descendants("img").FirstOrDefault()
+                                    .ChildAttributes("src").FirstOrDefault()
+                                    .Value;
 
-            return null;
+            string price = productDiv.Descendants("div")
+                                       .Where(node => node.GetAttributeValue("class", "")
+                                       .Equals("price"))
+                                       .FirstOrDefault()
+                                       .InnerText
+                                       .Trim();
+            price = price.Substring(0, price.Length - 3);
+
+            string fullDescription = productDiv.Descendants("p")
+                                                .FirstOrDefault()
+                                                .OuterHtml;
+
+            ProductStantekViewModel productViewModel = new ProductStantekViewModel()
+            {
+                Name = name,
+                PictureUrl = pictureUrl,
+                Price = decimal.Parse(price) / 100,
+                FullDescription = fullDescription
+            };
+
+            var oldPriceNode = productDiv.Descendants("div")
+                              .Where(node => node.GetAttributeValue("class", "")
+                              .Equals("price old"))
+                              .FirstOrDefault();
+
+            if (oldPriceNode != null)
+            {
+                string oldPrice = oldPriceNode
+                                        .InnerText
+                                        .Trim();
+
+                oldPrice = oldPrice.Substring(0, oldPrice.Length - 3);
+
+                string percent = productDiv.Descendants("div")
+                                          .Where(node => node.GetAttributeValue("class", "")
+                                          .Equals("percent"))
+                                          .FirstOrDefault()
+                                          .InnerText
+                                          .Trim();
+
+                percent = percent.Substring(0, percent.Length - 1);
+
+                productViewModel.OldPrice = decimal.Parse(oldPrice) / 100;
+                productViewModel.Discount = double.Parse(percent);
+            }
+
+            
+
+            return productViewModel;
         }
 
         private void AddCategoriesToDb(IList<CategoryStantekViewModel> categories)
