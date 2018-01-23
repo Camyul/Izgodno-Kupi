@@ -43,25 +43,70 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
             //AddCategoriesToDb(categories);
 
-            //foreach (var cat in categories)
+            //foreach (var category in categories)
             //{
-
+            //      IList <ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, category.CategoryUrl, category.Name);
             //}
 
-            
-            IList <ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl);
-            //AddProductsToDb(products);
+
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl, categories[0].Name);
+            SetAllProductsNotPublished();
+            AddProductsToDb(products);
 
             
             return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
 
-        private void AddProductsToDb(IList<ProductStantekViewModel> products)
+        private void SetAllProductsNotPublished()
         {
-            throw new NotImplementedException();
+            var products = productsService.GetAll()
+                                          .Where(x => x.IsPublished == true)
+                                          .ToList();
+
+            foreach (var product in products)
+            {
+                product.IsPublished = false;
+                productsService.Update(product);
+            }
+
         }
 
-        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(HttpClient httpClient, string rootUrl, string categoryUrl)
+        private void AddProductsToDb(IList<ProductStantekViewModel> products)
+        {             
+            foreach (var product in products)
+            {
+                Product dbProduct = productsService.GetByName(product.Name).SingleOrDefault();
+                if (dbProduct != null)
+                {
+                    dbProduct.Category = categiriesService.GetByName(product.Category);
+                    dbProduct.Discount = product.Discount;
+                    dbProduct.FullDescription = product.FullDescription;
+                    dbProduct.IsPublished = true;
+                    dbProduct.OldPrice = product.OldPrice;
+                    dbProduct.Pictures.Clear();
+                    dbProduct.Pictures.Add(new Picture() { ImageUrl = product.PictureUrl });
+                    dbProduct.Price = product.Price;
+
+                    productsService.Update(dbProduct);
+                }
+                else
+                {
+                    Product newProduct = new Product();
+                    newProduct.Name = product.Name;
+                    newProduct.Category = categiriesService.GetByName(product.Category);
+                    newProduct.Discount = product.Discount;
+                    newProduct.FullDescription = product.FullDescription;
+                    newProduct.IsPublished = true;
+                    newProduct.OldPrice = product.OldPrice;
+                    newProduct.Pictures.Add(new Picture() { ImageUrl = product.PictureUrl });
+                    newProduct.Price = product.Price;
+
+                    productsService.AddProduct(newProduct);
+                }
+            }
+        }
+
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(HttpClient httpClient, string rootUrl, string categoryUrl, string categoryName)
         {
             var html = await httpClient.GetStringAsync(rootUrl + categoryUrl);
 
@@ -82,15 +127,15 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
                 var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
 
-                productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1");
+                productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
                 //for (int i = 1; i <= pagesNumber; i++)
                 //{
-                //      var productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString());
+                //      var productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
                 //}
             }
             else
             {
-                productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl);
+                productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl, categoryName);
             }
 
             IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
@@ -98,7 +143,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return productFromPage;
         }
 
-        private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl)
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl, string categoryName)
         {
             var html = await httpClient.GetStringAsync(rootUrl + productPageUrl);
 
@@ -126,6 +171,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             foreach (var link in productsLinks)
             {
                 ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link);
+                product.Category = categoryName;
+
                 products.Add(product);
             }
 
