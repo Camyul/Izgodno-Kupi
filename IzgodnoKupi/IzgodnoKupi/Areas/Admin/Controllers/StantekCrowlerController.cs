@@ -41,7 +41,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             htmlDocument.LoadHtml(html);
 
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-            //AddCategoriesToDb(categories);
+            AddCategoriesToDb(categories);
 
             //foreach (var category in categories)
             //{

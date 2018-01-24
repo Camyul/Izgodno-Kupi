@@ -62,10 +62,10 @@ namespace IzgodnoKupi.Web.Controllers
                 viewCategory.Add(new CategoriesNavigationViewModel(cat));
             }
 
-            var viewProducts = new List<ProductViewModel>();
+            var viewProducts = new List<PreviewProductViewModel>();
             foreach (var product in products)
             {
-                viewProducts.Add(new ProductViewModel(product));
+                viewProducts.Add(new PreviewProductViewModel(product));
             }
 
             ViewData["categories"] = viewCategory;

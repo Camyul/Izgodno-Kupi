@@ -1,0 +1,30 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+
+@model PreviewProductViewModel
+
+    <div class="product-grid">
+<a href="single.html">
+        <div class="more-product"><span> </span></div>
+        <div class="product-img b-link-stripe b-animate-go  thickbox">
+            <img src="@Model.Picture.ImageUrl" class="img-responsive" alt="" />
+            <div class="b-wrapper">
+                <h4 class="b-animate b-from-left  b-delay03">
+                    <button><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>Quick View</button>
+                </h4>
+            </div>
+        </div>
+</a>
+<div class="product-info simpleCart_shelfItem">
+    <div class="product-info-cust prt_name">
+        <h4>Lights #1</h4>
+        <span class="item_price">$187.95</span>
+        <div class="ofr">
+            <p class="pric1"><del>Rs 280</del></p>
+            <p class="disc">[12% Off]</p>
+        </div>
+        <input type="text" class="item_quantity" value="1" />
+        <input type="button" class="item_add items" value="ADD">
+        <div class="clearfix"> </div>
+    </div>
+</div>
+					</div>
