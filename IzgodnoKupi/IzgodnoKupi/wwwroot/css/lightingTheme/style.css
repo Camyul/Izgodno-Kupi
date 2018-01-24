@@ -619,13 +619,14 @@ background-position:-167px -36px;
     width: 22%;
 }
 /*-----*/
-.b-link-stripe{
-	position:relative;
-	display:inline-block;
-	vertical-align:top;
-	font-weight: 300;
-	overflow:hidden;
-	width: 100%;
+.b-link-stripe {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: 300;
+    overflow: hidden;
+    width: 100%;
+    height: 220px;
 }
 .b-link-stripe .b-wrapper{
 	position:absolute;

@@ -15,12 +15,9 @@
         </ol>
         <h2>Our Products</h2>
         <div class="col-md-9 product-model-sec">
-            @foreach (var product in products)
-            {
-                @Html.Partial("_ProductPreviewPartial", product)
-            }
-        
 
+                @Html.Partial("_ProductPreviewPartial", products)
+            
         </div>
 
 <div class="rsidebar span_1_of_left">
@@ -30,7 +27,7 @@
             <div class="tab1">
                 <ul class="place">
                     <li class="sort">Home Decorates</li>
-                    <li class="by"><img src="images/do.png" alt=""></li>
+                    <li class="by"><img src="/images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="single-bottom">
@@ -43,7 +40,7 @@
             <div class="tab2">
                 <ul class="place">
                     <li class="sort">Festive Needs</li>
-                    <li class="by"><img src="images/do.png" alt=""></li>
+                    <li class="by"><img src="/images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="single-bottom">
@@ -54,7 +51,7 @@
             <div class="tab3">
                 <ul class="place">
                     <li class="sort">Kitchen & Dining</li>
-                    <li class="by"><img src="images/do.png" alt=""></li>
+                    <li class="by"><img src="/images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="single-bottom">
@@ -64,7 +61,7 @@
             <div class="tab4">
                 <ul class="place">
                     <li class="sort">Books</li>
-                    <li class="by"><img src="images/do.png" alt=""></li>
+                    <li class="by"><img src="/images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="single-bottom">
@@ -76,7 +73,7 @@
             <div class="tab5">
                 <ul class="place">
                     <li class="sort">Automotive</li>
-                    <li class="by"><img src="images/do.png" alt=""></li>
+                    <li class="by"><img src="/images/do.png" alt=""></li>
                     <div class="clearfix"> </div>
                 </ul>
                 <div class="single-bottom">
@@ -154,4 +151,5 @@
 @section Scripts 
 {
     @{await Html.RenderPartialAsync("_ProductPageScriptPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

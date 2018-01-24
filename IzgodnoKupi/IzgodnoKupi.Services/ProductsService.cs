@@ -40,7 +40,7 @@ namespace IzgodnoKupi.Services
         public IQueryable<Product> GetByCategory(Guid? id)
         {
             return this.productsRepo.All
-                        .Where(c => c.CategoryId == id)
+                        .Where(c => c.CategoryId == id && c.IsPublished == true)
                         .Include(i => i.Pictures)
                         .OrderBy(c => c.Name);
         }

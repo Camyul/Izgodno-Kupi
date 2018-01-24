@@ -65,7 +65,13 @@ namespace IzgodnoKupi.Web.Controllers
             var viewProducts = new List<PreviewProductViewModel>();
             foreach (var product in products)
             {
-                viewProducts.Add(new PreviewProductViewModel(product));
+                PreviewProductViewModel viewProduct = new PreviewProductViewModel(product);
+                if (viewProduct.Name.Length > 30)
+                {
+                    viewProduct.Name = viewProduct.Name.Substring(0, 30);
+                    viewProduct.Name = viewProduct.Name + "...";
+                }
+                viewProducts.Add(viewProduct);
             }
 
             ViewData["categories"] = viewCategory;
