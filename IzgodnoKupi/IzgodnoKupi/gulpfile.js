@@ -68,7 +68,7 @@ gulp.task("minSite:js", function () {
 });
 //Concat Theme MinJS Files theme.min.js
 gulp.task("concatMin:js", function () {
-    return gulp.src([paths.minJs, "!" + paths.concatJsDest])
+    return gulp.src([paths.minJs, "!" + paths.concatJsDest, "!" + paths.adminThemeConcatJsDest])
         .pipe(concat(paths.themeConcatJsDest))
         .pipe(gulp.dest("."));
 });

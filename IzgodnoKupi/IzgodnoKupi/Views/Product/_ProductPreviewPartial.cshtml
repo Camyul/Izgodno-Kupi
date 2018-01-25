@@ -20,14 +20,23 @@
                 <div class="product-info-cust prt_name">
                     <h4 class="item-name">@product.Name</h4>
                     <span class="item_price">@{@product.Price}лв.</span>
-                    <div class="ofr">
-                        <p class="pric1"><del>@{@product.OldPrice}лв.</del></p>
-                        <p class="disc">@{@product.Discount}%</p>
-                    </div>
+                        <div class="ofr">
+                    @if (@product.OldPrice != 0)
+                    {
+                            <p class="pric1"><del>@{@product.OldPrice}лв.</del></p>
+                            <p class="disc">@{@product.Discount}%</p>
+                        }
+                        else
+                        {
+                            <p class="pric1"><del></del></p>
+                            <p class="disc"></p>
+                        }
+                        </div>
+
                     @*<input type="text" class="item_quantity" value="1" />
                     <input type="button" class="item_add items" value="ADD">*@
                     @*This make POST request*@
-                    <form asp-area="" asp-controller="ShoppingCart" asp-action="OrderNow">
+                    <form asp-area="" asp-controller="ShoppingCart" asp-action="OrderNow" class="form-horizontal">
                         <input type="hidden" name="id" asp-for="@product.Id" />
                         <input type="number" name="quantity" class="item_quantity" value="1" />
                         <input type="submit" value="Поръчай" class="item_add items" />

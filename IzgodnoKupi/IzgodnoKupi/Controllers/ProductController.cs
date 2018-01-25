@@ -55,6 +55,7 @@ namespace IzgodnoKupi.Web.Controllers
             var categories = this.categiriesService.GetAllCategoriesSortedByName()
                 .ToList();
 
+            var currentCategory = new CategoriesNavigationViewModel(categiriesService.GetById(id));
             var viewCategory = new List<CategoriesNavigationViewModel>();
 
             foreach (var cat in categories)
@@ -66,9 +67,9 @@ namespace IzgodnoKupi.Web.Controllers
             foreach (var product in products)
             {
                 PreviewProductViewModel viewProduct = new PreviewProductViewModel(product);
-                if (viewProduct.Name.Length > 30)
+                if (viewProduct.Name.Length > 35)
                 {
-                    viewProduct.Name = viewProduct.Name.Substring(0, 30);
+                    viewProduct.Name = viewProduct.Name.Substring(0, 35);
                     viewProduct.Name = viewProduct.Name + "...";
                 }
                 viewProducts.Add(viewProduct);
@@ -77,7 +78,7 @@ namespace IzgodnoKupi.Web.Controllers
             ViewData["categories"] = viewCategory;
             ViewData["products"] = viewProducts;
 
-            return View();
+            return View(currentCategory);
         }
 
         //[HttpPost]
