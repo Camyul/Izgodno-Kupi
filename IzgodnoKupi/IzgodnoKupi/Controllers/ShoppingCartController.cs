@@ -197,11 +197,12 @@ namespace IzgodnoKupi.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult CheckOut(FullContactInfoViewModel fullContactInfo)
         {
             Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            if (myOrder == null && myOrder.OrderItems.Count == 0)
+            if (myOrder == null || myOrder.OrderItems.Count == 0)
             {
                 return View("EmptyCart");
             }

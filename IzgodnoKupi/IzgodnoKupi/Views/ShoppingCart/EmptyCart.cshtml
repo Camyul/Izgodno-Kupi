@@ -1,0 +1,38 @@
+﻿@using IzgodnoKupi.Web.Models.OrderItemViewModels
+@model MyCartViewModel
+
+<div class="container">
+    <div class="check-sec">
+        <div class="col-md-3 cart-total">
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="continue">Продължи с пазаруването</a>
+            <div class="price-details">
+                <h3>Общо</h3>
+                <span>Сума без ДДС</span>
+                <span class="total1">0.00лв.</span>
+                <span>ДДС</span>
+                <span class="total1">0.00лв.</span>
+                <span>Сума с ДДС</span>
+                <span class="total1">0.00лв.</span>
+                <span>Доставка</span>
+                <span class="total1">0.00лв.</span>
+                <div class="clearfix"></div>
+            </div>
+            <ul class="total_price">
+                <li class="last_price"> <h4>Крайна Цена</h4></li>
+                <li class="last_price"><h4>0.00лв.</h4></li>
+            </ul>
+            <div class="clearfix"></div>
+            <div class="clearfix"></div>
+            <a asp-area="" asp-controller="Home" asp-action="Index" class="continue">Продължи с пазаруването</a>
+        </div>
+        <div class="col-md-9 cart-items">
+            <h1>Моята количка (@ViewBag.Count)</h1>
+
+            <h2 class="text-center oder-complete-header">Вашата количка е празна!</h2>
+            </br>
+            <h3 class="text-center oder-complete-text">Трябва да изберете продукт/и, преди да завършите поръчката!</h3>
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+</div>
