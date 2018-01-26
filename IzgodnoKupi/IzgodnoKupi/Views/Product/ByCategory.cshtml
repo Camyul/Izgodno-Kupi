@@ -1,5 +1,4 @@
-﻿@using IzgodnoKupi.Web.Models.ProductViewModels
-@using IzgodnoKupi.Web.Models.IndexPageViewModel
+﻿@using IzgodnoKupi.Web.Models.IndexPageViewModel
 @using IzgodnoKupi.Web.Models.CategoryViewModels
 
 @model CategoriesNavigationViewModel
@@ -19,66 +18,66 @@
         </ol>
         <h2>Категория @Model.Name</h2>
         <div class="col-md-9 product-model-sec">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <!-- pager -->
                 @if (viewPageIndexModel.Pager.EndPage > 1)
                 {
-                    <ul class="pagination">
+                    <ul class="pagination pagination-sm">
                         @if (viewPageIndexModel.Pager.CurrentPage > 1)
                         {
                             <li>
-                                <a href="~/Home/Index">First</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id"><i class="fa fa-angle-left"></i>«</a>
                             </li>
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage - 1)">Previous</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)">Предишна</a>
                             </li>
                         }
-                        @for (int page = viewPageIndexModel.Pager.StartPage; page <= viewPageIndexModel.Pager.EndPage; page++)
+                        @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
                         {
-                            <li class="@(page == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
-                                <a href="~/Home/Index?page=@page">@page</a>
+                            <li class="@(pageNum == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@pageNum">@pageNum</a>
                             </li>
                         }
                         @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
                         {
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage + 1)">Next</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)">Следваща</a>
                             </li>
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.TotalPages)">Last</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
                             </li>
                         }
                     </ul>
                 }
-           </div>
+            </div>
                 @Html.Partial("_ProductPreviewPartial", products)
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-8 col-md-offset-2">
                 <!-- pager -->
                 @if (viewPageIndexModel.Pager.EndPage > 1)
                 {
-                    <ul class="pagination">
+                    <ul class="pagination pagination-sm">
                         @if (viewPageIndexModel.Pager.CurrentPage > 1)
                         {
                             <li>
-                                <a href="~/Home/Index">First</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id"><i class="fa fa-angle-left"></i>«</a>
                             </li>
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage - 1)">Previous</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)">Предишна</a>
                             </li>
                         }
-                        @for (var page = viewPageIndexModel.Pager.StartPage; page <= viewPageIndexModel.Pager.EndPage; page++)
+                        @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
                         {
-                            <li class="@(page == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
-                                @*<a href="~/Home/Index?page=@{@page}">@page</a>*@
+                            <li class="@(pageNum == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@pageNum">@pageNum</a>
                             </li>
                         }
                         @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
                         {
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage + 1)">Next</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)">Следваща</a>
                             </li>
                             <li>
-                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.TotalPages)">Last</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
                             </li>
                         }
                     </ul>

@@ -1,16 +1,17 @@
-﻿using System;
+﻿using IzgodnoKupi.Common;
+using System;
 
 namespace IzgodnoKupi.Web.Extensions
 {
     public class Pager
     {
-        public Pager(int totalItems, int? page, int pageSize = 3)
+        public Pager(int totalItems, int? page, int pageSize = Constants.ProductsPerPage)
         {
             // calculate total, start and end pages
             var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             var currentPage = page != null ? (int)page : 1;
-            var startPage = currentPage - 5;
-            var endPage = currentPage + 4;
+            var startPage = currentPage - Constants.PageLeft;
+            var endPage = currentPage + Constants.PageRight;
 
             if (startPage <= 0)
             {
@@ -22,7 +23,7 @@ namespace IzgodnoKupi.Web.Extensions
                 endPage = totalPages;
                 if (endPage > 10)
                 {
-                    startPage = endPage - 9;
+                    startPage = endPage - (Constants.PageLeft + Constants.PageRight);
                 }
             }
 

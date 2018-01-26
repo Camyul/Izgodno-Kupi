@@ -1,4 +1,5 @@
 ﻿using Bytes2you.Validation;
+using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Extensions;
@@ -69,9 +70,9 @@ namespace IzgodnoKupi.Web.Controllers
             foreach (var product in products)
             {
                 PreviewProductViewModel viewProduct = new PreviewProductViewModel(product);
-                if (viewProduct.Name.Length > 35)
+                if (viewProduct.Name.Length > Constants.ProductPreviewNameLength)
                 {
-                    viewProduct.Name = viewProduct.Name.Substring(0, 35);
+                    viewProduct.Name = viewProduct.Name.Substring(0, Constants.ProductPreviewNameLength);
                     viewProduct.Name = viewProduct.Name + "...";
                 }
                 viewProducts.Add(viewProduct);
