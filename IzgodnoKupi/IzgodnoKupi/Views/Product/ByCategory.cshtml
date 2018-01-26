@@ -1,10 +1,12 @@
 ﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+@using IzgodnoKupi.Web.Models.IndexPageViewModel
 @using IzgodnoKupi.Web.Models.CategoryViewModels
 
 @model CategoriesNavigationViewModel
 
 @{
-    var products = ViewData["products"] as List<PreviewProductViewModel>;
+    var viewPageIndexModel = ViewData["products"] as IndexPageViewModel;
+    var products = viewPageIndexModel.Items;
     var categories = ViewData["categories"] as List<CategoriesNavigationViewModel>;
 }
 
@@ -17,9 +19,71 @@
         </ol>
         <h2>Категория @Model.Name</h2>
         <div class="col-md-9 product-model-sec">
-
+            <div class="col-md-6 col-md-offset-3">
+                <!-- pager -->
+                @if (viewPageIndexModel.Pager.EndPage > 1)
+                {
+                    <ul class="pagination">
+                        @if (viewPageIndexModel.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="~/Home/Index">First</a>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (int page = viewPageIndexModel.Pager.StartPage; page <= viewPageIndexModel.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                <a href="~/Home/Index?page=@page">@page</a>
+                            </li>
+                        }
+                        @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
+                        {
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+           </div>
                 @Html.Partial("_ProductPreviewPartial", products)
-            
+            <div class="col-md-6 col-md-offset-3">
+                <!-- pager -->
+                @if (viewPageIndexModel.Pager.EndPage > 1)
+                {
+                    <ul class="pagination">
+                        @if (viewPageIndexModel.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a href="~/Home/Index">First</a>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage - 1)">Previous</a>
+                            </li>
+                        }
+                        @for (var page = viewPageIndexModel.Pager.StartPage; page <= viewPageIndexModel.Pager.EndPage; page++)
+                        {
+                            <li class="@(page == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                @*<a href="~/Home/Index?page=@{@page}">@page</a>*@
+                            </li>
+                        }
+                        @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
+                        {
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.CurrentPage + 1)">Next</a>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index?page=@(viewPageIndexModel.Pager.TotalPages)">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
         </div>
 
 <div class="rsidebar span_1_of_left">

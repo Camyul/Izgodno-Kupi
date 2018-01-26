@@ -1,7 +1,9 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
+using IzgodnoKupi.Web.Models.IndexPageViewModel;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -44,7 +46,7 @@ namespace IzgodnoKupi.Web.Controllers
             return View(viewModel);
         }
 
-        public IActionResult ByCategory(Guid? id)
+        public IActionResult ByCategory(Guid? id, int? page)
         {
             Guard.WhenArgument(id, "Category Id").IsNull().Throw();
 
@@ -75,8 +77,16 @@ namespace IzgodnoKupi.Web.Controllers
                 viewProducts.Add(viewProduct);
             }
 
+            Pager pager = new Pager(viewProducts.Count(), page);
+
+            IndexPageViewModel viewPageIndexModel = new IndexPageViewModel
+            {
+                Items = viewProducts.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
             ViewData["categories"] = viewCategory;
-            ViewData["products"] = viewProducts;
+            ViewData["products"] = viewPageIndexModel;
 
             return View(currentCategory);
         }
