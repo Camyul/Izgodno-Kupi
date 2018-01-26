@@ -1,24 +1,12 @@
 ﻿<script type='text/javascript'>
-					$(window).load(function(){
-					 $( "#slider-range" ).slider({
-								range: true,
-								min: 0,
-								max: 10000,
-								values: [ 0, 10000 ],
-								slide: function( event, ui ) {  $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-								}
-					 });
-					$( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
-
-    });
-
-    $(document).ready(function () {
+    $(window).load(function () {
+        console.log('category-start');
         $(".tab1 .single-bottom").hide();
         //$(".tab2 .single-bottom").hide();
         //$(".tab3 .single-bottom").hide();
         //$(".tab4 .single-bottom").hide();
         //$(".tab5 .single-bottom").hide();
-
+        console.log('category');
         $(".tab1 ul").click(function () {
             $(".tab1 .single-bottom").slideToggle(1500);
             //$(".tab2 .single-bottom").hide();
@@ -54,5 +42,24 @@
         //    $(".tab2 .single-bottom").hide();
         //    $(".tab1 .single-bottom").hide();
         //})
+        console.log('category-end');
     });
+</script>
+<script type='text/javascript'>
+    $(window).load(function () {
+        console.log('slider-start');
+        $("#slider-range").slider({
+            range: true,
+            min: 0,
+            max: 10000,
+            values: [0, 10000],
+            slide: function (event, ui) {
+                $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+            }
+        });
+        console.log('slider');
+        $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+        console.log('slider-end');
+    });
+
 </script>
