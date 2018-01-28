@@ -49,8 +49,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             //}
 
 
-            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl, categories[0].Name);
             SetAllProductsNotPublished();
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl, categories[0].Name);
             AddProductsToDb(products);
 
             
@@ -75,7 +75,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {             
             foreach (var product in products)
             {
-                Product dbProduct = productsService.GetByName(product.Name).SingleOrDefault();
+                Product dbProduct = productsService.GetByName(product.Name).FirstOrDefault();
                 if (dbProduct != null)
                 {
                     dbProduct.Category = categiriesService.GetByName(product.Category);
@@ -118,7 +118,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .Equals("pages"))
                 .FirstOrDefault();
 
-            IList<ProductStantekViewModel> productFromPage = new List<ProductStantekViewModel>();
+            IList<ProductStantekViewModel> productsFromPages = new List<ProductStantekViewModel>();
             if (pagesDiv != null)
             {
                 IList<HtmlNode> pagesAnchor = pagesDiv.Descendants("a").ToList();
@@ -127,20 +127,24 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
                 var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
 
-                productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
-                //for (int i = 1; i <= pagesNumber; i++)
-                //{
-                //      var productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
-                //}
+                //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
+                for (int i = 1; i <= pagesNumber; i++)
+                {
+                    IList<ProductStantekViewModel> productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
+                    foreach (var product in productFromOnePage)
+                    {
+                        productsFromPages.Add(product);
+                    }
+                }
             }
             else
             {
-                productFromPage = await GetProductsFromPage(httpClient, rootUrl, categoryUrl, categoryName);
+                productsFromPages = await GetProductsFromPage(httpClient, rootUrl, categoryUrl, categoryName);
             }
 
             IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
                 
-            return productFromPage;
+            return productsFromPages;
         }
 
         private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl, string categoryName)

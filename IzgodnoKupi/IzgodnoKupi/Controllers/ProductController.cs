@@ -53,6 +53,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             var products = this.productsService
                             .GetByCategory(id)
+                            .OrderBy(x => x.Price)
                             .ToList();
 
             var categories = this.categiriesService.GetAllCategoriesSortedByName()

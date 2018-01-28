@@ -12,7 +12,7 @@
 
         public const decimal MinPriceFreeShipping = 35.00m;
 
-        public const int ProductsPerPage = 3;
+        public const int ProductsPerPage = 12;
 
         public const int PageLeft = 5;
 
