@@ -1,17 +1,17 @@
 ﻿using Bytes2you.Validation;
 using HtmlAgilityPack;
+using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
+using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System;
-using IzgodnoKupi.Common;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -20,18 +20,26 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     public class StantekCrowlerController : Controller
     {
         private readonly IProductsService productsService;
-        private readonly ICategoriesService categiriesService;
+        private readonly ICategoriesService categorieService;
 
-        public StantekCrowlerController(IProductsService productsService, ICategoriesService categiriesService)
+        public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
         {
             Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
-            Guard.WhenArgument(categiriesService, "categiriesService").IsNull().Throw();
+            Guard.WhenArgument(categorieService, "categiriesService").IsNull().Throw();
 
             this.productsService = productsService;
-            this.categiriesService = categiriesService;
+            this.categorieService = categorieService;
         }
 
-        public async Task<IActionResult> GetProducts()
+        public IActionResult Index()
+        {
+            var categories = this.categorieService.GetAll()
+                      .Select(c => new CategoryViewModel(c)).ToList();
+
+            return View(categories);
+        }
+
+        public async Task<IActionResult> GetAllProducts()
         {
             var rootUrl = "http://stantek.com/";
             var httpClient = new HttpClient();
@@ -43,16 +51,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
             AddCategoriesToDb(categories);
 
-            //foreach (var category in categories)
-            //{
-            //      IList <ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, category.CategoryUrl, category.Name);
-            //}
+            //SetAllProductsNotPublished();
 
-
-            SetAllProductsNotPublished();
-            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[0].CategoryUrl, categories[0].Name);
-            AddProductsToDb(products);
-
+            for (int i = 0; i < categories.Count; i++)
+            {
+                IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[i].CategoryUrl, categories[i].Name);
+                AddProductsToDb(products);
+            }
             
             return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
@@ -78,7 +83,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Product dbProduct = productsService.GetByName(product.Name).FirstOrDefault();
                 if (dbProduct != null)
                 {
-                    dbProduct.Category = categiriesService.GetByName(product.Category);
+                    dbProduct.Category = this.categorieService.GetByName(product.Category);
                     dbProduct.Discount = product.Discount;
                     dbProduct.FullDescription = product.FullDescription;
                     dbProduct.IsPublished = true;
@@ -93,7 +98,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 {
                     Product newProduct = new Product();
                     newProduct.Name = product.Name;
-                    newProduct.Category = categiriesService.GetByName(product.Category);
+                    newProduct.Category = this.categorieService.GetByName(product.Category);
                     newProduct.Discount = product.Discount;
                     newProduct.FullDescription = product.FullDescription;
                     newProduct.IsPublished = true;
@@ -267,7 +272,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             foreach (var cat in categories)
             {
-                bool isCategoryExist = categiriesService.GetByName(cat.Name) != null;
+                bool isCategoryExist = this.categorieService.GetByName(cat.Name) != null;
 
                 if (isCategoryExist)
                 {
@@ -280,7 +285,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     ShowOnHomePage = false
                 };
 
-                categiriesService.AddCategory(categoryToAdd);
+                this.categorieService.AddCategory(categoryToAdd);
             }
         }
 

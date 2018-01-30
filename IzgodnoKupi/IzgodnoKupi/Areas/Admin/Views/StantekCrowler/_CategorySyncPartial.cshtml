@@ -1,0 +1,6 @@
+﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
+@model CategoryViewModel
+
+<div class="col-md-3">
+    <a class="btn btn-default" asp-controller="StantekCrowler" asp-action="GetProductsFromCategory"  asp-route-id="@Model.Id">@Model.Name</a>
+</div>
