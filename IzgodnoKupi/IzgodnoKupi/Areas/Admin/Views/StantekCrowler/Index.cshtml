@@ -1,7 +1,7 @@
 ﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
 @model IEnumerable<CategoryViewModel>
 
-
+@*@Html.Partial("_StatusMessage", ViewBag.StatusMessage)*@
 <h1 class="text-center">Синхронизиране по категории</h1>
 <div class="col-md-12">
         @foreach (var category in @Model)

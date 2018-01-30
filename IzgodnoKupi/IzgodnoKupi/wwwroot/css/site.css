@@ -161,3 +161,7 @@ input.check-out:hover {
 .item-name {
     height: 35px;
 }
+
+.category-sync {
+    margin-bottom: 10px;
+}
