@@ -18,7 +18,7 @@
         </ol>
         <h2>Категория @Model.Name</h2>
         <div class="col-md-9 product-model-sec">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
                 <!-- pager -->
                 @if (viewPageIndexModel.Pager.EndPage > 1)
                 {
@@ -29,7 +29,7 @@
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id"><i class="fa fa-angle-left"></i>«</a>
                             </li>
                             <li>
-                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)">Предишна</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i>‹</a>
                             </li>
                         }
                         @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
@@ -41,7 +41,7 @@
                         @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
                         {
                             <li>
-                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)">Следваща</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i>›</a>
                             </li>
                             <li>
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
@@ -51,7 +51,7 @@
                 }
             </div>
                 @Html.Partial("_ProductPreviewPartial", products)
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
                 <!-- pager -->
                 @if (viewPageIndexModel.Pager.EndPage > 1)
                 {
@@ -62,7 +62,7 @@
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id"><i class="fa fa-angle-left"></i>«</a>
                             </li>
                             <li>
-                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)">Предишна</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i>‹</a>
                             </li>
                         }
                         @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
@@ -74,7 +74,7 @@
                         @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
                         {
                             <li>
-                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)">Следваща</a>
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i>›</a>
                             </li>
                             <li>
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.Id" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
@@ -116,7 +116,7 @@
             
     </section>
 
-    <section class="sky-form">
+    @*<section class="sky-form">
         <h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>DISCOUNTS</h4>
         <div class="row row1 scroll-pane">
             <div class="col col-4">
@@ -129,10 +129,10 @@
                 <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>Other(50)</label>
             </div>
         </div>
-    </section>
+    </section>*@
 
     <section class="sky-form">
-        <h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Price</h4>
+        <h4><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Цена</h4>
         <ul class="dropdown-menu1">
             <li>
                 <a href="">
@@ -151,5 +151,4 @@
 @section Scripts 
 {
     @{await Html.RenderPartialAsync("_ProductPageScriptPartial");}
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
