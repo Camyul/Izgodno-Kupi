@@ -3,16 +3,16 @@
     box-shadow: 0px 0px 5px 5px lightgrey;
 }
 .item-img {
-    height: 55%;
+    height: 170px;
 }
 
 .arrival-info {
     height: 45%;
 }
 
-.feature-grid {
+/*.feature-grid {
     height:350px;
-}
+}*/
 .productName {
     width: 25%;
 }

@@ -8,6 +8,7 @@ using IzgodnoKupi.Web.Areas.Admin.Models.Product;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -60,6 +61,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
             
             return RedirectToAction("Index", "Home", new { area = "Admin" });
+        }
+
+        public async Task<IActionResult> GetProductsFromCategory(Guid id)
+        {
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
         }
 
         private void SetAllProductsNotPublished()

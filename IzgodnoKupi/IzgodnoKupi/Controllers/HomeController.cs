@@ -1,7 +1,7 @@
 ﻿using Bytes2you.Validation;
+using IzgodnoKupi.Common;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
-using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -25,17 +25,28 @@ namespace IzgodnoKupi.Controllers
 
         public IActionResult Index()
         {
-            var categories = this.categiriesService.GetAllCategoriesSortedByName()
-                    .Select(x => new CategoriesNavigationViewModel(x))
-                    .ToList();
+            //var categories = this.categiriesService.GetAllCategoriesSortedByName()
+            //        .Select(x => new CategoriesNavigationViewModel(x))
+            //        .ToList();
 
          
                 var products = this.productsService
                     .GetAll()
+                    .Where(x => x.OldPrice != 0)
                     .OrderByDescending(x => x.CreatedOn)
                     .Take(8)
                     .Select(x => new PreviewProductViewModel(x))
                     .ToList();
+
+            //var randomProducts = new List<PreviewProductViewModel>();
+
+            foreach (var product in products)
+            {
+                if (product.Name.Length > Constants.ProductPreviewNameLength)
+                {
+                    product.Name = product.Name.Substring(0, Constants.ProductPreviewNameLength) + "...";
+                }
+            }
 
             //var viewCategory = new List<CategoriesNavigationViewModel>();
 
@@ -44,7 +55,7 @@ namespace IzgodnoKupi.Controllers
             //    viewCategory.Add(new CategoriesNavigationViewModel(cat));
             //}
 
-            ViewData["categories"] = categories;
+            //ViewData["categories"] = categories;
             ViewData["products"] = products;
 
             return View();

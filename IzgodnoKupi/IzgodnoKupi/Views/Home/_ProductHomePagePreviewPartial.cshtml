@@ -8,9 +8,9 @@
             <h4>@Model.Name</h4>
             @if (Model.OldPrice != 0)
             {
-                <span class="pric1"><del>@Model.OldPrice</del></span>
-                <span class="disc">[@Model.Discount% Off]</span>
                 <p>@{@Model.Price}лв.</p>
+                <span class="pric1"><del>@{@Model.OldPrice}лв.</del></span>
+                <span class="disc">@Model.Discount%</span>
             }
              else
             {

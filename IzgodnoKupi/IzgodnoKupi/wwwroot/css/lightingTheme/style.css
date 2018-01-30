@@ -301,17 +301,18 @@ h1.b1,h2.b2,h3.b3 {
 }
 .arrival-info p {
     color: #000;
-    font-size: 1em;
+    font-size: 1.5em;
     font-weight: 600;
     margin: 10px 0 5px;
 }
 span.pric1 {
     color: #ADADAD;
-    font-size: 0.95em;
+    font-size: 1.3em;
 }
 span.disc {
-    color: rgba(7, 152, 40, 0.69);
-    font-size: 0.85em;
+    color: red;
+    font-size: 1.3em;
+    font-weight: 600;
 }
 .feature-grid:hover {
     border-bottom:3px solid #ed645c;
