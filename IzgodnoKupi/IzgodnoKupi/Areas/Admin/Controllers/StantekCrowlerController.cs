@@ -35,7 +35,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var categories = this.categorieService.GetAll()
-                      .Select(c => new CategoryViewModel(c)).ToList();
+                      .Select(c => new CategoryViewModel(c))
+                      .OrderBy(x => x.Name)
+                      .ToList();
 
             return View(categories);
         }
@@ -52,7 +54,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
             AddCategoriesToDb(categories);
 
-            //SetAllProductsNotPublished();
+            SetAllProductsNotPublished();
 
             for (int i = 0; i < categories.Count; i++)
             {
@@ -65,7 +67,40 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> GetProductsFromCategory(Guid id)
         {
+            Category category = this.categorieService.GetById(id);
+
+            var rootUrl = "http://stantek.com/";
+            var httpClient = new HttpClient();
+            var html = await httpClient.GetStringAsync(rootUrl);
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
+            CategoryStantekViewModel categoryToSync = categories
+                                                            .Where(c => c.Name == category.Name)
+                                                            .FirstOrDefault();
+
+            SetProductsFromCategoryNotPublished(id);
+
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
+            AddProductsToDb(products);
+
             return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
+        private void SetProductsFromCategoryNotPublished(Guid id)
+        {
+            var products = this.productsService
+                                    .GetByCategory(id)
+                                    .Where(x => x.IsPublished == true)
+                                    .ToList();
+
+            foreach (var product in products)
+            {
+                product.IsPublished = false;
+                productsService.Update(product);
+            }
         }
 
         private void SetAllProductsNotPublished()
@@ -73,13 +108,14 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             var products = productsService.GetAll()
                                           .Where(x => x.IsPublished == true)
                                           .ToList();
-
-            foreach (var product in products)
+            if (products.Count > 0)
             {
-                product.IsPublished = false;
-                productsService.Update(product);
+                foreach (var product in products)
+                {
+                    product.IsPublished = false;
+                    productsService.Update(product);
+                }
             }
-
         }
 
         private void AddProductsToDb(IList<ProductStantekViewModel> products)
