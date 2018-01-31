@@ -3,6 +3,7 @@ using IzgodnoKupi.Data.Model;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
 namespace IzgodnoKupi.Web.Models.ProductViewModels
 {
@@ -17,7 +18,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public ProductSimilarViewModel(Product product)
         {
             this.Id = product.Id;
-            this.Name = product.Name;
+            this.Name = HttpUtility.HtmlDecode(product.Name);
             this.Picture = product.Pictures.FirstOrDefault();
             this.Price = product.Price;
         }

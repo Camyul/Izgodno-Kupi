@@ -4,6 +4,7 @@ using IzgodnoKupi.Data.Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web;
 
 namespace IzgodnoKupi.Web.Models.ProductViewModels
 {
@@ -16,7 +17,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public ProductViewModel(Product product)
         {
             this.Id = product.Id;
-            this.Name = product.Name;
+            this.Name = HttpUtility.HtmlDecode(product.Name);
             this.ShortDescription = product.ShortDescription;
             this.FullDescription = product.FullDescription;
             this.CategoryId = product.CategoryId;
