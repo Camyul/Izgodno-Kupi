@@ -165,3 +165,31 @@ input.check-out:hover {
 .category-sync {
     margin-bottom: 10px;
 }
+
+.simpleCart_shelfItem >.single-para {
+    position: relative;
+}
+
+.single-para>.old-price {
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 5px;
+    font-size: 1.8em;
+}
+
+.img-discount {
+    position: absolute;
+    margin-left: 135px;
+    z-index: 1;
+    width: 100px;
+}
+
+.single-para>span.detail-discount {
+    position: absolute;
+    margin-top: 7px;
+    margin-left: 175px;
+    z-index: 2;
+    color: white;
+    font-size: 2em;
+    font-weight: 700;
+}

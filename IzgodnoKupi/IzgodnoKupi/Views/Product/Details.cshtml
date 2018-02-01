@@ -54,9 +54,14 @@
                     </form>
                 </div>
                 <div class="col-md-5 single-top-in simpleCart_shelfItem">
-                    <div class="single-para ">
-                       
+                    <div class="single-para">
                             <h4>@Model.Name</h4>
+                        @if (@Model.OldPrice != 0)
+                        {
+                                <span class="pric1 old-price"><del>@{@Model.OldPrice}лв.</del></span>
+                                <img src="~/images/discount.png" class="img-discount" />
+                                <span class="disc detail-discount">@{@Model.Discount}<sup>%</sup></span>
+                        }
                             <h5 class="item_price">@{@Model.Price}лв.</h5>
                             <p class="para">@Html.Raw(@Model.FullDescription)</p>
                             <div class="prdt-info-grid">
