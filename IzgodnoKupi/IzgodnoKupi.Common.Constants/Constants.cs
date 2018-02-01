@@ -19,5 +19,11 @@
         public const int PageRight = 4;
 
         public const int ProductPreviewNameLength = 35;
+
+        public const int CountOfPartOfProducts = 1000;
+
+        public const int CountOfProductsInDetailsPage = 5;
+
+        public const int CountOfProductsInHomePage = 1000;
     }
 }

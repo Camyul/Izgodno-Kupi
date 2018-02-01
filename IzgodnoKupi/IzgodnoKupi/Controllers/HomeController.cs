@@ -4,6 +4,8 @@ using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -25,22 +27,31 @@ namespace IzgodnoKupi.Controllers
 
         public IActionResult Index()
         {
-            //var categories = this.categiriesService.GetAllCategoriesSortedByName()
-            //        .Select(x => new CategoriesNavigationViewModel(x))
-            //        .ToList();
-
          
                 var products = this.productsService
                     .GetAll()
                     .Where(x => x.OldPrice != 0)
-                    .OrderByDescending(x => x.CreatedOn)
-                    .Take(8)
-                    .Select(x => new PreviewProductViewModel(x))
+                    .Take(Constants.CountOfPartOfProducts)
                     .ToList();
 
-            //var randomProducts = new List<PreviewProductViewModel>();
+            IList<PreviewProductViewModel> randomProducts = new List<PreviewProductViewModel>();
 
-            foreach (var product in products)
+            for (int i = 0; i < Constants.CountOfProductsInHomePage; i++)
+            {
+
+                Random rand = new Random();
+                var skip = rand.Next(0, products.Count - 1);
+                var randomProduct = products
+                                    .Skip(skip)
+                                    .Take(1)
+                                    .Select(x => new PreviewProductViewModel(x))
+                                    .First();
+
+                randomProducts.Add(randomProduct);
+
+            }
+
+            foreach (var product in randomProducts)
             {
                 if (product.Name.Length > Constants.ProductPreviewNameLength)
                 {
@@ -48,15 +59,7 @@ namespace IzgodnoKupi.Controllers
                 }
             }
 
-            //var viewCategory = new List<CategoriesNavigationViewModel>();
-
-            //foreach (var cat in categories)
-            //{
-            //    viewCategory.Add(new CategoriesNavigationViewModel(cat));
-            //}
-
-            //ViewData["categories"] = categories;
-            ViewData["products"] = products;
+            ViewData["products"] = randomProducts;
 
             return View();
         }
