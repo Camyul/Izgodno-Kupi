@@ -24,6 +24,6 @@
 
         public const int CountOfProductsInDetailsPage = 5;
 
-        public const int CountOfProductsInHomePage = 1000;
+        public const int CountOfProductsInHomePage = 12;
     }
 }

@@ -1,0 +1,113 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+
+@{
+    var products = ViewData["products"] as List<PreviewProductViewModel>;
+    //var biggestDiscountProducts = ViewData["biggestDiscountProducts"] as List<PreviewProductViewModel>;
+    ViewData["Title"] = "Начало";
+}
+
+@*<div class="offers">
+    <div class="container">
+        <h3>Най-изгодни оферти</h3>
+        <div class="offer-grids">
+            <div class="col-md-6 grid-left">
+                <a href="#">
+                    <div class="offer-grid1">
+                        <div class="ofr-pic">
+                            <img src="@biggestDiscountProducts[0].Picture.ImageUrl" class="img-responsive homepage-img" alt="" />
+                        </div>
+                        <div class="ofr-pic-info">
+                            <h4>@biggestDiscountProducts[0].Name</h4>
+                            <span>@biggestDiscountProducts[0].Discount<sup>%</sup></span>
+                            <p>Купи сега</p>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 grid-right">
+                <a href="#">
+                    <div class="offer-grid2">
+                        <div class="ofr-pic-info2">
+                            <h4>Flat Discount</h4>
+                            <span>UP TO 30% OFF</span>
+                            <h5>Outdoor Gate Lights</h5>
+                            <p>Shop Now</p>
+                        </div>
+                        <div class="ofr-pic2">
+                            <img src="images/ofr3.jpg" class="img-responsive" alt="" />
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>*@
+
+@*<div class="slider">
+    <div class="callbacks_container">
+        <ul class="rslides" id="slider">
+            <li>
+                <div class="banner1">
+                    <div class="banner-info">
+                        <h3>Morbi lacus hendrerit efficitur.</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing elit. consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="banner2">
+                    <div class="banner-info">
+                        <h3>Phasellus elementum tincidunt.</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing elit. consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="banner3">
+                    <div class="banner-info">
+                        <h3>Maecenas interposuere volutpat.</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. consectetur adipiscing elit. consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>*@
+<!---->
+
+<div class="items">
+    <div class="container">
+            @*Random 8 products*@
+        <div class="row items-sec btm-sec">
+
+        </div>
+        @*@if (products.Count > 7)
+        {
+        <div class="items-sec">
+            @for (int i = 0; i < 4; i++)
+            {
+                @Html.Partial("_ProductHomePagePreviewPartial", products[i])
+            }
+            <div class="clearfix"></div>
+        </div>
+        <div class="items-sec btm-sec">
+            @for (int i = 4; i < 8; i++)
+            {
+                @Html.Partial("_ProductHomePagePreviewPartial", products[i])
+            }
+            <div class="clearfix"></div>
+        </div>
+        }*@
+        @if (products.Count > 3)
+        {
+            @for (int i = 0; i < products.Count; i++)
+            {
+                @Html.Partial("_ProductHomePagePreviewPartial", products[i])
+            }
+        }
+    </div>
+</div>
+<!---->

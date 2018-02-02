@@ -2,6 +2,7 @@
 using IzgodnoKupi.Common;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -27,11 +28,21 @@ namespace IzgodnoKupi.Controllers
 
         public IActionResult Index()
         {
-         
-                var products = this.productsService
+            var categories = this.categiriesService.GetAllCategoriesSortedByName()
+                .ToList();
+
+            var viewCategory = new List<CategoriesNavigationViewModel>();
+
+            foreach (var cat in categories)
+            {
+                viewCategory.Add(new CategoriesNavigationViewModel(cat));
+            }
+
+            var products = this.productsService
                     .GetAll()
                     .Where(x => x.OldPrice != 0)
                     .Take(Constants.CountOfPartOfProducts)
+                    //.Take(Constants.CountOfProductsInHomePage)
                     .ToList();
 
             IList<PreviewProductViewModel> randomProducts = new List<PreviewProductViewModel>();
@@ -59,7 +70,30 @@ namespace IzgodnoKupi.Controllers
                 }
             }
 
+            //var biggestDiscountProducts = new List<PreviewProductViewModel>();
+
+            //for (int i = 0; i < 2; i++)
+            //{
+            //    double maxDiscount = double.MaxValue;
+            //    int numInList = int.MinValue;
+
+            //    for (int j = 0; j < randomProducts.Count; j++)
+            //    {
+            //        if (maxDiscount > randomProducts[j].Discount)
+            //        {
+            //            maxDiscount = randomProducts[j].Discount;
+            //            numInList = j;
+            //        }
+
+            //    }
+
+            //    biggestDiscountProducts.Add(randomProducts[numInList]);
+            //    randomProducts.RemoveAt(numInList);
+            //}
+
+            ViewData["categories"] = viewCategory;
             ViewData["products"] = randomProducts;
+            //ViewData["biggestDiscountProducts"] = biggestDiscountProducts;
 
             return View();
         }
@@ -93,7 +127,8 @@ namespace IzgodnoKupi.Controllers
 
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }
