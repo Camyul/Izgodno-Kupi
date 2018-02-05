@@ -123,8 +123,11 @@ namespace IzgodnoKupi
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error/404");
             }
+
+            //Catch all Error Status Codes(bad URLs)
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
 
             app.UseStaticFiles();
 
@@ -142,7 +145,6 @@ namespace IzgodnoKupi
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
             });
         }
     }
