@@ -65,6 +65,21 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
 
+        public async Task<IActionResult> UpdateCategories(Guid id)
+        {
+            var rootUrl = "http://stantek.com/";
+            var httpClient = new HttpClient();
+            var html = await httpClient.GetStringAsync(rootUrl);
+
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
+            AddCategoriesToDb(categories);
+
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
         public async Task<IActionResult> GetProductsFromCategory(Guid id)
         {
             Category category = this.categorieService.GetById(id);
