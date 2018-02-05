@@ -1872,7 +1872,7 @@ label {
 }
 }
 @media (max-width: 1600px) {
-    .single-para > .old-price {
+    .single-para>span.old-price {
         position: absolute;
         margin-top: 0px;
         margin-left: 5px;
@@ -1893,7 +1893,7 @@ label {
 }
 }
 @media (max-width: 1280px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.6em;
     }
 .top-nav {
@@ -1945,8 +1945,13 @@ ul.nav-bottom li a {
 .banner-info h3 {
     font-size: 2.2em;
 }
+    .single-para > span.old-price {
+        font-size: 1.5em;
+        margin-top: 0px;
+        margin-left: 0px;
+    }
 .single-para h4 {
-    font-size: 1.6em;
+        font-size: 1.6em;
 }
 .single-top-in {
     width: 53%;
@@ -1963,8 +1968,10 @@ p.para {
 }
 }
 @media (max-width: 1024px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.5em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 .top-nav {
     width: 58%;
@@ -2002,8 +2009,10 @@ position: absolute;
 }
 }
 @media (max-width: 991px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.5em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 .top-nav {
     width: 60%;
@@ -2104,8 +2113,10 @@ position: absolute;
 }
 }
 @media (max-width: 768px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.5em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 .feature-grid {
     width: 45%;
@@ -2161,8 +2172,10 @@ position: absolute;
 }
 }
 @media (max-width: 640px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.4em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 .top-nav {
     width: 42%;
@@ -2231,8 +2244,10 @@ span.item_price {
 .form-control {
     width: 78%;
 }
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.4em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 }
 @media (max-width: 568px){
@@ -2248,8 +2263,10 @@ span.item_price {
 }
 }
 @media (max-width: 480px){
-    .single-para > .old-price {
+    .single-para > span.old-price {
         font-size: 1.2em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 .logo h1 a {
     font-size: 1em;
@@ -2462,8 +2479,10 @@ input.item_add.items {
 .subscribe form input[type="submit"] {
     width: 30%;
 }
-    .single-para > .old-price {
+    .single-para>span.old-price {
         font-size: 1.0em;
+        margin-top: 0px;
+        margin-left: 0px;
     }
 }
 @media (max-width: 320px){
