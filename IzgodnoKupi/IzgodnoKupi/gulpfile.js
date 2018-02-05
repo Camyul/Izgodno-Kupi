@@ -20,11 +20,13 @@ paths.css = paths.webroot + "css/**/*.css";
 
 paths.lightingThemeCss = paths.webroot + "css/lightingTheme/**/*.css";
 paths.modalCss = paths.webroot + "css/modal/**/*.css";
+paths.errorPageCss = paths.webroot + "css/errorPage/**/*.css";
 paths.paperAdminCss = paths.webroot + "css/paperAdminTheme/**/*.css";
 paths.minCss = paths.webroot + "css/**/*.min.css";
 
 paths.tempWebConcatMinCss = paths.webroot + "css/web-temp.min.css";
 paths.tempModalConcatMinCss = paths.webroot + "css/modal-temp.min.css";
+paths.tempErrorConcatMinCss = paths.webroot + "css/error-page.min.css";
 paths.tempAdminConcatMinCss = paths.webroot + "css/admin-temp.min.css";
 paths.AdminAnimateMinCss = paths.webroot + "css/paperAdminTheme/animate.min.css";
 paths.siteCss = paths.webroot + "css/site.css";
@@ -141,9 +143,18 @@ gulp.task("minPaperAdmin:css", function () {
         .pipe(gulp.dest("."));
 });
 
-//Waiting "minLightTheme:css, minModal:css" to completed and create site.min.css
-gulp.task("concatWebMinCss:css", ["minLightTheme:css", "minModal:css"], function () {
-    return gulp.src([paths.tempWebConcatMinCss, paths.tempModalConcatMinCss])
+//Minify all Css error-page.min.css
+gulp.task("minErrorPage:css", function () {
+    return gulp.src([paths.errorPageCss, "!" + paths.minCss])
+        .pipe(concat(paths.tempErrorConcatMinCss))
+        .pipe(cssmin())
+        .pipe(gulp.dest("."));
+});
+
+
+//Waiting "minLightTheme:css, minModal:css", "minErrorPage:css" to completed and create site.min.css
+gulp.task("concatWebMinCss:css", ["minLightTheme:css", "minModal:css", "minErrorPage:css"], function () {
+    return gulp.src([paths.tempWebConcatMinCss, paths.tempModalConcatMinCss, paths.tempErrorConcatMinCss])
         .pipe(concat(paths.concatWebCssDest))
         .pipe(gulp.dest("."));
 });
