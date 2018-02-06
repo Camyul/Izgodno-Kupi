@@ -43,6 +43,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             var products = this.productsService
                .GetAll()
+               .Where(p => p.IsPublished == true)
                .Take(Constants.CountOfPartOfProducts)
                .ToList();
 
