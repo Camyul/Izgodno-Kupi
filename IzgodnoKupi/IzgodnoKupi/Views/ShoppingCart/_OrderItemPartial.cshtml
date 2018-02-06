@@ -1,7 +1,7 @@
 ﻿@using IzgodnoKupi.Web.Models.OrderItemViewModels
 @model OrderItemViewModel
 
-<div class="cart-header">
+<div class="cart-header @(Model.Product.IsPublished == false ? "cart-item-unavailable" : "")">
     <div id="@Model.Product.Id" class="closeOrderItem" onclick="deleteOrderItem(id)"> </div>
     <div class="cart-sec simpleCart_shelfItem">
         <div class="cart-item cyc">
@@ -14,8 +14,15 @@
                 <li><p>Количество : @Model.Quantity</p></li>
             </ul>
             <div class="delivery">
-                <p>Обща цена : @{@Model.TotalPrice}лв.</p>
-                <span>@Model.Product.ProductAvailability</span>
+                @if (Model.Product.IsPublished)
+                {
+                    <p>Обща цена : @{@Model.TotalPrice}лв.</p>
+                    <span>@Model.Product.ProductAvailability</span>
+                }
+                else
+                {
+                    <div class="product-unavailable text-center">Продуктът не е наличен!</div>
+                }
                 <div class="clearfix"></div>
             </div>
         </div>

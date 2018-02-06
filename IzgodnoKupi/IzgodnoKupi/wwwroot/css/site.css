@@ -193,3 +193,13 @@ input.check-out:hover {
     font-size: 2em;
     font-weight: 700;
 }
+
+.product-unavailable {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: red;
+}
+
+.cart-item-unavailable {
+    background-color: #caccce;
+}
