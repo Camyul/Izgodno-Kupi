@@ -3,6 +3,11 @@
 
 <div class="container">
     <div class="check-sec">
+            <div id="alert-info" class="alert alert-danger @(ViewBag.IsItemsAvailible ? "hidden" : "")">
+                <button type="button" aria-hidden="true" class="close">×</button>
+            <span><b>Внимание!</b></span>
+                Във вашата количка има продукти, които не са налични за доставка
+            </div>
         <div class="col-md-3 cart-total">
             <a asp-area="" asp-controller="Home" asp-action="Index" class="continue">Продължи с пазаруването</a>
             <div class="price-details">
@@ -149,7 +154,14 @@
     function redirect() {
         var url = '/ShoppingCart/MyCart';
         window.location.href = url;
-    }
+    };
+
+    $('.close').click(() => {
+        $('#alert-info').fadeOut('slow', function (c) {
+            $('#alert-info').addClass('hidden');
+        });
+    });
+
 </script>
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

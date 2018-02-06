@@ -97,16 +97,23 @@ namespace IzgodnoKupi.Web.Controllers
             MyCartViewModel myCartModel = new MyCartViewModel();
             Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
+            bool isItemsAvailible = true;
+
             if (myOrder != null)
             {
                 foreach (var item in myOrder.OrderItems)
                 {
-                    var product = this.productsService.GetById(item.ProductId);
+                    Product product = this.productsService.GetById(item.ProductId);
                     ProductViewModel productView = new ProductViewModel(product);
                     OrderItemViewModel newItem = new OrderItemViewModel(productView, item.Quantity);
                     newItem.TotalPrice = productView.Price * item.Quantity;
                     myCartModel.OrderItems.Add(newItem);
                     myCartModel.TotalAmountInclTax += newItem.TotalPrice;
+
+                    if (!product.IsPublished)
+                    {
+                        isItemsAvailible = false;
+                    }
                 }
             }
             else
@@ -140,6 +147,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             ViewBag.Count = myCartModel.OrderItems.Count;
             ViewBag.TotalAmount = myCartModel.TotalAmount;
+            ViewBag.IsItemsAvailible = isItemsAvailible;
 
             return View("MyCart", myCartModel);
         }
@@ -207,11 +215,16 @@ namespace IzgodnoKupi.Web.Controllers
                 return View("EmptyCart");
             }
 
+            //Check OrderItems is availible to Order
+            foreach (var item in myOrder.OrderItems)
+            {
+                bool isAvailible = this.productsService.GetById(item.ProductId).IsPublished;
 
-            //foreach (var item in myOrder.OrderItems)
-            //{
-            //    myOrder.TotalAmountInclTax += item.SubTotal;
-            //}
+                if (!isAvailible)
+                {
+                    return RedirectToAction("MyCart");
+                }
+            }
 
             if (myOrder.TotalAmountInclTax < Constants.MinPriceFreeShipping && myOrder.OrderItems.Count > 0)
             {
