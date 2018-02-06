@@ -48,25 +48,25 @@
                     </a>
                 </div>
                 <ul class="nav">
-                    <li class="active">
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Home" asp-action="Index"><i class="ti-panel"></i><p>Начало</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "order" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Order" asp-action="Index"><i class="ti-gift"></i><p>Заявки</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "user" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="User" asp-action="Index"><i class="ti-user"></i><p>Потребители</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "role" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Role" asp-action="Index"><i class="ti-agenda"></i><p>Потребителски Роли</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "stantekcrowler" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="StantekCrowler" asp-action="Index"><i class="ti-cloud-down"></i><p>Синхронизиране</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "category" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="ti-archive"></i><p>Категории</p></a>
                     </li>
-                    <li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "product" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Product" asp-action="Index"><i class="ti-bag"></i><p>Продукти</p></a>
                     </li>
                 </ul>
