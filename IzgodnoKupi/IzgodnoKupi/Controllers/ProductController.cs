@@ -33,6 +33,11 @@ namespace IzgodnoKupi.Web.Controllers
 
             Product product = this.productsService.GetById(id);
 
+            if (!product.IsPublished)
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+
             ProductDetailsViewModel viewModel = new ProductDetailsViewModel(product);
 
 
