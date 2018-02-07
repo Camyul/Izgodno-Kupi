@@ -1,6 +1,8 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Models.Product;
+using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -30,16 +32,23 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         // GET: Products
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            // Without AutoMapper
             var products = this.productsService
                 .GetAll()
                 .OrderByDescending(x => x.CreatedOn)
                 .Select(x => new ProductViewModel(x))
                 .ToList();
 
-            return View(products);
+            Pager pager = new Pager(products.Count(), page);
+
+            IndexAdminPageViewModel viewPageIndexModel = new IndexAdminPageViewModel
+            {
+                Items = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            return View(viewPageIndexModel);
         }
 
         [HttpGet]

@@ -29,8 +29,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             
             IList<OrderListViewModel> modelListView = ordersService
                 .GetAll()
-                .Take(5)
                 .Where(r => r.OrderStatus != OrderStatus.NotCompleted)
+                .OrderByDescending(o => o.OrderDate)
+                .Take(5)
                 .Select(x => new OrderListViewModel(x))
                 .ToList();
 

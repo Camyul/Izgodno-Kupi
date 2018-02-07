@@ -1,5 +1,5 @@
-﻿@using IzgodnoKupi.Web.Models.ProductViewModels
-@model IEnumerable<ProductViewModel>
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.Product
+@model IndexAdminPageViewModel
 
 <h2 class="text-center">Продукти</h2>
 
@@ -10,34 +10,66 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Id
             </th>
             <th class="productName">
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsPublished)
+                IsPublished
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductAvailability)
+                ProductAvailability
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OldPrice)
+                OldPrice
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Discount)
+                Discount
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsFreeShipping)
+               IsFreeShipping
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        <!-- pager -->
+        <div class="col-md-12 card-content">
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage > 1)
+                {
+                        <li>
+                            <a asp-controller="Product" asp-action="Index" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
+                        </li>
+                    }
+                    @for (int pageNum = Model.Pager.StartPage; pageNum <= Model.Pager.EndPage; pageNum++)
+                {
+                        <li class="@(pageNum == Model.Pager.CurrentPage ? "active" : "")">
+                            <a asp-controller="Product" asp-action="Index" asp-route-page="@pageNum">@pageNum</a>
+                        </li>
+                    }
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                        <li>
+                            <a asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
+                        </li>
+                        <li>
+                            <a asp-controller="Product" asp-action="Index" asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>

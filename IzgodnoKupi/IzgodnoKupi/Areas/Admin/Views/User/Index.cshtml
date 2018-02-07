@@ -1,6 +1,5 @@
-﻿@using IzgodnoKupi.Web.Models.UserViewModels
-
-@model IEnumerable<UserListViewModel>
+﻿@using IzgodnoKupi.Web.Areas.Admin.Models.UserViewModel
+@model IndexUserViewModel
 
 
 <h2 class="text-center">Потребители</h2>
@@ -18,7 +17,39 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        <!-- pager -->
+        <div class="col-md-12 card-content">
+            @if (Model.Pager.EndPage > 1)
+            {
+                <ul class="pagination">
+                    @if (Model.Pager.CurrentPage > 1)
+                {
+                        <li>
+                            <a asp-controller="User" asp-action="Index" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
+                        </li>
+                        <li>
+                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
+                        </li>
+                    }
+                    @for (int pageNum = Model.Pager.StartPage; pageNum <= Model.Pager.EndPage; pageNum++)
+                {
+                        <li class="@(pageNum == Model.Pager.CurrentPage ? "active" : "")">
+                            <a asp-controller="User" asp-action="Index" asp-route-page="@pageNum">@pageNum</a>
+                        </li>
+                    }
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                {
+                        <li>
+                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
+                        </li>
+                        <li>
+                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        @foreach (var user in Model.Items)
         {
             <tr>
                 <td>

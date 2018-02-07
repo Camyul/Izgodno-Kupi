@@ -4,6 +4,7 @@ using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.OrderItemViewModel;
 using IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel;
+using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.ContactInfoViewModels;
 using IzgodnoKupi.Web.Models.OrderItemViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
@@ -36,15 +37,25 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             this.productService = productService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            IList<OrderListViewModel> modelListView = ordersService
-                .GetAll()
-                .Where(r => r.OrderStatus != OrderStatus.NotCompleted)
-                .Select(x => new OrderListViewModel(x))
-                .ToList();
+            IList<OrderListViewModel> modelOrderListView = ordersService
+                                                                .GetAll()
+                                                                .Where(r => r.OrderStatus != OrderStatus.NotCompleted)
+                                                                .OrderByDescending(o => o.OrderDate)
+                                                                .Select(x => new OrderListViewModel(x))
+                                                                .ToList();
 
-            return View(modelListView);
+            Pager pager = new Pager(modelOrderListView.Count(), page);
+
+            IndexOrderViewModel viewPageIndexModel = new IndexOrderViewModel
+            {
+                Items = modelOrderListView.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+
+            return View(viewPageIndexModel);
         }
 
         [HttpGet]

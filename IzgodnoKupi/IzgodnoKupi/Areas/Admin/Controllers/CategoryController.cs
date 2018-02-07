@@ -1,6 +1,8 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Models.Category;
+using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,12 +25,20 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             this.categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
             var categories = this.categoryService.GetAll()
                        .Select(c => new CategoryViewModel(c)).ToList();
 
-            return View(categories);
+            Pager pager = new Pager(categories.Count(), page);
+
+            IndexPageCategoryViewModel viewCategoryIndexModel = new IndexPageCategoryViewModel
+            {
+                Items = categories.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            return View(viewCategoryIndexModel);
         }
 
         [HttpGet]

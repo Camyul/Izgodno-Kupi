@@ -1,4 +1,6 @@
 ﻿using IzgodnoKupi.Models;
+using IzgodnoKupi.Web.Areas.Admin.Models.UserViewModel;
+using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -25,18 +27,29 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            List<UserListViewModel> model = new List<UserListViewModel>();
+            List<UserListViewModel> users = new List<UserListViewModel>();
 
-            model = userManager.Users.Select(u => new UserListViewModel
+            users = userManager.Users
+                               .Select(u => new UserListViewModel
+                               {
+                                   Id = u.Id,
+                                   Email = u.Email
+                                   //RoleName = roleManager.Roles.FirstOrDefault(r => r.Id == u.).Name
+                                   //RoleName = userManager.GetRolesAsync(u).Result.Single().ToString()
+                               })
+                               .ToList();
+
+            Pager pager = new Pager(users.Count(), page);
+
+            IndexUserViewModel viewPageIndexModel = new IndexUserViewModel
             {
-                Id = u.Id,
-                Email = u.Email,
-                //RoleName = roleManager.Roles.FirstOrDefault(r => r.Id == u.).Name
-            }).ToList();
+                Items = users.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
 
-            return View(model);
+            return View(viewPageIndexModel);
         }
 
         [HttpGet]
