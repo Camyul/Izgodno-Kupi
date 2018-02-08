@@ -57,6 +57,9 @@
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "user" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="User" asp-action="Index"><i class="ti-user"></i><p>Потребители</p></a>
                     </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "order" ? "active" : "")">
+                        <a asp-area="Admin" asp-controller="ExportXml" asp-action="Index"><i class="ti-gift"></i><p>Експорт</p></a>
+                    </li>
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "role" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Role" asp-action="Index"><i class="ti-agenda"></i><p>Потребителски Роли</p></a>
                     </li>
