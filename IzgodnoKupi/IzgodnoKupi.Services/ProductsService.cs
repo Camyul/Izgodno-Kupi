@@ -26,7 +26,8 @@ namespace IzgodnoKupi.Services
         public IQueryable<Product> GetAll()
         {
             return this.productsRepo.All
-                .Include(i => i.Pictures);
+                .Include(i => i.Pictures)
+                .Include(c => c.Category);
         }
 
         public IQueryable<Product> GetByName(string searchName)
