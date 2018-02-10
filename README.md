@@ -8,3 +8,4 @@
   - jQuery
   - Gulp Tasks for minify Css and JS
   - Web Crowler for update products in Store
+  - Export products in XML
