@@ -38,6 +38,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             var products = this.productsService
                                .GetAll()
+                               .Where(x => x.IsPublished == true)
                                .ToList();
 
             var doc = new XDocument();
@@ -76,6 +77,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             var products = this.productsService
                                .GetAll()
+                               .Where(x => x.IsPublished == true)
                                .ToList();
 
             using (var writer = XmlWriter.Create(url))
