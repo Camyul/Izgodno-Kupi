@@ -22,6 +22,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categorieService;
+        private readonly IDictionary<string, int> categoriesNames;
 
         public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
         {
@@ -30,6 +31,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             this.productsService = productsService;
             this.categorieService = categorieService;
+
+            this.categoriesNames = GetCategoriesNames();
         }
 
         public IActionResult Index()
@@ -141,6 +144,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 if (dbProduct != null)
                 {
                     dbProduct.Category = this.categorieService.GetByName(product.Category);
+                    dbProduct.Name = product.Name;
                     dbProduct.Discount = product.Discount;
                     dbProduct.FullDescription = product.FullDescription;
                     dbProduct.IsPublished = true;
@@ -233,10 +237,10 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             IList<ProductStantekViewModel> products = new List<ProductStantekViewModel>();
-
+            
             foreach (var link in productsLinks)
             {
-                ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link);
+                ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link, categoryName);
                 product.Category = categoryName;
 
                 products.Add(product);
@@ -246,7 +250,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return products;
         }
 
-        private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link)
+        private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link, string categoryName)
         {
             var html = await httpClient.GetStringAsync(rootUrl + link);
 
@@ -264,10 +268,23 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                        .FirstOrDefault()
                                        .InnerText
                                        .Trim();
-            
-            if (name.Length > ValidationConstants.StandartMaxLength)
+
+
+            int categoryNameLength = this.categoriesNames[categoryName];
+
+            //In this category have 2 different subcategories
+            if (categoryName == "Флашки и USB HDD" && name[0] == 'H')
             {
-                name = name.Substring(0, ValidationConstants.StandartMaxLength);
+                categoryNameLength = categoryNameLength - 4;
+            }
+
+            if (name.Length > ValidationConstants.StandartMaxLength + categoryNameLength)
+            {
+                name = name.Substring(categoryNameLength, ValidationConstants.StandartMaxLength);
+            }
+            else
+            {
+                name = name.Substring(categoryNameLength);
             }
 
             var pictureUrl = productDiv.Descendants("img").FirstOrDefault()
@@ -377,6 +394,79 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             return categories;
+        }
+
+        //Represent length of name of category in English 
+        private IDictionary<string, int> GetCategoriesNames()
+        {
+            IDictionary<string, int> result = new Dictionary<string, int>
+            {
+                {"CD и DVD записвачки", 7 },
+                {"I/O карти", 9 },
+                {"LED осветление", 13 },
+                {"MP3/MP4 плейъри и донгъли", 7 },
+                {"SSD", 4 },
+                {"TV, FM тунери и Video Capture", 14 },
+                {"Аксесоари за лаптоп", 19 },
+                {"Артикули втора у-ба", 12 },
+                {"Батерии", 12 },
+                {"Батерии за лаптоп", 21 },
+                {"Видео камери", 13 },
+                {"Видео карти", 11 },
+                {"Външни кутии за хард дискове", 12 },
+                {"Джойстици, кормила за игри", 15 },
+                {"Дисплей/Tъч за смартфони", 12 },
+                {"Дисплей/Tъч за таблети", 15 },
+                {"Други...", 6 },
+                {"Дънни платки", 3 },
+                {"За видео камери", 23 },
+                {"За принтери", 10 },
+                {"За смартфони", 14 },
+                {"За таблети", 17 },
+                {"За телевизори", 13 },
+                {"За фотоапарати", 16 },
+                {"Зарядни", 14 },
+                {"Захранване за компютри", 13 },
+                {"Звукови карти", 11 },
+                {"Кабели и преходници", 6 },
+                {"Клавиатури", 4 },
+                {"Кутии за Компютри", 5 },
+                {"Лаптопи", 9 },
+                {"Мишки", 6 },
+                {"Монитори", 8 },
+                {"Мрежа, LAN, Wi-Fi", 15 },
+                {"Мрежови карти", 9 },
+                {"Настолни Компютри", 9 },
+                {"Оперативна памет RAM", 4 },
+                {"Охладители", 7 },
+                {"Памет за лаптоп", 17 },
+                {"Подложки за мишки", 10 },
+                {"Празни CD и DVD дискове", 6 },
+                {"Принтери", 8 },
+                {"Проектори", 10 },
+                {"Процесори", 4 },
+                {"Резервни части", 15 },
+                {"Скенери", 8 },
+                {"Слушалки и микрофони", 21 },
+                {"Смартфони", 4 },
+                {"Софтуер", 9 },
+                {"Стабилизатори и UPS", 4 },
+                {"Стъклени протектори", 10 },
+                {"Таблети", 7 },
+                {"Телевизори", 3 },
+                {"Телефонни апарати", 6 },
+                {"Тон колони", 9 },
+                {"Уеб/Скайп камерки", 7 },
+                {"Факс апарати", 11 },
+                {"Флашки и USB HDD", 17 },
+                {"Фотоапарати", 6 },
+                {"Хард дискове HDD", 4 },
+                {"Хард дискове за лаптоп", 17 },
+                {"Хард дискове за сървър", 11 },
+                {"Чанти, раници за лаптоп", 4 }
+            };
+
+            return result;
         }
     }
 }
