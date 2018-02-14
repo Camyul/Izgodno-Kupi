@@ -779,8 +779,9 @@ background-position:-167px -36px;
 	text-align: center;
 	padding: 0.545em;
 }
-.product-info-cust h4{
-	color: #caccce;
+.product-info-cust h4 {
+    /*color: #caccce;*/
+    color: #999999;
     font-size: 0.95em;
     font-family: 'DejaVuSans-Bold';
     text-transform: uppercase;
