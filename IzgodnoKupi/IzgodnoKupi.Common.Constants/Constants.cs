@@ -18,7 +18,7 @@
 
         public const int PageRight = 4;
 
-        public const int ProductPreviewNameLength = 35;
+        public const int ProductPreviewNameLength = 45;
 
         public const int CountOfPartOfProducts = 1000;
 
