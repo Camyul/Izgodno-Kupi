@@ -49,6 +49,7 @@ namespace IzgodnoKupi.Web.Controllers
             Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
             myOrder.OrderItems.Clear();
+            myOrder.TotalAmountInclTax = 0m;
 
             ordersService.Update(myOrder);
 
@@ -175,7 +176,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             myOrder.OrderItems.Add(item);
 
-            decimal sum = 0;
+            decimal sum = 0m;
             foreach (var orderItem in myOrder.OrderItems)
             {
                 sum += orderItem.SubTotal;
