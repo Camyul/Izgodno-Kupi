@@ -203,3 +203,10 @@ input.check-out:hover {
 .cart-item-unavailable {
     background-color: #caccce;
 }
+
+.share-button-details {
+    position: absolute;
+    margin-top: 20px;
+    /*margin-left: -15px;*/
+    margin-bottom: 20px;
+}
