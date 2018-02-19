@@ -64,7 +64,10 @@
                         <a asp-area="Admin" asp-controller="Role" asp-action="Index"><i class="ti-agenda"></i><p>Потребителски Роли</p></a>
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "stantekcrowler" ? "active" : "")">
-                        <a asp-area="Admin" asp-controller="StantekCrowler" asp-action="Index"><i class="ti-cloud-down"></i><p>Синхронизиране</p></a>
+                        <a asp-area="Admin" asp-controller="StantekCrowler" asp-action="Index"><i class="ti-cloud-down"></i><p>Stantek</p></a>
+                    </li>
+                    <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "solytronxml" ? "active" : "")">
+                        <a asp-area="Admin" asp-controller="SolytronXml" asp-action="Index"><i class="ti-cloud-down"></i><p>Solytron</p></a>
                     </li>
                     <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "category" ? "active" : "")">
                         <a asp-area="Admin" asp-controller="Category" asp-action="Index"><i class="ti-archive"></i><p>Категории</p></a>
