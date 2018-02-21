@@ -1,5 +1,6 @@
 ﻿using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model.Abstracts;
+using IzgodnoKupi.Data.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,6 +39,9 @@ namespace IzgodnoKupi.Data.Model
         }
 
         public bool ShowOnHomePage { get; set; }
+
+
+        public CategoriesGroup CategoriesGroup { get; set; }
 
         //public virtual ICollection<Category> SubCategories
         //{

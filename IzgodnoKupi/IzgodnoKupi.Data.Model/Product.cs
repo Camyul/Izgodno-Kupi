@@ -92,5 +92,7 @@ namespace IzgodnoKupi.Data.Model
         public bool IsPublished { get; set; }
 
         public double Weight { get; set; }
+
+        public Supplier Supplier { get; set; }
     }
 }
