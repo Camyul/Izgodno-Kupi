@@ -1,5 +1,6 @@
 ﻿using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,6 +18,7 @@ namespace IzgodnoKupi.Web.Models.CategoryViewModels
             this.Id = category.Id;
             this.Name = category.Name;
             this.ShowOnHomePage = category.ShowOnHomePage;
+            this.CategoriesGroup = category.CategoriesGroup;
             //this.Products = category.Products;
         }
 
@@ -29,6 +31,9 @@ namespace IzgodnoKupi.Web.Models.CategoryViewModels
         public string Name { get; set; }
 
         public bool ShowOnHomePage { get; set; }
+
+        [Display(Name = "Група от категории")]
+        public CategoriesGroup CategoriesGroup { get; set; }
 
         //public ICollection<Product> Products { get; set; }
     }

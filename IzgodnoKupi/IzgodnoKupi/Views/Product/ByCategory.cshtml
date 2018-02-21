@@ -6,7 +6,8 @@
 @{
     var viewPageIndexModel = ViewData["products"] as IndexPageViewModel;
     var products = viewPageIndexModel.Items;
-    var categories = ViewData["categories"] as List<CategoriesNavigationViewModel>;
+    var categoriesPc = ViewData["categoriesPc"] as List<CategoriesNavigationViewModel>;
+    var categoriesSmartPhone = ViewData["categoriesSmartPhone"] as List<CategoriesNavigationViewModel>;
     ViewData["Title"] = Model.Name;
 }
 
@@ -90,19 +91,32 @@
     <section class="sky-form">
         <div class="product_right">
             <h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Категории</h4>
-            <div class="tab1">
-                <ul class="place">
-                    <li class="sort">Компютри и периферия</li>
-                    <li class="by"><img src="/images/do.png" alt=""></li>
-                    <div class="clearfix"> </div>
-                </ul>
-                <div class="single-bottom">
-                    @foreach (var category in categories)
-                    {
-                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                    }
+                <div class="tab1">
+                    <ul class="place">
+                        <li class="sort">Компютри и периферия</li>
+                        <li class="by"><img src="/images/do.png" alt=""></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                    <div class="single-bottom">
+                        @foreach (var category in categoriesPc)
+                        {
+                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                        }
+                    </div>
                 </div>
-            </div>
+                <div class="tab2">
+                    <ul class="place">
+                        <li class="sort">Смартфони и аксесоари</li>
+                        <li class="by"><img src="/images/do.png" alt=""></li>
+                        <div class="clearfix"> </div>
+                    </ul>
+                    <div class="single-bottom">
+                        @foreach (var category in categoriesSmartPhone)
+                        {
+                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                        }
+                    </div>
+                </div>
             @*<div class="tab2">
                 <ul class="place">
                     <li class="sort">Festive Needs</li>

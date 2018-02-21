@@ -5,7 +5,8 @@
     var products = ViewData["products"] as List<PreviewProductViewModel>;
     //var biggestDiscountProducts = ViewData["biggestDiscountProducts"] as List<PreviewProductViewModel>;
     ViewData["Title"] = "Начало";
-    var categories = ViewData["categories"] as List<CategoriesNavigationViewModel>;
+    var categoriesPc = ViewData["categoriesPc"] as List<CategoriesNavigationViewModel>;
+    var categoriesSmartPhone = ViewData["categoriesSmartPhone"] as List<CategoriesNavigationViewModel>;
 }
 
 <div class="product-model">
@@ -36,13 +37,25 @@
                             <div class="clearfix"> </div>
                         </ul>
                         <div class="single-bottom">
-                            @foreach (var category in categories)
+                            @foreach (var category in categoriesPc)
                             {
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
                             }
                         </div>
                     </div>
-
+                    <div class="tab2">
+                        <ul class="place">
+                            <li class="sort">Смартфони и аксесоари</li>
+                            <li class="by"><img src="/images/do.png" alt=""></li>
+                            <div class="clearfix"> </div>
+                        </ul>
+                        <div class="single-bottom">
+                            @foreach (var category in categoriesSmartPhone)
+                            {
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            }
+                        </div>
+                    </div>
             </section>
             <!---->
 

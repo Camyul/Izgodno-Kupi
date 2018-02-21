@@ -1624,9 +1624,9 @@ textarea.form-control {
     .card-user .author .title small {
       color: #ccc5b9; }
 .card-user .avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 15%;
   position: relative;
   margin-bottom: 15px; }
   .card-user .avatar.border-white {

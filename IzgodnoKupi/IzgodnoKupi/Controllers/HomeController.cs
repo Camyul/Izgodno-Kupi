@@ -1,5 +1,6 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Common;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
@@ -28,15 +29,17 @@ namespace IzgodnoKupi.Controllers
 
         public IActionResult Index()
         {
-            var categories = this.categiriesService.GetAllCategoriesSortedByName()
-                .ToList();
+            List<CategoriesNavigationViewModel> viewCategoryPc = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.Pc)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
 
-            var viewCategory = new List<CategoriesNavigationViewModel>();
-
-            foreach (var cat in categories)
-            {
-                viewCategory.Add(new CategoriesNavigationViewModel(cat));
-            }
+            List<CategoriesNavigationViewModel> categoriesSmartPhone = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmartPhoneAndAccessoaries)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
 
             var products = this.productsService
                     .GetAll()
@@ -92,7 +95,8 @@ namespace IzgodnoKupi.Controllers
             //    randomProducts.RemoveAt(numInList);
             //}
 
-            ViewData["categories"] = viewCategory;
+            ViewData["categoriesPc"] = viewCategoryPc;
+            ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["products"] = randomProducts;
             //ViewData["biggestDiscountProducts"] = biggestDiscountProducts;
 

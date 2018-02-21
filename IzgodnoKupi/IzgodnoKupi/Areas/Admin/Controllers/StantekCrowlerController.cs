@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
@@ -111,6 +112,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             var products = this.productsService
                                     .GetByCategory(id)
+                                    .Where(x => x.Supplier == Supplier.Stantek)
                                     .Where(x => x.IsPublished == true)
                                     .ToList();
 
@@ -124,6 +126,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         private void SetAllProductsNotPublished()
         {
             var products = productsService.GetAll()
+                                          .Where(x => x.Supplier == Supplier.Stantek)
                                           .Where(x => x.IsPublished == true)
                                           .ToList();
             if (products.Count > 0)
@@ -152,6 +155,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     dbProduct.Pictures.Clear();
                     dbProduct.Pictures.Add(new Picture() { ImageUrl = product.PictureUrl });
                     dbProduct.Price = product.Price;
+                    dbProduct.Supplier = Supplier.Stantek;
 
                     productsService.Update(dbProduct);
                 }
@@ -166,6 +170,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     newProduct.OldPrice = product.OldPrice;
                     newProduct.Pictures.Add(new Picture() { ImageUrl = product.PictureUrl });
                     newProduct.Price = product.Price;
+                    newProduct.Supplier = Supplier.Stantek;
 
                     productsService.AddProduct(newProduct);
                 }

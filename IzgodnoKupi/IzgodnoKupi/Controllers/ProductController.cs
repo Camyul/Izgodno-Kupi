@@ -1,6 +1,7 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Extensions;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
@@ -77,17 +78,20 @@ namespace IzgodnoKupi.Web.Controllers
                             .GetByCategory(id)
                             .OrderBy(x => x.Price)
                             .ToList();
-
-            var categories = this.categiriesService.GetAllCategoriesSortedByName()
-                .ToList();
+            
 
             var currentCategory = new CategoriesNavigationViewModel(categiriesService.GetById(id));
-            var viewCategory = new List<CategoriesNavigationViewModel>();
+            List<CategoriesNavigationViewModel> viewCategoryPc = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.Pc)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
 
-            foreach (var cat in categories)
-            {
-                viewCategory.Add(new CategoriesNavigationViewModel(cat));
-            }
+            List<CategoriesNavigationViewModel> categoriesSmartPhone = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmartPhoneAndAccessoaries)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
 
             var viewProducts = new List<PreviewProductViewModel>();
             foreach (var product in products)
@@ -109,7 +113,8 @@ namespace IzgodnoKupi.Web.Controllers
                 Pager = pager
             };
 
-            ViewData["categories"] = viewCategory;
+            ViewData["categoriesPc"] = viewCategoryPc;
+            ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["products"] = viewPageIndexModel;
 
             return View(currentCategory);

@@ -30,6 +30,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
             this.ProductAvailability = product.ProductAvailability;
             this.IsFreeShipping = product.IsFreeShipping;
             this.Weight = product.Weight;
+            this.Supplier = product.Supplier;
 
         }
 
@@ -89,5 +90,8 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public bool IsFreeShipping { get; set; }
 
         public double Weight { get; set; }
+
+        [Display(Name = "Доставчик")]
+        public Supplier Supplier { get; set; }
     }
 }
