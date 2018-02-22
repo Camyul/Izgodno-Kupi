@@ -22,54 +22,24 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult GetMainCategories()
+        public IActionResult GetProductsFromComputers()
         {
-            XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
+            ICollection<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            IEnumerable<XElement> elements = doc.Elements();
+            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories);
 
-            ICollection<CategoriesNavigationViewModel> mainCategories = new List<CategoriesNavigationViewModel>();
-            
-
-            foreach (var groups in elements)
-            {
-                var categoriesGroup = groups.Elements("productCategory").ToList();
-
-                foreach (var categoryGroup in categoriesGroup)
-                {
-                    var group = categoryGroup.Elements("productGroup").ToList();
-
-                    var name = categoryGroup.Attribute("name").Value;
-                    CategoriesNavigationViewModel mainCategory = new CategoriesNavigationViewModel
-                    {
-                        Name = name
-                    };
-                    mainCategories.Add(mainCategory);
-
-                   // var link = (string)categoryGroup.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
-                    //categoriesLinks.Add(link);
-
-                    //foreach (var cat in group)
-                    //{
-                    //    var name = cat.Attribute("name").Value;
-                    //    var link = (string)cat.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
-                    //    categoriesNames.Add(name);
-                    //    categoriesLinks.Add(link);
-                    //}
-                }
-            }
-
-            return View(mainCategories);
+            //return View();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult GetProductsFromMainCategory(string name)
+        private ICollection<CategorySolytronViewModel> GetSubCategories(string name)
         {
             XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
 
             IEnumerable<XElement> categories = doc.Descendants("productCategory")
                                                 .Where(x => (string)x.Attribute("name") == name)
                                                 .Elements("productGroup");
-            
+
             ICollection<CategorySolytronViewModel> subCategories = new List<CategorySolytronViewModel>();
 
             foreach (var cat in categories)
@@ -82,17 +52,89 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     Name = categoryName,
                     CategoryLink = link
                 };
+
+                subCategories.Add(newCategory);
             }
 
-            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories);
-
-            //return View();
-            return RedirectToAction("Index");
+            return subCategories;
         }
 
         private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(ICollection<CategorySolytronViewModel> subCategories)
         {
+            foreach (var category in subCategories)
+            {
+                //category.
+            }
+
             throw new NotImplementedException();
         }
+
+        //public IActionResult GetMainCategories()
+        //{
+        //    XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
+
+        //    IEnumerable<XElement> elements = doc.Elements();
+
+        //    ICollection<CategoriesNavigationViewModel> mainCategories = new List<CategoriesNavigationViewModel>();
+
+
+        //    foreach (var groups in elements)
+        //    {
+        //        var categoriesGroup = groups.Elements("productCategory").ToList();
+
+        //        foreach (var categoryGroup in categoriesGroup)
+        //        {
+        //            var group = categoryGroup.Elements("productGroup").ToList();
+
+        //            var name = categoryGroup.Attribute("name").Value;
+        //            CategoriesNavigationViewModel mainCategory = new CategoriesNavigationViewModel
+        //            {
+        //                Name = name
+        //            };
+        //            mainCategories.Add(mainCategory);
+
+        //           // var link = (string)categoryGroup.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
+        //            //categoriesLinks.Add(link);
+
+        //            //foreach (var cat in group)
+        //            //{
+        //            //    var name = cat.Attribute("name").Value;
+        //            //    var link = (string)cat.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
+        //            //    categoriesNames.Add(name);
+        //            //    categoriesLinks.Add(link);
+        //            //}
+        //        }
+        //    }
+
+        //    return View(mainCategories);
+        //}
+
+        //public IActionResult GetProductsFromMainCategory(string name)
+        //{
+        //    XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
+
+        //    IEnumerable<XElement> categories = doc.Descendants("productCategory")
+        //                                        .Where(x => (string)x.Attribute("name") == name)
+        //                                        .Elements("productGroup");
+
+        //    ICollection<CategorySolytronViewModel> subCategories = new List<CategorySolytronViewModel>();
+
+        //    foreach (var cat in categories)
+        //    {
+        //        var categoryName = cat.Attribute("name").Value;
+        //        var link = (string)cat.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
+
+        //        CategorySolytronViewModel newCategory = new CategorySolytronViewModel
+        //        {
+        //            Name = categoryName,
+        //            CategoryLink = link
+        //        };
+        //    }
+
+        //    ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories);
+
+        //    //return View();
+        //    return RedirectToAction("Index");
+        //}
     }
 }
