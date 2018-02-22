@@ -24,15 +24,69 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public IActionResult GetProductsFromComputers()
         {
-            ICollection<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories);
+            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[0]);
 
+
+            //foreach (var subCategory in subCategories)
+            //{
+            //    //category.
+            //}
             //return View();
             return RedirectToAction("Index");
         }
 
-        private ICollection<CategorySolytronViewModel> GetSubCategories(string name)
+        private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(CategorySolytronViewModel subCategory)
+        {
+            XDocument doc = XDocument.Load(subCategory.CategoryLink);
+
+            ICollection<ProductSolytronViewModel> products = new List<ProductSolytronViewModel>();
+
+            IEnumerable<XElement> productElement = doc.Descendants("productSet")
+                                                      .Elements("product");
+
+            foreach (var item in productElement)
+            {
+                string codeId = item.Attribute("codeId").Value;
+                string groupId = item.Attribute("groupId").Value;
+
+                string fullInfoUrl = "https://solytron.bg/products/xml/product.xml?codeId=" +
+                                      codeId +
+                                      "&groupId=" +
+                                      groupId +
+                                      "?j_u=cavescomputers&j_p=Magurata2000";
+
+                ProductSolytronViewModel newProduct = GetFullInfo(fullInfoUrl);
+
+                Console.WriteLine();
+            }
+
+            return products;
+        }
+
+        private ProductSolytronViewModel GetFullInfo(string fullInfoUrl)
+        {
+            XDocument doc = XDocument.Load(fullInfoUrl);
+
+            IEnumerable<XElement> productElement = doc.Descendants("product")
+                                                      .Elements("propertyGroup")
+                                                      .Elements("property");
+
+            string name = doc.Descendants("product")
+                             .Elements("name")
+                             .FirstOrDefault()
+                             .Value;
+                             
+            ProductSolytronViewModel product = new ProductSolytronViewModel
+            {
+
+            };
+
+            return product;
+        }
+
+        private IList<CategorySolytronViewModel> GetSubCategories(string name)
         {
             XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
 
@@ -40,7 +94,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                                 .Where(x => (string)x.Attribute("name") == name)
                                                 .Elements("productGroup");
 
-            ICollection<CategorySolytronViewModel> subCategories = new List<CategorySolytronViewModel>();
+            IList<CategorySolytronViewModel> subCategories = new List<CategorySolytronViewModel>();
 
             foreach (var cat in categories)
             {
@@ -57,16 +111,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             return subCategories;
-        }
-
-        private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(ICollection<CategorySolytronViewModel> subCategories)
-        {
-            foreach (var category in subCategories)
-            {
-                //category.
-            }
-
-            throw new NotImplementedException();
         }
 
         //public IActionResult GetMainCategories()
