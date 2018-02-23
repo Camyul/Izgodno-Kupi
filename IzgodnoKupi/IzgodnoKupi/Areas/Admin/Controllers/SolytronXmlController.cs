@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System;
+using System.Text;
+using IzgodnoKupi.Data.Model;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -48,6 +50,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             foreach (var item in productElement)
             {
+                //Check if product is availible
+
                 string codeId = item.Attribute("codeId").Value;
                 string groupId = item.Attribute("groupId").Value;
 
@@ -55,11 +59,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                       codeId +
                                       "&groupId=" +
                                       groupId +
-                                      "?j_u=cavescomputers&j_p=Magurata2000";
+                                      "&j_u=cavescomputers&j_p=Magurata2000";
 
                 ProductSolytronViewModel newProduct = GetFullInfo(fullInfoUrl);
 
-                Console.WriteLine();
+                //Add Price, Category, Id???
+
+                products.Add(newProduct);
             }
 
             return products;
@@ -69,18 +75,49 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             XDocument doc = XDocument.Load(fullInfoUrl);
 
-            IEnumerable<XElement> productElement = doc.Descendants("product")
-                                                      .Elements("propertyGroup")
-                                                      .Elements("property");
+            var elementRoot = doc.Root;
 
-            string name = doc.Descendants("product")
-                             .Elements("name")
-                             .FirstOrDefault()
-                             .Value;
-                             
+
+            Guid id = Guid.Parse(elementRoot.Attribute("productId").Value);
+            var name = elementRoot.Element("name").Value;
+
+            var descriptionProperties = elementRoot.Elements("propertyGroup")
+                                         .LastOrDefault()
+                                         .Elements("property");
+
+            StringBuilder description = new StringBuilder();
+            foreach (var property in descriptionProperties)
+            {
+                if (property.Attribute("propertyId").Value != "55" 
+                    && property.Attribute("propertyId").Value != "56" 
+                    && property.Attribute("propertyId").Value != "57"
+                   )
+                {
+                    string propertyName = property.Attribute("name").Value;
+                    string propertyValue = property.Element("value").Value;
+
+                    description.Append("<p><b>" + propertyName + ": </b>" + propertyValue + "</p>");
+                }
+            }
+
+            var imagesElements = elementRoot.Elements("image");
+            ICollection<Picture> images = new List<Picture>();
+
+            foreach (var img in imagesElements)
+            {
+                Picture pic = new Picture
+                {
+                    ImageUrl = img.Value
+                };
+
+                images.Add(pic);
+            }
+
             ProductSolytronViewModel product = new ProductSolytronViewModel
             {
-
+                Name = name,
+                FullDescription = description.ToString(),
+                Pictures = images
             };
 
             return product;
