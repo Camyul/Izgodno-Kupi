@@ -1,14 +1,15 @@
-﻿using IzgodnoKupi.Web.Areas.Admin.Models.Category;
+﻿using IzgodnoKupi.Common;
+using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
-using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
-using System;
 using System.Text;
-using IzgodnoKupi.Data.Model;
+using System.Xml.Linq;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -16,7 +17,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator")]
     public class SolytronXmlController : Controller
     {
+        private readonly ICategoriesService categiriesService;
 
+        public SolytronXmlController(ICategoriesService categiriesService)
+        {
+            this.categiriesService = categiriesService;
+        }
 
 
         public IActionResult Index()
@@ -24,22 +30,33 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult GetProductsFromComputers()
+        public IActionResult GetProductsFromSoftware()
         {
-            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
+            Category category = this.categiriesService.GetByName("Софтуер");
 
-            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[0]);
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Софтуер");
 
+            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[0], category);
 
-            //foreach (var subCategory in subCategories)
-            //{
-            //    //category.
-            //}
-            //return View();
+            //Add products to DB    
+
             return RedirectToAction("Index");
         }
 
-        private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(CategorySolytronViewModel subCategory)
+        public IActionResult GetProductsFromComputers()
+        {
+            Category category = this.categiriesService.GetByName("Настолни Компютри");
+
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
+
+            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[1], category);
+
+            //Add products to DB    
+
+            return RedirectToAction("Index");
+        }
+
+        private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(CategorySolytronViewModel subCategory, Category category)
         {
             XDocument doc = XDocument.Load(subCategory.CategoryLink);
 
@@ -51,6 +68,15 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             foreach (var item in productElement)
             {
                 //Check if product is availible
+                string availability = string.Empty;
+                if (item.Descendants("stockInfoValue").Any())
+                {
+                    availability = item.Element("stockInfoValue").Value;
+                }
+                if (availability == "OnOrder" || availability == string.Empty)
+                {
+                    continue;
+                }
 
                 string codeId = item.Attribute("codeId").Value;
                 string groupId = item.Attribute("groupId").Value;
@@ -63,7 +89,51 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
                 ProductSolytronViewModel newProduct = GetFullInfo(fullInfoUrl);
 
-                //Add Price, Category, Id???
+                //Get Name
+                string name = item.Element("name").Value;
+                string vendor = item.Element("vendor").Value;
+                string nameAndVendor = vendor + " " + name;
+
+                if (nameAndVendor.Length > ValidationConstants.StandartMaxLength)
+                {
+                    nameAndVendor = nameAndVendor.Substring(0, ValidationConstants.StandartMaxLength);
+                }
+
+                newProduct.Name = nameAndVendor;
+
+                //Get Price
+                string currency = item.Element("priceEndUser").Attribute("currency").Value;
+                decimal priceValue = decimal.Parse(item.Element("priceEndUser").Value);
+                if (currency == "BGN")
+                {
+                    newProduct.Price = priceValue;
+                }
+                else if (currency == "EUR")
+                {
+                    decimal price = priceValue * Constants.EURValue;
+                    newProduct.Price = Math.Round(price, 2);
+                }
+                else
+                {
+                    decimal price = priceValue * Constants.USDValue;
+                    newProduct.Price = Math.Round(price, 2);
+                }
+
+                //Get warranty
+                //if (item.Descendants("warrantyUnit").Any())
+                //{
+                //    string warrantyType = item.Element("warrantyUnit").Value;
+                //    string warrantyValue = item.Element("warrantyQty").Value;
+                //    if (warrantyType == "2")
+                //    {
+                //        string warranty = "<p><b>Гаранция: </b>" + warrantyValue + " месеца</p>";
+                //        newProduct.FullDescription = newProduct.FullDescription + warranty;
+                //    }
+                //}
+
+                newProduct.Category = category;
+
+                //Add Id???
 
                 products.Add(newProduct);
             }
@@ -79,7 +149,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
 
             Guid id = Guid.Parse(elementRoot.Attribute("productId").Value);
-            var name = elementRoot.Element("name").Value;
+            //var name = elementRoot.Element("name").Value;
 
             var descriptionProperties = elementRoot.Elements("propertyGroup")
                                          .LastOrDefault()
@@ -115,7 +185,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             ProductSolytronViewModel product = new ProductSolytronViewModel
             {
-                Name = name,
+                //Name = name,
                 FullDescription = description.ToString(),
                 Pictures = images
             };

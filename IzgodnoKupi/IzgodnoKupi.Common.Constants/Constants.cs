@@ -2,6 +2,10 @@
 {
     public class Constants
     {
+        public const decimal EURValue = 1.95583m;
+
+        public const decimal USDValue = 1.58752m;
+        
         public const decimal VatTax = 1.2m;
 
         public const string SessionKey = "Cart";

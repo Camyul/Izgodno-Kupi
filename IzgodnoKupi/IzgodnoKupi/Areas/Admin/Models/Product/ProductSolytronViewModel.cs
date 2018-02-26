@@ -7,7 +7,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.Product
     {
         public string Name { get; set; }
 
-        public string Category { get; set; }
+        public IzgodnoKupi.Data.Model.Category Category { get; set; }
 
         public string FullDescription { get; set; }
 
