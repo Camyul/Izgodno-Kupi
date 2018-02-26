@@ -51,26 +51,29 @@ namespace IzgodnoKupi.Controllers
 
             IList<PreviewProductViewModel> randomProducts = new List<PreviewProductViewModel>();
 
-            for (int i = 0; i < Constants.CountOfProductsInHomePage; i++)
+            if (products.Count >= Constants.CountOfProductsInHomePage)
             {
-
-                Random rand = new Random();
-                var skip = rand.Next(0, products.Count - 1);
-                var randomProduct = products
-                                    .Skip(skip)
-                                    .Take(1)
-                                    .Select(x => new PreviewProductViewModel(x))
-                                    .First();
-
-                randomProducts.Add(randomProduct);
-
-            }
-
-            foreach (var product in randomProducts)
-            {
-                if (product.Name.Length > Constants.ProductPreviewNameLength)
+                for (int i = 0; i < Constants.CountOfProductsInHomePage; i++)
                 {
-                    product.Name = product.Name.Substring(0, Constants.ProductPreviewNameLength) + "...";
+
+                    Random rand = new Random();
+                    var skip = rand.Next(0, products.Count - 1);
+                    var randomProduct = products
+                                        .Skip(skip)
+                                        .Take(1)
+                                        .Select(x => new PreviewProductViewModel(x))
+                                        .First();
+
+                    randomProducts.Add(randomProduct);
+
+                }
+                
+                foreach (var product in randomProducts)
+                {
+                    if (product.Name.Length > Constants.ProductPreviewNameLength)
+                    {
+                        product.Name = product.Name.Substring(0, Constants.ProductPreviewNameLength) + "...";
+                    }
                 }
             }
 
