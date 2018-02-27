@@ -50,19 +50,22 @@ namespace IzgodnoKupi.Web.Controllers
 
             IList<ProductSimilarViewModel> randomProducts = new List<ProductSimilarViewModel>();
 
-            for (int i = 0; i < Constants.CountOfProductsInDetailsPage; i++)
+            if (products.Count > Constants.CountOfPartOfProducts)
             {
+                for (int i = 0; i < Constants.CountOfProductsInDetailsPage; i++)
+                {
 
-                Random rand = new Random();
-                var skip = rand.Next(0, Constants.CountOfPartOfProducts);
-                var randomProduct = products
-                                    .Skip(skip)
-                                    .Take(1)
-                                    .Select(x => new ProductSimilarViewModel(x))
-                                    .First();
+                    Random rand = new Random();
+                    var skip = rand.Next(0, Constants.CountOfPartOfProducts);
+                    var randomProduct = products
+                                        .Skip(skip)
+                                        .Take(1)
+                                        .Select(x => new ProductSimilarViewModel(x))
+                                        .First();
 
-                randomProducts.Add(randomProduct);
+                    randomProducts.Add(randomProduct);
 
+                }
             }
 
             ViewData["products"] = randomProducts;

@@ -14,5 +14,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.Product
         public ICollection<Picture> Pictures { get; set; }
 
         public decimal Price { get; set; }
+
+        //public Supplier Supplier { get; set; }
     }
 }

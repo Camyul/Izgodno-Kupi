@@ -1,5 +1,6 @@
 ﻿using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
+using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
@@ -17,11 +18,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator")]
     public class SolytronXmlController : Controller
     {
-        private readonly ICategoriesService categiriesService;
+        private readonly ICategoriesService categoriesService;
+        private readonly IProductsService productsService;
 
-        public SolytronXmlController(ICategoriesService categiriesService)
+        public SolytronXmlController(ICategoriesService categoriesService, IProductsService productsService)
         {
-            this.categiriesService = categiriesService;
+            this.categoriesService = categoriesService;
+            this.productsService = productsService;
         }
 
 
@@ -30,30 +33,85 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult GetProductsFromSoftware()
+        
+        public IActionResult GetProductsFromComputers()
         {
-            Category category = this.categiriesService.GetByName("Софтуер");
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Софтуер");
+            GetProductsFromSubCategory("Лаптопи", subCategories[0]);
 
-            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[0], category);
-
-            //Add products to DB    
+            GetProductsFromSubCategory("Настолни Компютри", subCategories[1]);
 
             return RedirectToAction("Index");
         }
 
-        public IActionResult GetProductsFromComputers()
+        public IActionResult GetProductsFromSoftware()
         {
-            Category category = this.categiriesService.GetByName("Настолни Компютри");
+            //Category category = this.categoriesService.GetByName("Софтуер");
 
-            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
+            ////Make Solytron's products in category - Not published
+            //SetProductsFromCategoryNotPublished(category);
 
-            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories[1], category);
+            //IList<CategorySolytronViewModel> subCategories = GetSubCategories("Софтуер");
 
-            //Add products to DB    
+            //foreach (var subCategory in subCategories)
+            //{
+            //    ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategory, category);
+
+            //    //Add products to DB    
+            //    AddProductsToDb(products);
+            //}
 
             return RedirectToAction("Index");
+        }
+
+        private void AddProductsToDb(ICollection<ProductSolytronViewModel> products)
+        {
+            foreach (var product in products)
+            {
+                Product dbProduct = productsService.GetByName(product.Name).FirstOrDefault();
+                if (dbProduct != null)
+                {
+                    dbProduct.Category = product.Category;
+                    dbProduct.Name = product.Name;
+                    dbProduct.FullDescription = product.FullDescription;
+                    dbProduct.IsPublished = true;
+                    dbProduct.Pictures.Clear();
+                    dbProduct.Pictures = product.Pictures;
+                    dbProduct.Price = product.Price;
+                    dbProduct.Supplier = Supplier.Solytron;
+
+                    productsService.Update(dbProduct);
+                }
+                else
+                {
+                    Product newProduct = new Product();
+                    newProduct.Name = product.Name;
+                    newProduct.Category = product.Category;
+                    newProduct.FullDescription = product.FullDescription;
+                    newProduct.IsPublished = true;
+                    newProduct.Pictures = product.Pictures;
+                    newProduct.Price = product.Price;
+                    newProduct.Supplier = Supplier.Solytron;
+
+                    productsService.AddProduct(newProduct);
+                }
+            }
+        }
+
+        private void SetProductsFromCategoryNotPublished(Category category)
+        {
+            IList<Product> products = this.productsService
+                                          .GetByCategory(category.Id)
+                                          .Where(x => x.IsPublished == true && x.Supplier == Supplier.Solytron)
+                                          .ToList();
+
+            foreach (var product in products)
+            {
+                product.IsPublished = false;
+                this.productsService.Update(product);
+            }
+
         }
 
         private ICollection<ProductSolytronViewModel> GetProductsFromSubCategories(CategorySolytronViewModel subCategory, Category category)
@@ -74,6 +132,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     availability = item.Element("stockInfoValue").Value;
                 }
                 if (availability == "OnOrder" || availability == string.Empty)
+                {
+                    continue;
+                }
+
+                //Check for End User Price
+                if (!item.Descendants("priceEndUser").Any())
                 {
                     continue;
                 }
@@ -185,9 +249,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             ProductSolytronViewModel product = new ProductSolytronViewModel
             {
-                //Name = name,
                 FullDescription = description.ToString(),
-                Pictures = images
+                Pictures = images,
+                //Supplier = Supplier.Solytron
             };
 
             return product;
@@ -220,72 +284,18 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return subCategories;
         }
 
-        //public IActionResult GetMainCategories()
-        //{
-        //    XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
+        private void GetProductsFromSubCategory(string stantekCategory, CategorySolytronViewModel subCategory)
+        {
+            Category category = this.categoriesService.GetByName(stantekCategory);
 
-        //    IEnumerable<XElement> elements = doc.Elements();
+            //Make Solytron's products in category - Not published
+            SetProductsFromCategoryNotPublished(category);
 
-        //    ICollection<CategoriesNavigationViewModel> mainCategories = new List<CategoriesNavigationViewModel>();
+            ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategory, category);
 
+            //Add products to DB   
+            AddProductsToDb(products);
+        }
 
-        //    foreach (var groups in elements)
-        //    {
-        //        var categoriesGroup = groups.Elements("productCategory").ToList();
-
-        //        foreach (var categoryGroup in categoriesGroup)
-        //        {
-        //            var group = categoryGroup.Elements("productGroup").ToList();
-
-        //            var name = categoryGroup.Attribute("name").Value;
-        //            CategoriesNavigationViewModel mainCategory = new CategoriesNavigationViewModel
-        //            {
-        //                Name = name
-        //            };
-        //            mainCategories.Add(mainCategory);
-
-        //           // var link = (string)categoryGroup.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
-        //            //categoriesLinks.Add(link);
-
-        //            //foreach (var cat in group)
-        //            //{
-        //            //    var name = cat.Attribute("name").Value;
-        //            //    var link = (string)cat.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
-        //            //    categoriesNames.Add(name);
-        //            //    categoriesLinks.Add(link);
-        //            //}
-        //        }
-        //    }
-
-        //    return View(mainCategories);
-        //}
-
-        //public IActionResult GetProductsFromMainCategory(string name)
-        //{
-        //    XDocument doc = XDocument.Load("https://solytron.bg/products/xml/catalog-category.xml?j_u=cavescomputers&j_p=Magurata2000");
-
-        //    IEnumerable<XElement> categories = doc.Descendants("productCategory")
-        //                                        .Where(x => (string)x.Attribute("name") == name)
-        //                                        .Elements("productGroup");
-
-        //    ICollection<CategorySolytronViewModel> subCategories = new List<CategorySolytronViewModel>();
-
-        //    foreach (var cat in categories)
-        //    {
-        //        var categoryName = cat.Attribute("name").Value;
-        //        var link = (string)cat.Element(XName.Get("link", "https://www.w3.org/2005/Atom")).Attribute("href");
-
-        //        CategorySolytronViewModel newCategory = new CategorySolytronViewModel
-        //        {
-        //            Name = categoryName,
-        //            CategoryLink = link
-        //        };
-        //    }
-
-        //    ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategories);
-
-        //    //return View();
-        //    return RedirectToAction("Index");
-        //}
     }
 }

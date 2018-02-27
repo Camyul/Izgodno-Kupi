@@ -103,15 +103,7 @@
     </div>
 </div>
 @section Scripts {
-    <script>
-    $(window).load(function() {
-						  $('.flexslider').flexslider({
-							animation: "slide",
-							controlNav: "thumbnails"
-						  });
-        });
-    </script>
-
+    @{await Html.RenderPartialAsync("_FlexSliderScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ShareButtonScriptPartial");}
 }
