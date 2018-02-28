@@ -38,9 +38,19 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
             GetProductsFromSubCategory("Лаптопи", subCategories[0]);
 
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Настолни Компютри"));
             GetProductsFromSubCategory("Настолни Компютри", subCategories[1]);
+            GetProductsFromSubCategory("Настолни Компютри", subCategories[2]);
+            GetProductsFromSubCategory("Настолни Компютри", subCategories[3]);
+
+            //subCategories[4] - Гаранции
+            //subCategories[5] - Опции
+
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            //GetProductsFromSubCategory("Настолни Компютри", subCategories[5]);
 
             return RedirectToAction("Index");
         }
@@ -287,9 +297,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         private void GetProductsFromSubCategory(string stantekCategory, CategorySolytronViewModel subCategory)
         {
             Category category = this.categoriesService.GetByName(stantekCategory);
-
-            //Make Solytron's products in category - Not published
-            SetProductsFromCategoryNotPublished(category);
 
             ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategory, category);
 
