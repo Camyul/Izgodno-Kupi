@@ -33,7 +33,32 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
-        
+        public IActionResult GetProductsFromTabletsAndSmartphones()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Таблети и Смартфони");
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
+            GetProductsFromSubCategory("Таблети", subCategories[0]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
+            GetProductsFromSubCategory("Смартфони", subCategories[1]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За смартфони"));
+            GetProductsFromSubCategory("За смартфони", subCategories[2]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromServers()
+        {
+            //IList<CategorySolytronViewModel> subCategories = GetSubCategories("Сървъри");
+
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            //GetProductsFromSubCategory("Test", subCategories[0]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromComputers()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
