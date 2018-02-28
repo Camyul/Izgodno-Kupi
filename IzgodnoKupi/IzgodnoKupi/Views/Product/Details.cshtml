@@ -16,10 +16,20 @@
                 <div class="col-md-7 single-top">
                     <div class="flexslider">
                         <ul class="slides">
-                            @foreach (var pic in @Model.Picture)
+                            @if (@Model.Picture.Count > 0)
                             {
-                                <li data-thumb="@pic.ImageUrl">
-                                    <div class="thumb-image"> <img src="@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+
+                                foreach (var pic in @Model.Picture)
+                                {
+                                    <li data-thumb="@pic.ImageUrl">
+                                        <div class="thumb-image"> <img src="@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li data-thumb="/images/no-image.jpg">
+                                    <div class="thumb-image"> <img src="/images/no-image.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                 </li>
                             }
                             @*<li data-thumb="@Model.Picture.ImageUrl">
