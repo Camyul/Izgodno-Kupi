@@ -1,4 +1,5 @@
-﻿using IzgodnoKupi.Common;
+﻿using Bytes2you.Validation;
+using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
@@ -23,6 +24,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public SolytronXmlController(ICategoriesService categoriesService, IProductsService productsService)
         {
+            Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
+            Guard.WhenArgument(categoriesService, "categiriesService").IsNull().Throw();
+
             this.categoriesService = categoriesService;
             this.productsService = productsService;
         }
@@ -31,6 +35,38 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult GetProductsFromStorages()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Storage");
+
+            string categoryName = "NAS";
+            bool isCategoryExist = this.categoriesService.GetByName(categoryName) == null;
+
+            if (isCategoryExist)
+            {
+                Category categoryToAdd = new Category()
+                {
+                    Name = categoryName,
+                    ShowOnHomePage = false,
+                    CategoriesGroup = CategoriesGroup.Pc
+                };
+
+                this.categoriesService.AddCategory(categoryToAdd);
+            }
+
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
+            GetProductsFromSubCategory(categoryName, subCategories[1]);
+
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
+            //GetProductsFromSubCategory("Смартфони", subCategories[1]);
+
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За смартфони"));
+            //GetProductsFromSubCategory("За смартфони", subCategories[2]);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult GetProductsFromTabletsAndSmartphones()

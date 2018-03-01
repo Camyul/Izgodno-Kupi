@@ -361,7 +361,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Category categoryToAdd = new Category()
                 {
                     Name = cat.Name,
-                    ShowOnHomePage = false
+                    ShowOnHomePage = false,
+                    CategoriesGroup = CategoriesGroup.Pc
                 };
 
                 this.categorieService.AddCategory(categoryToAdd);

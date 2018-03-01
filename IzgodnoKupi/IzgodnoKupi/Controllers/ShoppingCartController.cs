@@ -153,6 +153,13 @@ namespace IzgodnoKupi.Web.Controllers
             return View("MyCart", myCartModel);
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult OrderNow(Guid id)
+        {
+            return RedirectToAction("Details", "Product", new { id = id });
+        }
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]

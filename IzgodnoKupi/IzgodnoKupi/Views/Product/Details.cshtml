@@ -51,7 +51,7 @@
                 <button type="submit" class="btn btn-default">Verify</button>
                 </form>
             </div>*@
-                    <form asp-controller="ShoppingCart" asp-action="OrderNow" method="post" class="navbar-form">
+                    <form asp-controller="ShoppingCart" asp-action="OrderNow" asp-route-id="@Model.Id" method="post" class="navbar-form">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="text-center">
                             <input type="text" class="hidden" name="id" value="@Model.Id"/>
