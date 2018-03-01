@@ -14,7 +14,7 @@
 
         public const decimal TaxAmount = 1.20m;
 
-        public const decimal MinPriceFreeShipping = 35.00m;
+        public const decimal MinPriceFreeShipping = 50.00m;
 
         public const int ProductsPerPage = 12;
 
