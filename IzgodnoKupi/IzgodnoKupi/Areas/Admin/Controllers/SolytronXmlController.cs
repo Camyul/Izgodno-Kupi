@@ -37,6 +37,46 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromComponents()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компоненти"); 
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Хард дискове HDD"));
+            GetProductsFromSubCategory("Хард дискове HDD", subCategories[0]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("SSD"));
+            GetProductsFromSubCategory("SSD", subCategories[2]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео карти"));
+            GetProductsFromSubCategory("Видео карти", subCategories[3]);
+
+            //Have USB Hubs in this category
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("CD и DVD записвачки"));
+            //GetProductsFromSubCategory("CD и DVD записвачки", subCategories[4]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Флашки и USB HDD"));
+            GetProductsFromSubCategory("Флашки и USB HDD", subCategories[1]);
+            GetProductsFromSubCategory("Флашки и USB HDD", subCategories[5]);
+            GetProductsFromSubCategory("Флашки и USB HDD", subCategories[10]);
+
+            //Mix for Desctop and Laptop
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Оперативна памет RAM"));
+            //GetProductsFromSubCategory("Оперативна памет RAM", subCategories[6]);
+
+            //Only 3, and lot of lincks
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Дънни платки"));
+            //GetProductsFromSubCategory("Дънни платки", subCategories[7]);
+
+            //Mix from adapters for laptops, gsm, and PC, only 3-4 pieces
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Захранване за компютри"));
+            //GetProductsFromSubCategory("Захранване за компютри", subCategories[8]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Охладители"));
+            GetProductsFromSubCategory("Охладители", subCategories[11]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromStorages()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Storage");
