@@ -143,7 +143,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {             
             foreach (var product in products)
             {
-                Product dbProduct = productsService.GetByName(product.Name).FirstOrDefault();
+                Product dbProduct = productsService.GetByName(product.Name)
+                                                   .Where(x => x.Supplier == Supplier.Stantek)
+                                                   .FirstOrDefault();
                 if (dbProduct != null)
                 {
                     dbProduct.Category = this.categorieService.GetByName(product.Category);

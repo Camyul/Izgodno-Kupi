@@ -37,6 +37,61 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromTV()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Телевизори");
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Телевизори"));
+            GetProductsFromSubCategory("Телевизори", subCategories[0]);
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За телевизори"));
+            GetProductsFromSubCategory("За телевизори", subCategories[1]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromProjectors()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеопрожектори");
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Проектори"));
+            GetProductsFromSubCategory("Проектори", subCategories[0]);
+
+            string categoryName = "За Проектори";
+            bool isCategoryExist = this.categoriesService.GetByName(categoryName) == null;
+
+            if (isCategoryExist)
+            {
+                Category categoryToAdd = new Category()
+                {
+                    Name = categoryName,
+                    ShowOnHomePage = false,
+                    CategoriesGroup = CategoriesGroup.Pc
+                };
+
+                this.categoriesService.AddCategory(categoryToAdd);
+            }
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
+            GetProductsFromSubCategory(categoryName, subCategories[1]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromDisplays()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дисплеи");
+
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Монитори"));
+            //https://www.solytron.bg/products/xml/list.xml?propertyId={dccccb65-a0fe-472f-8d2c-a98f0af39597}&j_u=cavescomputers&j_p=Magurata2000
+            //GetProductsFromSubCategory("Монитори", subCategories[0]);
+            GetProductsFromSubCategory("Монитори", subCategories[1]);
+            //Only one monitor stand
+            GetProductsFromSubCategory("Монитори", subCategories[2]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromComponents()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компоненти"); 
@@ -113,8 +168,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Таблети и Смартфони");
 
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
-            GetProductsFromSubCategory("Таблети", subCategories[0]);
+            //Have in Stantek
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
+            //GetProductsFromSubCategory("Таблети", subCategories[0]);
 
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
             GetProductsFromSubCategory("Смартфони", subCategories[1]);
@@ -139,8 +195,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
-            GetProductsFromSubCategory("Лаптопи", subCategories[0]);
+            //Have all in Stantek
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
+            //GetProductsFromSubCategory("Лаптопи", subCategories[0]);
 
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Настолни Компютри"));
             GetProductsFromSubCategory("Настолни Компютри", subCategories[1]);
@@ -180,7 +237,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             foreach (var product in products)
             {
-                Product dbProduct = productsService.GetByName(product.Name).FirstOrDefault();
+                Product dbProduct = productsService.GetByName(product.Name)
+                                                   .Where(x => x.Supplier == Supplier.Solytron)
+                                                   .FirstOrDefault();
                 if (dbProduct != null)
                 {
                     dbProduct.Category = product.Category;
@@ -253,6 +312,16 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     continue;
                 }
 
+                //Get Name
+                string name = item.Element("name").Value;
+                //var isExist = this.productsService.GetByName(name.Substring(20))
+                //                                  .Where(x => x.Supplier == Supplier.Stantek && x.IsPublished == true)
+                //                                  .FirstOrDefault();
+                //if (isExist != null)
+                //{
+                //    continue;
+                //}
+
                 string codeId = item.Attribute("codeId").Value;
                 string groupId = item.Attribute("groupId").Value;
 
@@ -264,8 +333,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
                 ProductSolytronViewModel newProduct = GetFullInfo(fullInfoUrl);
 
-                //Get Name
-                string name = item.Element("name").Value;
                 string vendor = item.Element("vendor").Value;
                 string nameAndVendor = vendor + " " + name;
 
