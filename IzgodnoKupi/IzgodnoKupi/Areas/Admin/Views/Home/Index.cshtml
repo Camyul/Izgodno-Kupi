@@ -48,13 +48,19 @@
                     }
                     else if (item.OrderStatus == OrderStatus.Shipped)
                     {
-                        <div class="text-warning text-center">
+                        <div class="text-info text-center">
                             @Html.DisplayFor(modelItem => item.OrderStatus)
                         </div>
                     }
                     else if (item.OrderStatus == OrderStatus.Delivered)
                     {
                         <div class="text-success text-center">
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </div>
+                    }
+                    else if (item.OrderStatus == OrderStatus.Canceled)
+                    {
+                        <div class="text-warning text-center">
                             @Html.DisplayFor(modelItem => item.OrderStatus)
                         </div>
                     }
