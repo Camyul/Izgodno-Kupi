@@ -9,6 +9,7 @@
     var categoriesPc = ViewData["categoriesPc"] as List<CategoriesNavigationViewModel>;
     var categoriesSmartPhone = ViewData["categoriesSmartPhone"] as List<CategoriesNavigationViewModel>;
     ViewData["Title"] = Model.Name;
+    var numberOfProducts = ViewData["numberOfProducts"] as Dictionary<CategoriesNavigationViewModel, int>;
 }
 
 
@@ -100,7 +101,11 @@
                     <div class="single-bottom">
                         @foreach (var category in categoriesPc)
                         {
-                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            //Display only Category with products
+                            if (numberOfProducts[category] > 0)
+                            {
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            }
                         }
                     </div>
                 </div>
@@ -113,7 +118,11 @@
                     <div class="single-bottom">
                         @foreach (var category in categoriesSmartPhone)
                         {
-                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            //Display only Category with products
+                            if (numberOfProducts[category] > 0)
+                            {
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            }
                         }
                     </div>
                 </div>

@@ -44,7 +44,6 @@ namespace IzgodnoKupi.Controllers
             var products = this.productsService
                     .GetAll()
                     .Where(p => p.IsPublished == true)
-                    .Where(x => x.OldPrice != 0)
                     .Take(Constants.CountOfPartOfProducts)
                     //.Take(Constants.CountOfProductsInHomePage)
                     .ToList();
@@ -77,27 +76,22 @@ namespace IzgodnoKupi.Controllers
                 }
             }
 
-            //var biggestDiscountProducts = new List<PreviewProductViewModel>();
+            IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
 
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    double maxDiscount = double.MaxValue;
-            //    int numInList = int.MinValue;
+            foreach (var cat in viewCategoryPc)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
+            foreach (var cat in categoriesSmartPhone)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
 
-            //    for (int j = 0; j < randomProducts.Count; j++)
-            //    {
-            //        if (maxDiscount > randomProducts[j].Discount)
-            //        {
-            //            maxDiscount = randomProducts[j].Discount;
-            //            numInList = j;
-            //        }
-
-            //    }
-
-            //    biggestDiscountProducts.Add(randomProducts[numInList]);
-            //    randomProducts.RemoveAt(numInList);
-            //}
-
+            ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["products"] = randomProducts;

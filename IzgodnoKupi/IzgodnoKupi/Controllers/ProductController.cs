@@ -96,6 +96,7 @@ namespace IzgodnoKupi.Web.Controllers
                                                                              .Select(c => new CategoriesNavigationViewModel(c))
                                                                              .ToList();
 
+
             var viewProducts = new List<PreviewProductViewModel>();
             foreach (var product in products)
             {
@@ -116,6 +117,22 @@ namespace IzgodnoKupi.Web.Controllers
                 Pager = pager
             };
 
+            IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
+
+            foreach (var cat in viewCategoryPc)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
+            foreach (var cat in categoriesSmartPhone)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
+
+            ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["products"] = viewPageIndexModel;
