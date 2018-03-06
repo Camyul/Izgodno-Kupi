@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Xml.Linq;
 
@@ -58,19 +59,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             GetProductsFromSubCategory("Проектори", subCategories[0]);
 
             string categoryName = "За Проектори";
-            bool isCategoryExist = this.categoriesService.GetByName(categoryName) == null;
 
-            if (isCategoryExist)
-            {
-                Category categoryToAdd = new Category()
-                {
-                    Name = categoryName,
-                    ShowOnHomePage = false,
-                    CategoriesGroup = CategoriesGroup.Pc
-                };
-
-                this.categoriesService.AddCategory(categoryToAdd);
-            }
+            CheckCategoryExist(categoryName);
 
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
             GetProductsFromSubCategory(categoryName, subCategories[1]);
@@ -94,38 +84,49 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public IActionResult GetProductsFromComponents()
         {
-            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компоненти"); 
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компоненти");
 
+            CheckCategoryExist("Хард дискове HDD");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Хард дискове HDD"));
             GetProductsFromSubCategory("Хард дискове HDD", subCategories[0]);
 
+            CheckCategoryExist("SSD");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("SSD"));
             GetProductsFromSubCategory("SSD", subCategories[2]);
 
+            CheckCategoryExist("Видео карти");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео карти"));
             GetProductsFromSubCategory("Видео карти", subCategories[3]);
 
             //Have USB Hubs in this category
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("CD и DVD записвачки"));
-            //GetProductsFromSubCategory("CD и DVD записвачки", subCategories[4]);
+            CheckCategoryExist("CD и DVD записвачки");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("CD и DVD записвачки"));
+            GetProductsFromSubCategory("CD и DVD записвачки", subCategories[4]);
 
+            CheckCategoryExist("Флашки и USB HDD");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Флашки и USB HDD"));
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[1]);
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[5]);
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[10]);
 
             //Mix for Desctop and Laptop
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Оперативна памет RAM"));
-            //GetProductsFromSubCategory("Оперативна памет RAM", subCategories[6]);
+            CheckCategoryExist("Оперативна памет RAM");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Оперативна памет RAM"));
+            GetProductsFromSubCategory("Оперативна памет RAM", subCategories[6]);
 
             //Only 3, and lot of lincks
+            CheckCategoryExist("Test");
             //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Дънни платки"));
             //GetProductsFromSubCategory("Дънни платки", subCategories[7]);
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            GetProductsFromSubCategory("Test", subCategories[7]);
 
             //Mix from adapters for laptops, gsm, and PC, only 3-4 pieces
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Захранване за компютри"));
-            //GetProductsFromSubCategory("Захранване за компютри", subCategories[8]);
+            CheckCategoryExist("Захранване за компютри");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Захранване за компютри"));
+            GetProductsFromSubCategory("Захранване за компютри", subCategories[8]);
 
+            CheckCategoryExist("Охладители");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Охладители"));
             GetProductsFromSubCategory("Охладители", subCategories[11]);
 
@@ -137,29 +138,10 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Storage");
 
             string categoryName = "NAS";
-            bool isCategoryExist = this.categoriesService.GetByName(categoryName) == null;
 
-            if (isCategoryExist)
-            {
-                Category categoryToAdd = new Category()
-                {
-                    Name = categoryName,
-                    ShowOnHomePage = false,
-                    CategoriesGroup = CategoriesGroup.Pc
-                };
-
-                this.categoriesService.AddCategory(categoryToAdd);
-            }
-
-
+            CheckCategoryExist(categoryName);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
             GetProductsFromSubCategory(categoryName, subCategories[1]);
-
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
-            //GetProductsFromSubCategory("Смартфони", subCategories[1]);
-
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За смартфони"));
-            //GetProductsFromSubCategory("За смартфони", subCategories[2]);
 
             return RedirectToAction("Index");
         }
@@ -169,12 +151,15 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Таблети и Смартфони");
 
             //Have in Stantek
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
-            //GetProductsFromSubCategory("Таблети", subCategories[0]);
+            CheckCategoryExist("Таблети");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
+            GetProductsFromSubCategory("Таблети", subCategories[0]);
 
+            CheckCategoryExist("Смартфони");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
             GetProductsFromSubCategory("Смартфони", subCategories[1]);
 
+            CheckCategoryExist("За смартфони");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За смартфони"));
             GetProductsFromSubCategory("За смартфони", subCategories[2]);
 
@@ -183,8 +168,10 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public IActionResult GetProductsFromServers()
         {
+            //Only 4 servers
             //IList<CategorySolytronViewModel> subCategories = GetSubCategories("Сървъри");
 
+            //CheckCategoryExist("Test");
             //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
             //GetProductsFromSubCategory("Test", subCategories[0]);
 
@@ -195,10 +182,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            //Have all in Stantek
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
-            //GetProductsFromSubCategory("Лаптопи", subCategories[0]);
+            CheckCategoryExist("Лаптопи");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
+            GetProductsFromSubCategory("Лаптопи", subCategories[0]);
 
+            CheckCategoryExist("Настолни Компютри");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Настолни Компютри"));
             GetProductsFromSubCategory("Настолни Компютри", subCategories[1]);
             GetProductsFromSubCategory("Настолни Компютри", subCategories[2]);
@@ -215,6 +203,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public IActionResult GetProductsFromSoftware()
         {
+            ////Only six product
+            //CheckCategoryExist("Софтуер");
             //Category category = this.categoriesService.GetByName("Софтуер");
 
             ////Make Solytron's products in category - Not published
@@ -226,7 +216,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             //{
             //    ICollection<ProductSolytronViewModel> products = GetProductsFromSubCategories(subCategory, category);
 
-            //    //Add products to DB    
+            //    //Add products to DB
             //    AddProductsToDb(products);
             //}
 
@@ -334,7 +324,16 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 ProductSolytronViewModel newProduct = GetFullInfo(fullInfoUrl);
 
                 string vendor = item.Element("vendor").Value;
-                string nameAndVendor = vendor + " " + name;
+                string nameAndVendor = string.Empty;
+                //Check name whether start with vendor
+                if (vendor.ToLower() != name.Substring(0, vendor.Length).ToLower())
+                {
+                    nameAndVendor = vendor + " " + name;
+                }
+                else
+                {
+                    nameAndVendor = name;
+                }
 
                 if (nameAndVendor.Length > ValidationConstants.StandartMaxLength)
                 {
@@ -417,6 +416,25 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             foreach (var img in imagesElements)
             {
+                //string fileSaveAddress = string.Empty;
+                //using (WebClient client = new WebClient())
+                //{
+                //    //client.DownloadFile(new Uri(img.Value), @"c:\temp\image35.png");
+
+                //    //OR 
+                //    string url = img.Value;
+                //    int start = url.IndexOf("resources/") + 10;
+                //    int end = url.LastIndexOf("?");
+                //    fileSaveAddress = "./wwwroot/productImages/" + url.Substring(start, end - start);
+
+                //    client.DownloadFileAsync(new Uri(img.Value), fileSaveAddress);
+                //}
+
+                //Picture pic = new Picture
+                //{
+                //    ImageUrl = fileSaveAddress.Substring(9)
+                //};
+
                 Picture pic = new Picture
                 {
                     ImageUrl = img.Value
@@ -472,5 +490,21 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             AddProductsToDb(products);
         }
 
+        private void CheckCategoryExist(string name)
+        {
+            bool isCategoryNotExist = this.categoriesService.GetByName(name) == null;
+
+            if (isCategoryNotExist)
+            {
+                Category categoryToAdd = new Category()
+                {
+                    Name = name,
+                    ShowOnHomePage = false,
+                    CategoriesGroup = CategoriesGroup.Pc
+                };
+
+                this.categoriesService.AddCategory(categoryToAdd);
+            }
+        }
     }
 }
