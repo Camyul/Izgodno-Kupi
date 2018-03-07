@@ -38,13 +38,38 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromPrinters()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Принтери");
+
+            CheckCategoryExist("Принтери");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Принтери"));
+            GetProductsFromSubCategory("Принтери", subCategories[0]);
+            GetProductsFromSubCategory("Принтери", subCategories[1]);
+
+            CheckCategoryExist("За принтери");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За принтери"));
+            GetProductsFromSubCategory("За принтери", subCategories[12]);
+
+            IList<CategorySolytronViewModel> secondSubCategories = GetSubCategories("Мултифункционални");
+
+            GetProductsFromSubCategory("Принтери", secondSubCategories[0]);
+            GetProductsFromSubCategory("Принтери", secondSubCategories[1]);
+            GetProductsFromSubCategory("Принтери", secondSubCategories[3]);
+            GetProductsFromSubCategory("Принтери", secondSubCategories[6]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromTV()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Телевизори");
 
+            CheckCategoryExist("Телевизори");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Телевизори"));
             GetProductsFromSubCategory("Телевизори", subCategories[0]);
 
+            CheckCategoryExist("За телевизори");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За телевизори"));
             GetProductsFromSubCategory("За телевизори", subCategories[1]);
 
@@ -55,15 +80,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеопрожектори");
 
+            CheckCategoryExist("Проектори");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Проектори"));
             GetProductsFromSubCategory("Проектори", subCategories[0]);
 
-            string categoryName = "За Проектори";
-
-            CheckCategoryExist(categoryName);
-
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
-            GetProductsFromSubCategory(categoryName, subCategories[1]);
+            CheckCategoryExist("За Проектори");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За Проектори"));
+            GetProductsFromSubCategory("За Проектори", subCategories[1]);
 
             return RedirectToAction("Index");
         }
@@ -72,9 +95,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дисплеи");
 
+            CheckCategoryExist("Монитори");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Монитори"));
-            //https://www.solytron.bg/products/xml/list.xml?propertyId={dccccb65-a0fe-472f-8d2c-a98f0af39597}&j_u=cavescomputers&j_p=Magurata2000
-            //GetProductsFromSubCategory("Монитори", subCategories[0]);
+            GetProductsFromSubCategory("Монитори", subCategories[0]);
             GetProductsFromSubCategory("Монитори", subCategories[1]);
             //Only one monitor stand
             GetProductsFromSubCategory("Монитори", subCategories[2]);
@@ -109,19 +132,18 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[5]);
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[10]);
 
-            //Mix for Desctop and Laptop
+            //Mix for Desktop and Laptop
             CheckCategoryExist("Оперативна памет RAM");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Оперативна памет RAM"));
             GetProductsFromSubCategory("Оперативна памет RAM", subCategories[6]);
 
             //Only 3, and lot of lincks
-            CheckCategoryExist("Test");
+            //CheckCategoryExist("Дънни платки");
             //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Дънни платки"));
             //GetProductsFromSubCategory("Дънни платки", subCategories[7]);
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
-            GetProductsFromSubCategory("Test", subCategories[7]);
+            
 
-            //Mix from adapters for laptops, gsm, and PC, only 3-4 pieces
+            //Mix from adapters for laptops, gsm, and PC, only 8 pieces
             CheckCategoryExist("Захранване за компютри");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Захранване за компютри"));
             GetProductsFromSubCategory("Захранване за компютри", subCategories[8]);
