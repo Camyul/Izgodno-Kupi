@@ -38,6 +38,88 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromAccessoary()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Аксесоари");
+
+
+            CheckCategoryExist("Мишки");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Мишки"));
+            GetProductsFromSubCategory("Мишки", subCategories[1]);
+
+            CheckCategoryExist("Клавиатури");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Клавиатури"));
+            GetProductsFromSubCategory("Клавиатури", subCategories[2]);
+
+            CheckCategoryExist("Чанти, раници за лаптоп");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Чанти, раници за лаптоп"));
+            GetProductsFromSubCategory("Чанти, раници за лаптоп", subCategories[3]);
+
+            CheckCategoryExist("Други...");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Други..."));
+            GetProductsFromSubCategory("Други...", subCategories[4]);
+
+            CheckCategoryExist("Кабели и преходници");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кабели и преходници"));
+            GetProductsFromSubCategory("Кабели и преходници", subCategories[5]);
+
+            //CheckCategoryExist("Test");
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            //GetProductsFromSubCategory("Test", subCategories[0]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromMultimedia()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Мултимедия");
+
+            CheckCategoryExist("Слушалки и микрофони");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Слушалки и микрофони"));
+            GetProductsFromSubCategory("Слушалки и микрофони", subCategories[2]);
+            GetProductsFromSubCategory("Слушалки и микрофони", subCategories[3]);
+
+            CheckCategoryExist("Тон колони");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Тон колони"));
+            GetProductsFromSubCategory("Тон колони", subCategories[8]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromCartridges()
+        {
+            //To Long operation
+            //IList<CategorySolytronViewModel> subCategories = GetSubCategories("Консумативи");
+
+            //CheckCategoryExist("За принтери");
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За принтери"));
+            //GetProductsFromSubCategory("За принтери", subCategories[0]);
+            //GetProductsFromSubCategory("За принтери", subCategories[1]);
+            //GetProductsFromSubCategory("За принтери", subCategories[2]);
+            //GetProductsFromSubCategory("За принтери", subCategories[3]);
+            //GetProductsFromSubCategory("За принтери", subCategories[4]);
+
+            //IList<CategorySolytronViewModel> secondSubCategories = GetSubCategories("Принтери");
+
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За принтери"));
+            //GetProductsFromSubCategory("За принтери", secondSubCategories[12]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromScanners()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Скенери");
+
+            CheckCategoryExist("Скенери");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Скенери"));
+            GetProductsFromSubCategory("Скенери", subCategories[0]);
+            GetProductsFromSubCategory("Скенери", subCategories[1]);
+            GetProductsFromSubCategory("Скенери", subCategories[2]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromPrinters()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Принтери");
@@ -46,10 +128,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Принтери"));
             GetProductsFromSubCategory("Принтери", subCategories[0]);
             GetProductsFromSubCategory("Принтери", subCategories[1]);
-
-            CheckCategoryExist("За принтери");
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За принтери"));
-            GetProductsFromSubCategory("За принтери", subCategories[12]);
 
             IList<CategorySolytronViewModel> secondSubCategories = GetSubCategories("Мултифункционални");
 
@@ -348,7 +426,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 string vendor = item.Element("vendor").Value;
                 string nameAndVendor = string.Empty;
                 //Check name whether start with vendor
-                if (vendor.ToLower() != name.Substring(0, vendor.Length).ToLower())
+                if (vendor.Length > name.Length || vendor.ToLower() != name.Substring(0, vendor.Length).ToLower())
                 {
                     nameAndVendor = vendor + " " + name;
                 }
