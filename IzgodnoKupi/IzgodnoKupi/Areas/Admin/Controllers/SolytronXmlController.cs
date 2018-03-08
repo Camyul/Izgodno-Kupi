@@ -38,6 +38,61 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromVideoCams()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеонаблюдение");
+
+            //CheckCategoryExist("Видео камери");
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео камери"));
+            //GetProductsFromSubCategory("Видео камери", subCategories[0]);
+
+            CheckCategoryExist("Test");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            GetProductsFromSubCategory("Test", subCategories[0]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromCommunication()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Комуникации");
+
+            CheckCategoryExist("Мрежа, LAN, Wi-Fi");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Мрежа, LAN, Wi-Fi"));
+            GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[0]);
+            GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[1]);
+            GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[2]);
+            GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[4]);
+
+            CheckCategoryExist("Шкафове");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Шкафове"));
+            GetProductsFromSubCategory("Шкафове", subCategories[15]);//Rack
+            GetProductsFromSubCategory("Шкафове", subCategories[16]);//Parts for Rack
+
+            CheckCategoryExist("Телефонни апарати");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Телефонни апарати"));
+            GetProductsFromSubCategory("Телефонни апарати", subCategories[7]);//IP Phones
+            GetProductsFromSubCategory("Телефонни апарати", subCategories[8]);//Digital Phones
+            GetProductsFromSubCategory("Телефонни апарати", subCategories[9]);//Dect Phones
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromAudioVideo()
+        {
+
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Аудио и Видео");
+
+            CheckCategoryExist("Аудио и Видео");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Аудио и Видео"));
+            GetProductsFromSubCategory("Аудио и Видео", subCategories[1]);
+            GetProductsFromSubCategory("Аудио и Видео", subCategories[2]);
+            GetProductsFromSubCategory("Аудио и Видео", subCategories[4]);
+            GetProductsFromSubCategory("Аудио и Видео", subCategories[6]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromAccessoary()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Аксесоари");
@@ -63,9 +118,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кабели и преходници"));
             GetProductsFromSubCategory("Кабели и преходници", subCategories[5]);
 
-            //CheckCategoryExist("Test");
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
-            //GetProductsFromSubCategory("Test", subCategories[0]);
+            IList<CategorySolytronViewModel> secondSubCategories = GetSubCategories("Комуникации");
+            GetProductsFromSubCategory("Кабели и преходници", secondSubCategories[17]);//Cable chinch
 
             return RedirectToAction("Index");
         }

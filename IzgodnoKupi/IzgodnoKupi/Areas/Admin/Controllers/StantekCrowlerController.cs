@@ -102,8 +102,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             SetProductsFromCategoryNotPublished(id);
 
-            //IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
-            //AddProductsToDb(products);
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
+            AddProductsToDb(products);
 
             return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
         }
