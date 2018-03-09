@@ -35,7 +35,8 @@ namespace IzgodnoKupi.Services
             return string.IsNullOrEmpty(searchName) ? this.productsRepo.All
                                                     : this.productsRepo.All
                                                     .Where(p => p.Name.Contains(searchName))
-                                                    .Include(i => i.Pictures);
+                                                    .Include(i => i.Pictures)
+                                                    .Include(c => c.Category);
         }
 
         public IQueryable<Product> GetByCategory(Guid? id)

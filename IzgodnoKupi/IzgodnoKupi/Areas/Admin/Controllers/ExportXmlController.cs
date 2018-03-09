@@ -47,7 +47,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 {
                     return new XElement("product",
                             new XElement("identifier", product.Id.ToString()),
-                            new XElement("manufacturer", string.Empty),
+                            //new XElement("manufacturer", string.Empty),
+                            new XElement("manufacturer", GetManufacturer(product.Name)),
                             new XElement("category", product.Category.Name),
                             new XElement("name", product.Name),
                             new XElement("product_url", product_url + product.Id.ToString()),
@@ -113,7 +114,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             writer.WriteStartElement("product");
 
             writer.WriteElementString("identifier", product.Id.ToString());
-            writer.WriteElementString("manufacturer", string.Empty);
+            //writer.WriteElementString("manufacturer", string.Empty);
+            writer.WriteElementString("manufacturer", GetManufacturer(product.Name));
             writer.WriteElementString("category", product.Category.Name);
             writer.WriteElementString("name", product.Name);
             writer.WriteElementString("product_url", product_url + product.Id.ToString());
@@ -121,6 +123,28 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
 
             writer.WriteEndElement();
+        }
+
+        private string GetManufacturer(string name)
+        {
+            int spacePosition = name.IndexOf(' ');
+            string manufacturer = string.Empty;
+
+            if (spacePosition > 0)
+            {
+                manufacturer = name.Substring(0, spacePosition);
+            }
+
+            if (manufacturer.ToLower() == "western" ||
+                manufacturer.ToLower() == "hewlett" ||
+                manufacturer.ToLower() == "silicon" ||
+                manufacturer.ToLower() == "it")
+            {
+                int secondSpacePosition = name.IndexOf(' ', spacePosition + 1);
+                manufacturer = name.Substring(0, secondSpacePosition);
+            }
+
+            return manufacturer;
         }
     }
 }
