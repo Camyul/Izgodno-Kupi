@@ -55,6 +55,7 @@ namespace IzgodnoKupi.Services
                 Product product = this.productsRepo.All
                     .Where(x => x.Id == id.Value)
                     .Include(i => i.Pictures)    //For include pictures
+                    .Include(c => c.Category)    //For include category
                     .SingleOrDefault();
 
                 if (product != null)

@@ -11,25 +11,30 @@
 
 <div class="product">
     <div class="container">
+        <ol class="breadcrumb">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+            <li class="active"><a asp-area="" asp-controller="Product" asp-action="ByCategory" asp-route-id="@Model.CategoryId">@Model.Category.Name</a></li>
+            <li class="active">@(Model.Name.Length < 25 ? Model.Name : (Model.Name.Substring(0, 25) + "..."))</a></li>
+        </ol>
         <div class="product-price1">
             <div class="top-sing">
                 <div class="col-md-7 single-top">
                     <div class="flexslider">
                         <ul class="slides">
-                            @if (@Model.Picture.Count > 0)
-                            {
+                            @if(@Model.Picture.Count > 0)
+            {
 
-                                foreach (var pic in @Model.Picture)
-                                {
-                                    <li data-thumb="@pic.ImageUrl">
-                                        <div class="thumb-image"> <img src="@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                foreach (var pic in @Model.Picture)
+                {
+                                    <li data-thumb="@pic.ImageUrl" >
+                                         <div class="thumb-image"> <img src = "@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>
                                 }
-                            }
+    }
                             else
                             {
                                 <li data-thumb="/images/no-image.jpg">
-                                    <div class="thumb-image"> <img src="/images/no-image.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
+                                    <div class="thumb-image"> <img src = "/images/no-image.jpg" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                 </li>
                             }
                             @*<li data-thumb="@Model.Picture.ImageUrl">

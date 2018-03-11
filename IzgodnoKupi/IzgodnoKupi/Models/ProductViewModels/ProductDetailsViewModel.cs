@@ -21,6 +21,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
             this.ShortDescription = product.ShortDescription;
             this.FullDescription = product.FullDescription;
             this.CategoryId = product.CategoryId;
+            this.Category = product.Category;
             this.Quantity = product.Quantity;
             this.Picture = product.Pictures;
             this.Price = product.Price;
@@ -51,7 +52,7 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         [MaxLength(ValidationConstants.LongDescriptionMaxLength, ErrorMessage = ValidationConstants.MaxLengthLongDescriptionErrorMessage)]
         public string FullDescription { get; set; }
         public Guid CategoryId { get; set; }
-        //public TelerikAcademy.FinalProject.Data.Model.Category Category { get; set; }
+        public Category Category { get; set; }
 
         [Required]
         [Range(

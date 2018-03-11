@@ -607,7 +607,8 @@ background-position:-167px -36px;
 }
 /*--product--*/
 .product {
-    padding:4em 0 3em;
+    /*padding: 4em 0 3em;*/
+    padding: 0em 0 0em;
 }
 .product-model-sec {
     margin: 4em 0 0 0;

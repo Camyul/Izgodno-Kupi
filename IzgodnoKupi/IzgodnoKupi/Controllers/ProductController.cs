@@ -43,10 +43,10 @@ namespace IzgodnoKupi.Web.Controllers
 
 
             var products = this.productsService
-               .GetAll()
-               .Where(p => p.IsPublished == true)
-               .Take(Constants.CountOfPartOfProducts)
-               .ToList();
+                                   .GetAll()
+                                   .Where(p => p.IsPublished == true)
+                                   .Take(Constants.CountOfPartOfProducts)
+                                   .ToList();
 
             IList<ProductSimilarViewModel> randomProducts = new List<ProductSimilarViewModel>();
 
