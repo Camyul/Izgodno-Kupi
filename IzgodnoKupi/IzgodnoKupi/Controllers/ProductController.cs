@@ -95,6 +95,11 @@ namespace IzgodnoKupi.Web.Controllers
                                                                              .Where(x => x.CategoriesGroup == CategoriesGroup.SmartPhoneAndAccessoaries)
                                                                              .Select(c => new CategoriesNavigationViewModel(c))
                                                                              .ToList();
+            List<CategoriesNavigationViewModel> categoriesSmallWhiteGoods = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmallWhiteGoods)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
 
 
             var viewProducts = new List<PreviewProductViewModel>();
@@ -131,10 +136,17 @@ namespace IzgodnoKupi.Web.Controllers
                                             .GetByCategory(cat.Id)
                                             .Count();
             }
+            foreach (var cat in categoriesSmallWhiteGoods)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
 
             ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
+            ViewData["categoriesSmallWhiteGoods"] = categoriesSmallWhiteGoods;
             ViewData["products"] = viewPageIndexModel;
 
             return View(currentCategory);

@@ -38,17 +38,73 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult GetProductsFromSmallWhileGoods()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дребна бяла техника");
+
+            CheckCategoryExist("Грижа за косата");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Грижа за косата"));
+            GetProductsFromSubCategory("Грижа за косата", subCategories[0]);
+
+            CheckCategoryExist("Грижа за устата");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Грижа за устата"));
+            GetProductsFromSubCategory("Грижа за устата", subCategories[1]);
+
+            CheckCategoryExist("Кухненски уреди");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кухненски уреди"));
+            GetProductsFromSubCategory("Кухненски уреди", subCategories[2]);
+
+            CheckCategoryExist("Прахосмукачки");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Прахосмукачки"));
+            GetProductsFromSubCategory("Прахосмукачки", subCategories[3]);
+
+            CheckCategoryExist("За тялото");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За тялото"));
+            GetProductsFromSubCategory("За тялото", subCategories[4]);
+
+            CheckCategoryExist("За гладене");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За гладене"));
+            GetProductsFromSubCategory("За гладене", subCategories[5]);
+
+            CheckCategoryExist("За мъжа");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За мъжа"));
+            GetProductsFromSubCategory("За мъжа", subCategories[6]);
+
+            CheckCategoryExist("Еспресо");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Еспресо"));
+            GetProductsFromSubCategory("Еспресо", subCategories[7]);
+
+            //CheckCategoryExist("Test");
+            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
+            //GetProductsFromSubCategory("Test", subCategories[0]);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult GetProductsFromUps()
+        {
+            IList<CategorySolytronViewModel> subCategories = GetSubCategories("UPS");
+
+            CheckCategoryExist("Стабилизатори и UPS");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Стабилизатори и UPS"));
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[0]);
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[1]);
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[2]);
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[4]);
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[5]);
+            GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[6]);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromVideoCams()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеонаблюдение");
 
-            //CheckCategoryExist("Видео камери");
-            //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео камери"));
-            //GetProductsFromSubCategory("Видео камери", subCategories[0]);
-
-            CheckCategoryExist("Test");
-            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Test"));
-            GetProductsFromSubCategory("Test", subCategories[0]);
+            CheckCategoryExist("Видео камери");
+            SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео камери"));
+            GetProductsFromSubCategory("Видео камери", subCategories[0]);
+            GetProductsFromSubCategory("Видео камери", subCategories[2]);
 
             return RedirectToAction("Index");
         }
@@ -110,9 +166,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Чанти, раници за лаптоп"));
             GetProductsFromSubCategory("Чанти, раници за лаптоп", subCategories[3]);
 
+            IList<CategorySolytronViewModel> thirdSubCategories = GetSubCategories("Батерии");
             CheckCategoryExist("Други...");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Други..."));
             GetProductsFromSubCategory("Други...", subCategories[4]);
+            GetProductsFromSubCategory("Други...", thirdSubCategories[0]);
 
             CheckCategoryExist("Кабели и преходници");
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кабели и преходници"));

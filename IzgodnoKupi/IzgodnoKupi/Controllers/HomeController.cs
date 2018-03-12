@@ -41,6 +41,12 @@ namespace IzgodnoKupi.Controllers
                                                                              .Select(c => new CategoriesNavigationViewModel(c))
                                                                              .ToList();
 
+            List<CategoriesNavigationViewModel> categoriesSmallWhiteGoods = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmallWhiteGoods)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
+
             var products = this.productsService
                     .GetAll()
                     .Where(p => p.IsPublished == true)
@@ -90,10 +96,18 @@ namespace IzgodnoKupi.Controllers
                                             .GetByCategory(cat.Id)
                                             .Count();
             }
+            foreach (var cat in categoriesSmallWhiteGoods)
+            {
+                numberOfProducts[cat] = this.productsService
+                                            .GetByCategory(cat.Id)
+                                            .Count();
+            }
+
 
             ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
+            ViewData["categoriesSmallWhiteGoods"] = categoriesSmallWhiteGoods;
             ViewData["products"] = randomProducts;
             //ViewData["biggestDiscountProducts"] = biggestDiscountProducts;
 
