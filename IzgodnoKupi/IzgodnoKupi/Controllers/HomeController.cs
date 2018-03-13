@@ -140,5 +140,33 @@ namespace IzgodnoKupi.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        //[AjaxOnly]
+        public IActionResult FilteredProducts(string searchTerm)
+        {
+
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return this.View();  //???
+            }
+            else
+            {
+                var filteredProducts = this.productsService
+                                                    .GetByName(searchTerm)
+                                                    .Take(3)
+                                                    .Select(p => new ProductViewModel(p))
+                                                    .ToList();
+
+                //var viewProducts = new List<ProductViewModel>();
+                //foreach (var product in filteredProducts)
+                //{
+
+                //    viewProducts.Add(new ProductViewModel(product));
+                //}
+
+                return this.PartialView("_FilteredProductsPartial", filteredProducts);
+            }
+        }
     }
 }

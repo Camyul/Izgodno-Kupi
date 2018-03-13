@@ -16,78 +16,90 @@
         <ol class="breadcrumb">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
         </ol>
-        <h2></h2>
-        <div class="col-md-9 product-model-sec">
-            <div class="col-md-12">
-                <!-- pager -->
-               
+
+        @*<div class="row">
+            <input type="text" placeholder="Търсене" class="col-md-offset-5 col-md-2" />
+        </div>*@
+        <div class="col-md-offset-4 col-md-4">
+            <div class="form-group">
+                <div class="icon-addon addon-md">
+                    <input type="text" placeholder="Търсене" class="form-control" id="search">
+                    <label for="search" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                </div>
             </div>
-            @Html.Partial("_ProductPreviewPartial", products)
-            <div class="col-md-12">
-               
+         </div>
+
+            <div class="col-md-9 product-model-sec">
+                <div class="col-md-12">
+                    <!-- pager -->
+
+                </div>
+                @Html.Partial("_ProductPreviewPartial", products)
+                <div class="col-md-12">
+
+                </div>
+            </div>
+
+            <div class="rsidebar span_1_of_left">
+                <section class="sky-form">
+                    <div class="product_right">
+                        <h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Категории</h4>
+                        <div class="tab1">
+                            <ul class="place">
+                                <li class="sort">Компютри и периферия</li>
+                                <li class="by"><img src="/images/do.png" alt=""></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                            <div class="single-bottom">
+                                @foreach (var category in categoriesPc)
+                                {
+                                    //Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="tab2">
+                            <ul class="place">
+                                <li class="sort">Смартфони и аксесоари</li>
+                                <li class="by"><img src="/images/do.png" alt=""></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                            <div class="single-bottom">
+                                @foreach (var category in categoriesSmartPhone)
+                                {
+                                    //Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="tab3">
+                            <ul class="place">
+                                <li class="sort">Дребна бяла техника</li>
+                                <li class="by"><img src="/images/do.png" alt=""></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                            <div class="single-bottom">
+                                @foreach (var category in categoriesSmallWhiteGoods)
+                                {
+                                    //Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                </section>
+                <!---->
+
             </div>
         </div>
-
-        <div class="rsidebar span_1_of_left">
-            <section class="sky-form">
-                <div class="product_right">
-                    <h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Категории</h4>
-                    <div class="tab1">
-                        <ul class="place">
-                            <li class="sort">Компютри и периферия</li>
-                            <li class="by"><img src="/images/do.png" alt=""></li>
-                            <div class="clearfix"> </div>
-                        </ul>
-                        <div class="single-bottom">
-                            @foreach (var category in categoriesPc)
-                            {
-                                //Display only Category with products
-                                if (numberOfProducts[category] > 0)
-                                {
-                                    <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <div class="tab2">
-                        <ul class="place">
-                            <li class="sort">Смартфони и аксесоари</li>
-                            <li class="by"><img src="/images/do.png" alt=""></li>
-                            <div class="clearfix"> </div>
-                        </ul>
-                        <div class="single-bottom">
-                            @foreach (var category in categoriesSmartPhone)
-                            {
-                                //Display only Category with products
-                                if (numberOfProducts[category] > 0)
-                                {
-                                    <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                                }
-                            }
-                        </div>
-                    </div>
-                    <div class="tab3">
-                        <ul class="place">
-                            <li class="sort">Дребна бяла техника</li>
-                            <li class="by"><img src="/images/do.png" alt=""></li>
-                            <div class="clearfix"> </div>
-                        </ul>
-                        <div class="single-bottom">
-                            @foreach (var category in categoriesSmallWhiteGoods)
-                            {
-                                //Display only Category with products
-                                if (numberOfProducts[category] > 0)
-                                {
-                                    <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                                }
-                            }
-                        </div>
-                    </div>
-            </section>
-            <!---->
-
-        </div>
-    </div>
 </div>
 </div>
 @section Scripts

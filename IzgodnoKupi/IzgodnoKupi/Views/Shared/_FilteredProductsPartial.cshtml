@@ -1,0 +1,7 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+@model IEnumerable<ProductViewModel>
+
+@foreach (var product in Model)
+{
+    <p>@product.Name</p>
+}

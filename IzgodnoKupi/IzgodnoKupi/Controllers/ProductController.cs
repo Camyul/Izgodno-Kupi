@@ -153,26 +153,29 @@ namespace IzgodnoKupi.Web.Controllers
         }
 
         //[HttpPost]
-        //[AjaxOnly]
-        //public IActionResult FilteredProducts(string searchName)
+        ////[AjaxOnly]
+        //public IActionResult FilteredProducts(string searchTerm)
         //{
 
-        //    if (string.IsNullOrEmpty(searchName))
+        //    if (string.IsNullOrEmpty(searchTerm))
         //    {
-        //        return this.Index();
+        //        return this.View();  //???
         //    }
         //    else
         //    {
-        //        var filteredProducts = this.productsService.GetByName(searchName).ToList();
+        //        var filteredProducts = this.productsService
+        //                                            .GetByName(searchTerm)
+        //                                            .Select(p => new ProductViewModel(p))
+        //                                            .ToList();
 
-        //        var viewProducts = new List<ProductViewModel>();
-        //        foreach (var product in filteredProducts)
-        //        {
+        //        //var viewProducts = new List<ProductViewModel>();
+        //        //foreach (var product in filteredProducts)
+        //        //{
 
-        //            viewProducts.Add(new ProductViewModel(product));
-        //        }
+        //        //    viewProducts.Add(new ProductViewModel(product));
+        //        //}
 
-        //        return this.PartialView("_FilteredProductsPartial", viewProducts);
+        //        return this.PartialView("_FilteredProductsPartial", filteredProducts);
         //    }
         //}
 
