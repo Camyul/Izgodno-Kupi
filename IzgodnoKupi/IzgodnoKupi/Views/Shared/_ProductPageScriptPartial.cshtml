@@ -47,7 +47,7 @@
 </script>
 <script type='text/javascript'>
     $(window).load(function () {
-        console.log('slider-start');
+        //console.log('slider-start');
         $("#slider-range").slider({
             range: true,
             min: 0,
@@ -57,9 +57,9 @@
                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
             }
         });
-        console.log('slider');
+        //console.log('slider');
         $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-        console.log('slider-end');
+        //console.log('slider-end');
     });
 
 </script>

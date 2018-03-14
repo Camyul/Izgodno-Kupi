@@ -21,6 +21,20 @@
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
             <li class="active">@Model.Name</li>
         </ol>
+        <div class="col-md-offset-4 col-md-4">
+            <div class="form-group">
+                <div class="icon-addon addon-md">
+                    <form asp-action="FilteredProducts" asp-controller="Product" method="POST"
+                          data-ajax="true" data-ajax-mode="Replace"
+                          data-ajax-update="#searchResult">
+
+                        <input type="text" name="searchTerm" placeholder="Търсене" class="form-control" id="search">
+                        <label for="searchTerm" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                    </form>
+                </div>
+            </div>
+            <div id="searchResult"></div>
+        </div>
         @*<h2>Категория @Model.Name</h2>*@
         <div class="col-md-9 product-model-sec">
             <div class="col-md-12">
@@ -195,4 +209,6 @@
 @section Scripts 
 {
     @{await Html.RenderPartialAsync("_ProductPageScriptPartial");}
+    @{await Html.RenderPartialAsync("_SearchScriptPartial");}
+}
 }

@@ -82,29 +82,29 @@ namespace IzgodnoKupi.Controllers
                 }
             }
 
-            IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
+            //IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
 
-            foreach (var cat in viewCategoryPc)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
-            foreach (var cat in categoriesSmartPhone)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
-            foreach (var cat in categoriesSmallWhiteGoods)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
+            //foreach (var cat in viewCategoryPc)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
+            //foreach (var cat in categoriesSmartPhone)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
+            //foreach (var cat in categoriesSmallWhiteGoods)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
 
 
-            ViewData["numberOfProducts"] = numberOfProducts;
+            //ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["categoriesSmallWhiteGoods"] = categoriesSmallWhiteGoods;
@@ -139,34 +139,6 @@ namespace IzgodnoKupi.Controllers
             //ViewData["Message"] = "Your contact page.";
 
             return View();
-        }
-
-        [HttpPost]
-        //[AjaxOnly]
-        public IActionResult FilteredProducts(string searchTerm)
-        {
-
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                return this.View();  //???
-            }
-            else
-            {
-                var filteredProducts = this.productsService
-                                                    .GetByName(searchTerm)
-                                                    .Take(3)
-                                                    .Select(p => new ProductViewModel(p))
-                                                    .ToList();
-
-                //var viewProducts = new List<ProductViewModel>();
-                //foreach (var product in filteredProducts)
-                //{
-
-                //    viewProducts.Add(new ProductViewModel(product));
-                //}
-
-                return this.PartialView("_FilteredProductsPartial", filteredProducts);
-            }
         }
     }
 }

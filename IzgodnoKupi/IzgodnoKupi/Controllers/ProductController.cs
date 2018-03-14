@@ -4,6 +4,7 @@ using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Extensions;
+using IzgodnoKupi.Web.Infrastructure;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.IndexPageViewModel;
 using IzgodnoKupi.Web.Models.ProductViewModels;
@@ -152,32 +153,35 @@ namespace IzgodnoKupi.Web.Controllers
             return View(currentCategory);
         }
 
-        //[HttpPost]
-        ////[AjaxOnly]
-        //public IActionResult FilteredProducts(string searchTerm)
-        //{
+        [HttpPost]
+        [AjaxOnly]
+        [ValidateAntiForgeryToken]
+        public IActionResult FilteredProducts(string searchTerm)
+        {
 
-        //    if (string.IsNullOrEmpty(searchTerm))
-        //    {
-        //        return this.View();  //???
-        //    }
-        //    else
-        //    {
-        //        var filteredProducts = this.productsService
-        //                                            .GetByName(searchTerm)
-        //                                            .Select(p => new ProductViewModel(p))
-        //                                            .ToList();
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return new EmptyResult();
+            }
+            else
+            {
+                var filteredProducts = this.productsService
+                                                    .GetByName(searchTerm)
+                                                    .Where(p => p.IsPublished == true)
+                                                    .Take(3)
+                                                    .Select(p => new ProductViewModel(p))
+                                                    .ToList();
 
-        //        //var viewProducts = new List<ProductViewModel>();
-        //        //foreach (var product in filteredProducts)
-        //        //{
+                //var viewProducts = new List<ProductViewModel>();
+                //foreach (var product in filteredProducts)
+                //{
 
-        //        //    viewProducts.Add(new ProductViewModel(product));
-        //        //}
+                //    viewProducts.Add(new ProductViewModel(product));
+                //}
 
-        //        return this.PartialView("_FilteredProductsPartial", filteredProducts);
-        //    }
-        //}
+                return this.PartialView("_FilteredProductsPartial", filteredProducts);
+            }
+        }
 
     }
 }
