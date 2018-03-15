@@ -52,33 +52,33 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <h4 class="text-center">Данни за доставка</h4>
                 <hr />
-                <div class="col-md-6 form-group">
+                <div class="col-md-6 col-sm-12 form-group">
                     @Html.LabelFor(x => x.FullContactInfo.FirstName)
                     <input asp-for="FullContactInfo.FirstName" class="form-control" tabindex="1" />
                     <span asp-validation-for="FullContactInfo.FirstName" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label asp-for="FullContactInfo.Area"></label>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <label class="col-sm-12" asp-for="FullContactInfo.Area"></label>
                     @Html.TextBoxFor(x => x.FullContactInfo.Area, new { @class = "form-control", tabindex = "4" })
                     <span asp-validation-for="FullContactInfo.Area" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label asp-for="FullContactInfo.LastName"></label>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <label class="col-sm-12" asp-for="FullContactInfo.LastName"></label>
                     @Html.TextBoxFor(x => x.FullContactInfo.LastName, new { @class = "form-control", tabindex = "2" })
                     <span asp-validation-for="FullContactInfo.LastName" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label asp-for="FullContactInfo.City"></label>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <label class="col-sm-12" asp-for="FullContactInfo.City"></label>
                     @Html.TextBoxFor(x => x.FullContactInfo.City, new { @class = "form-control", tabindex = "5" })
                     <span asp-validation-for="FullContactInfo.City" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label asp-for="FullContactInfo.PhoneNumber"></label>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <label class="col-sm-12" asp-for="FullContactInfo.PhoneNumber"></label>
                     @Html.TextBoxFor(x => x.FullContactInfo.PhoneNumber, new { @class = "form-control", tabindex = "3" })
                     <span asp-validation-for="FullContactInfo.PhoneNumber" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label asp-for="FullContactInfo.Address"></label>
+                <div class="col-md-6 col-sm-12 form-group">
+                    <label class="col-sm-12" asp-for="FullContactInfo.Address"></label>
                     @Html.TextBoxFor(x => x.FullContactInfo.Address, new { @class = "form-control", tabindex = "6" })
                     <span asp-validation-for="FullContactInfo.Address" class="text-danger"></span>
                 </div>
