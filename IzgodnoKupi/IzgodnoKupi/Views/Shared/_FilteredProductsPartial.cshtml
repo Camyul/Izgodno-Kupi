@@ -1,7 +1,33 @@
 ﻿@using IzgodnoKupi.Web.Models.ProductViewModels
-@model IEnumerable<ProductViewModel>
+@model IList<ProductViewModel>
 
-@foreach (var product in Model)
+@{ 
+    string searchTerm = ViewData["searchTerm"].ToString();
+}
+@if (Model.Count > 0)
 {
-    <p>@product.Name</p>
+    for (int i = 0; i < 3; i++)
+    {
+        <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@Model[i].Id">
+            <div class="col-md-12 col-sm-12 searchPreview">
+                <div class="col-md-2">
+                    <img class="searchPic" src="@Model[i].Picture.ImageUrl" />
+                </div>
+                <div class="col-md-7">
+                    <p>@(Model[i].Name.Length < 45 ? @Model[i].Name : @Model[i].Name.Substring(0, 45) + "...")</p>
+                </div>
+                <div class="col-md-3">
+                    <p class="text-danger">@(Model[i].Price)лв</p>
+                </div>
+            </div>
+        </a>
+        <hr />
+    }
+    <div class="col-md-12 col-sm-12 searchButton">
+        <a class="item_add items" asp-area="" asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm">Още @Model.Count Продукта</a>
+    </div>
+}
+else
+{
+     <h3>Нямаме такъв продукт.</h3>
 }

@@ -2434,9 +2434,13 @@ span.item_price {
 .item_quantity {
     padding: 6px 10px;
 }
+    #searchResult .items {
+        margin: 0;
+        padding: 0.5em 1em 0.5em;
+    }
 .items {
     margin: 0;
-	    padding: 0em 0 3em;
+    padding: 0em 0 3em;
 }
 .btm-sec {
     margin-top: 1em;

@@ -16,7 +16,7 @@
         <ol class="breadcrumb">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
         </ol>
-        <div class="col-md-offset-4 col-md-4">
+        <div class="col-md-offset-4 col-md-4 col-sm-12">
             <div class="form-group">
                 <div class="icon-addon addon-md">
                     <form asp-action="FilteredProducts" asp-controller="Product" method="POST" 
@@ -82,7 +82,7 @@
                                 }
                             </div>
                         </div>
-                        <div class="tab3">
+                        @*<div class="tab3">
                             <ul class="place">
                                 <li class="sort">Дребна бяла техника</li>
                                 <li class="by"><img src="/images/do.png" alt=""></li>
@@ -95,11 +95,11 @@
                                     if (numberOfProducts[category] > 0)
                                     {
                                         <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                                    }*@
+                                    }
                                         <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
                                 }
                             </div>
-                        </div>
+                        </div>*@
                 </section>
                 <!---->
 

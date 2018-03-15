@@ -1,0 +1,193 @@
+﻿@using IzgodnoKupi.Web.Models.IndexPageViewModel
+@using IzgodnoKupi.Web.Models.CategoryViewModels
+
+@{
+    var viewPageIndexModel = ViewData["products"] as IndexPageViewModel;
+    var products = viewPageIndexModel.Items;
+    var categoriesPc = ViewData["categoriesPc"] as List<CategoriesNavigationViewModel>;
+    var categoriesSmartPhone = ViewData["categoriesSmartPhone"] as List<CategoriesNavigationViewModel>;
+    var categoriesSmallWhiteGoods = ViewData["categoriesSmallWhiteGoods"] as List<CategoriesNavigationViewModel>;
+    string searchTerm = ViewData["searchTerm"].ToString();
+
+    //ViewData["Title"] = Model.Name;
+    //var numberOfProducts = ViewData["numberOfProducts"] as Dictionary<CategoriesNavigationViewModel, int>;
+}
+
+
+<div class="product-model">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Начало</a></li>
+            <li>Търсене на: @searchTerm</li>
+        </ol>
+        <div class="col-md-offset-4 col-md-4">
+            <div class="form-group">
+                <div class="icon-addon addon-md">
+                    <form asp-action="FilteredProducts" asp-controller="Product" method="POST"
+                          data-ajax="true" data-ajax-mode="Replace"
+                          data-ajax-update="#searchResult">
+
+                        <input type="text" name="searchTerm" placeholder="Търсене" class="form-control" id="search">
+                        <label for="searchTerm" class="glyphicon glyphicon-search" rel="tooltip" title="search"></label>
+                    </form>
+                </div>
+            </div>
+            <div id="searchResult"></div>
+        </div>
+        @*<h2>Категория @Model.Name</h2>*@
+        <div class="col-md-9 product-model-sec">
+            <div class="col-md-12">
+                <!-- pager -->
+                @if (viewPageIndexModel.Pager.EndPage > 1)
+                {
+                    <ul class="pagination pagination-sm">
+                        @if (viewPageIndexModel.Pager.CurrentPage > 1)
+                        {
+                            <li>
+                                <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm"><i class="fa fa-angle-left"></i>«</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i>‹</a>
+                            </li>
+                        }
+                        @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
+                        {
+                            <li class="@(pageNum == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@pageNum">@pageNum</a>
+                            </li>
+                        }
+                        @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
+                        {
+                            <li>
+                                <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i>›</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+            @Html.Partial("_ProductPreviewPartial", products)
+            <div class="col-md-12">
+                <!-- pager -->
+                @if (viewPageIndexModel.Pager.EndPage > 1)
+                {
+                    <ul class="pagination pagination-sm">
+                        @if (viewPageIndexModel.Pager.EndPage > 1)
+                {
+                            <ul class="pagination pagination-sm">
+                                @if (viewPageIndexModel.Pager.CurrentPage > 1)
+                                {
+                                    <li>
+                                        <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm"><i class="fa fa-angle-left"></i>«</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i>‹</a>
+                                    </li>
+                                }
+                                @for (int pageNum = viewPageIndexModel.Pager.StartPage; pageNum <= viewPageIndexModel.Pager.EndPage; pageNum++)
+                                {
+                                    <li class="@(pageNum == viewPageIndexModel.Pager.CurrentPage ? "active" : "")">
+                                        <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@pageNum">@pageNum</a>
+                                    </li>
+                                }
+                                @if (viewPageIndexModel.Pager.CurrentPage < viewPageIndexModel.Pager.TotalPages)
+                                {
+                                    <li>
+                                        <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i>›</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Product" asp-action="SearchedProducts" asp-route-searchTerm="@searchTerm" asp-route-page="@(viewPageIndexModel.Pager.TotalPages)"><i class="fa fa-angle-right"></i>»</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+
+        <div class="rsidebar span_1_of_left">
+            <section class="sky-form">
+                <div class="product_right">
+                    <h4 class="m_2"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span>Категории</h4>
+                    <div class="tab1">
+                        <ul class="place">
+                            <li class="sort">Компютри и периферия</li>
+                            <li class="by"><img src="/images/do.png" alt=""></li>
+                            <div class="clearfix"> </div>
+                        </ul>
+                        <div class="single-bottom">
+                            @foreach (var category in categoriesPc)
+                            {
+                                @*//Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }*@
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            }
+                        </div>
+                    </div>
+                    <div class="tab2">
+                        <ul class="place">
+                            <li class="sort">Смартфони и аксесоари</li>
+                            <li class="by"><img src="/images/do.png" alt=""></li>
+                            <div class="clearfix"> </div>
+                        </ul>
+                        <div class="single-bottom">
+                            @foreach (var category in categoriesSmartPhone)
+                            {
+                                @*//Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }*@
+                                <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                            }
+                        </div>
+                    </div>
+                    @*<div class="tab3">
+                            <ul class="place">
+                                <li class="sort">Дребна бяла техника</li>
+                                <li class="by"><img src="/images/do.png" alt=""></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                            <div class="single-bottom">
+                                @foreach (var category in categoriesSmallWhiteGoods)
+                                {
+                                    //Display only Category with products
+                                    if (numberOfProducts[category] > 0)
+                                    {
+                                        <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
+                                    }
+                                }
+                            </div>
+                        </div>*@
+
+                    @*<div class="tab2">
+                            <ul class="place">
+                                <li class="sort">Festive Needs</li>
+                                <li class="by"><img src="/images/do.png" alt=""></li>
+                                <div class="clearfix"> </div>
+                            </ul>
+                            <div class="single-bottom">
+                                <a href="#"><p>Lanterns</p></a>
+                                <a href="#"><p>Disco Lights</p></a>
+                            </div>
+                        </div>*@
+
+            </section>
+            <!---->
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    @{await Html.RenderPartialAsync("_ProductPageScriptPartial");}
+    @{await Html.RenderPartialAsync("_SearchScriptPartial");}
+}
+}

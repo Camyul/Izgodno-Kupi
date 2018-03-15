@@ -11,7 +11,7 @@
     var categoriesSmallWhiteGoods = ViewData["categoriesSmallWhiteGoods"] as List<CategoriesNavigationViewModel>;
     
     ViewData["Title"] = Model.Name;
-    var numberOfProducts = ViewData["numberOfProducts"] as Dictionary<CategoriesNavigationViewModel, int>;
+    //var numberOfProducts = ViewData["numberOfProducts"] as Dictionary<CategoriesNavigationViewModel, int>;
 }
 
 
@@ -117,11 +117,12 @@
                     <div class="single-bottom">
                         @foreach (var category in categoriesPc)
                         {
-                            //Display only Category with products
+                            @*//Display only Category with products
                             if (numberOfProducts[category] > 0)
                             {
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                            }
+                            }*@
+                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
                         }
                     </div>
                 </div>
@@ -134,15 +135,16 @@
                     <div class="single-bottom">
                         @foreach (var category in categoriesSmartPhone)
                         {
-                            //Display only Category with products
+                            @*//Display only Category with products
                             if (numberOfProducts[category] > 0)
                             {
                                 <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
-                            }
+                            }*@
+                            <a asp-controller="Product" asp-action="ByCategory" asp-route-id="@category.Id"><p>@category.Name</p></a>
                         }
                     </div>
                 </div>
-                <div class="tab3">
+                @*<div class="tab3">
                     <ul class="place">
                         <li class="sort">Дребна бяла техника</li>
                         <li class="by"><img src="/images/do.png" alt=""></li>
@@ -158,7 +160,7 @@
                             }
                         }
                     </div>
-                </div>
+                </div>*@
 
             @*<div class="tab2">
                 <ul class="place">

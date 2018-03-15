@@ -123,34 +123,93 @@ namespace IzgodnoKupi.Web.Controllers
                 Pager = pager
             };
 
-            IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
+            //IDictionary<CategoriesNavigationViewModel, int> numberOfProducts = new Dictionary<CategoriesNavigationViewModel, int>();
 
-            foreach (var cat in viewCategoryPc)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
-            foreach (var cat in categoriesSmartPhone)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
-            foreach (var cat in categoriesSmallWhiteGoods)
-            {
-                numberOfProducts[cat] = this.productsService
-                                            .GetByCategory(cat.Id)
-                                            .Count();
-            }
+            //foreach (var cat in viewCategoryPc)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
+            //foreach (var cat in categoriesSmartPhone)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
+            //foreach (var cat in categoriesSmallWhiteGoods)
+            //{
+            //    numberOfProducts[cat] = this.productsService
+            //                                .GetByCategory(cat.Id)
+            //                                .Count();
+            //}
 
-            ViewData["numberOfProducts"] = numberOfProducts;
+            //ViewData["numberOfProducts"] = numberOfProducts;
             ViewData["categoriesPc"] = viewCategoryPc;
             ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
             ViewData["categoriesSmallWhiteGoods"] = categoriesSmallWhiteGoods;
             ViewData["products"] = viewPageIndexModel;
 
             return View(currentCategory);
+        }
+
+        public IActionResult SearchedProducts(string searchTerm, int? page)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+            var products = this.productsService
+                                            .GetByName(searchTerm)
+                                            .Where(p => p.IsPublished == true)
+                                            .OrderBy(x => x.Price)
+                                            .ToList();
+
+            List<CategoriesNavigationViewModel> viewCategoryPc = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.Pc)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
+
+            List<CategoriesNavigationViewModel> categoriesSmartPhone = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmartPhoneAndAccessoaries)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
+            List<CategoriesNavigationViewModel> categoriesSmallWhiteGoods = this.categiriesService
+                                                                             .GetAllCategoriesSortedByName()
+                                                                             .Where(x => x.CategoriesGroup == CategoriesGroup.SmallWhiteGoods)
+                                                                             .Select(c => new CategoriesNavigationViewModel(c))
+                                                                             .ToList();
+
+            var viewProducts = new List<PreviewProductViewModel>();
+            foreach (var product in products)
+            {
+                PreviewProductViewModel viewProduct = new PreviewProductViewModel(product);
+                if (viewProduct.Name.Length > Constants.ProductPreviewNameLength)
+                {
+                    viewProduct.Name = viewProduct.Name.Substring(0, Constants.ProductPreviewNameLength);
+                    viewProduct.Name = viewProduct.Name + "...";
+                }
+                viewProducts.Add(viewProduct);
+            }
+
+            Pager pager = new Pager(viewProducts.Count(), page);
+
+            IndexPageViewModel viewPageIndexModel = new IndexPageViewModel
+            {
+                Items = viewProducts.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            ViewData["categoriesPc"] = viewCategoryPc;
+            ViewData["categoriesSmartPhone"] = categoriesSmartPhone;
+            ViewData["categoriesSmallWhiteGoods"] = categoriesSmallWhiteGoods;
+            ViewData["products"] = viewPageIndexModel;
+            ViewData["searchTerm"] = searchTerm;
+
+            return View();
         }
 
         [HttpPost]
@@ -168,7 +227,6 @@ namespace IzgodnoKupi.Web.Controllers
                 var filteredProducts = this.productsService
                                                     .GetByName(searchTerm)
                                                     .Where(p => p.IsPublished == true)
-                                                    .Take(3)
                                                     .Select(p => new ProductViewModel(p))
                                                     .ToList();
 
@@ -178,7 +236,7 @@ namespace IzgodnoKupi.Web.Controllers
 
                 //    viewProducts.Add(new ProductViewModel(product));
                 //}
-
+                ViewData["searchTerm"] = searchTerm;
                 return this.PartialView("_FilteredProductsPartial", filteredProducts);
             }
         }
