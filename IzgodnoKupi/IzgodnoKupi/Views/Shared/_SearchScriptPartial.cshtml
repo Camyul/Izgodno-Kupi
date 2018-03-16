@@ -2,9 +2,13 @@
     //Ajax call Action FilteredProduct
     $(window).load(function () {
         $('#search').keyup(() => {
+            $('#searchResult').html('');
+
+            let img = $('<img>');
+            img.attr('src', '/css/images/loader2.gif');
+            img.appendTo('#searchResult');
 
             $('#search').submit();
-
         })
     })
 </script>
