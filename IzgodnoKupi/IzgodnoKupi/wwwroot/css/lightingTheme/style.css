@@ -2230,6 +2230,9 @@ ul.place li.sort {
 .contact-info .form-control {
     width: 100%;
 }
+.shortContact div .form-control {
+    width: 100%;
+}
 .form-control {
     width: 84%;
     margin-right: 5%;

@@ -310,3 +310,16 @@ input.check-out:hover {
     align-content: center;
     justify-content: center;
 }
+
+.shortContact {
+    background-color: lightgray;
+    margin-top: 50px;
+    border-radius: 30px;
+    color: #333;
+}
+.shortContact h3 {
+    /*color: #ed645c;*/
+    color: white;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
