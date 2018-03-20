@@ -22,15 +22,15 @@
                     <div class="flexslider">
                         <ul class="slides">
                             @if(@Model.Picture.Count > 0)
-            {
+                            {
 
-                foreach (var pic in @Model.Picture)
-                {
+                                foreach (var pic in @Model.Picture)
+                                {
                                     <li data-thumb="@pic.ImageUrl" >
                                          <div class="thumb-image"> <img src = "@pic.ImageUrl" data-imagezoom="true" class="img-responsive" alt="" /> </div>
                                     </li>
                                 }
-    }
+                            }
                             else
                             {
                                 <li data-thumb="/images/no-image.jpg">
@@ -68,19 +68,31 @@
                         </div>
                     </form>
 
-                    <form asp-controller="ShoppingCart" asp-action="OrderNow" asp-route-id="@Model.Id" method="post" class="navbar-form shortContact">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <form asp-controller="ShoppingCart" asp-action="FastOrder" asp-route-id="@Model.Id" method="post" class="navbar-form shortContact">
                         <h3 class="text-center text-uppercase">Бърза поръчка</h3>
                         <div class="text-center">
                             <input type="text" class="hidden" name="id" value="@Model.Id" />
-                            <label>
-                                Име
-                                <input type="text" class="form-control" name="Names" />
-                            </label>
-                            <label>
-                                Gsm
-                                <input type="text" class="form-control" name="Gsm" />
-                            </label>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Име</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Име" name="firstName" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Фамилия</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Фамилия" name="lastName" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Телефон</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" placeholder="Телефон" name="gsm" />
+                                </div>
+                            </div>
+
                             <div class="check">
                                 <p><input type="submit" class="add-cart item_add" value="Бърза поръчка" /></p>
                             </div>
@@ -123,7 +135,7 @@
                 </div>
               <div class="clearfix"> </div>
                 
-</div>
+            </div>
         </div>
         <div class="bottom-prdt">
             <div class="btm-grid-sec">

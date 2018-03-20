@@ -42,6 +42,45 @@ namespace IzgodnoKupi.Web.Controllers
             this.fullContactInfosService = fullContactInfosService;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult FastOrder(Guid id, string firstName, string lastName, string gsm)
+        {
+            Order myOrder = new Order();
+            ShortContactInfo contactInfo = new ShortContactInfo();
+            contactInfo.FirstName = firstName;
+            contactInfo.LastName = lastName;
+            contactInfo.PhoneNumber = gsm;
+
+            //Create ShortInfo Service
+
+            //FullContactInfo newInfo = new FullContactInfo()
+            //{
+            //    UserID = this.userManager.GetUserId(User),
+            //    FirstName = fullContactInfo.FirstName,
+            //    LastName = fullContactInfo.LastName,
+            //    PhoneNumber = fullContactInfo.PhoneNumber,
+            //    Address = fullContactInfo.Address,
+            //    City = fullContactInfo.City,
+            //    Area = fullContactInfo.Area,
+            //    PostCode = fullContactInfo.PostCode,
+            //    CompanyName = fullContactInfo.CompanyName,
+            //    EIK = fullContactInfo.EIK,
+            //    BGEIK = fullContactInfo.BGEIK,
+            //    CompanyCity = fullContactInfo.CompanyCity,
+            //    CompanyAddress = fullContactInfo.CompanyAddress,
+            //    MOL = fullContactInfo.MOL,
+            //    Note = fullContactInfo.Note
+
+            //};
+            //newInfo.Orders.Add(myOrder);
+            //fullContactInfosService.Add(newInfo);
+
+            //ordersService.Update(myOrder);
+
+            return RedirectToAction("Details", "Product", id);
+        }
+
         [HttpGet]
         [Authorize]
         public IActionResult EmptiCart()
