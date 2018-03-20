@@ -51,7 +51,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             IList<ProductSimilarViewModel> randomProducts = new List<ProductSimilarViewModel>();
 
-            if (products.Count > Constants.CountOfPartOfProducts)
+            if (products.Count >= Constants.CountOfPartOfProducts)
             {
                 for (int i = 0; i < Constants.CountOfProductsInDetailsPage; i++)
                 {
