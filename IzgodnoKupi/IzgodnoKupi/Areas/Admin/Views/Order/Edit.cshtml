@@ -18,8 +18,16 @@
                     <input asp-for="UserId" class="hidden" />
                     <div class="col-md-6 form-group">
                         @Html.LabelFor(x => x.FullContactInfo.FirstName)
-                        <input asp-for="FullContactInfo.FirstName" class="form-control" tabindex="1" />
-                        <span asp-validation-for="FullContactInfo.FirstName" class="text-danger"></span>
+                        @if (Model.FullContactInfo == null)
+                        {
+                            <input asp-for="ShortContactInfo.FirstName" class="form-control" tabindex="1" />
+                            <span asp-validation-for="ShortContactInfo.FirstName" class="text-danger"></span>
+                        }
+                        else
+                        {
+                            <input asp-for="FullContactInfo.FirstName" class="form-control" tabindex="1" />
+                            <span asp-validation-for="FullContactInfo.FirstName" class="text-danger"></span>
+                        }
                     </div>
                     <div class="col-md-6 form-group">
                         <label asp-for="FullContactInfo.Area"></label>
@@ -28,8 +36,16 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label asp-for="FullContactInfo.LastName"></label>
-                        @Html.TextBoxFor(x => x.FullContactInfo.LastName, new { @class = "form-control", tabindex = "2" })
-                        <span asp-validation-for="FullContactInfo.LastName" class="text-danger"></span>
+                        @if (Model.FullContactInfo == null)
+                        {
+                            <input asp-for="ShortContactInfo.LastName" class="form-control" tabindex="1" />
+                            <span asp-validation-for="ShortContactInfo.LastName" class="text-danger"></span>
+                        }
+                        else
+                        {
+                            <input asp-for="FullContactInfo.LastName" class="form-control" tabindex="1" />
+                            <span asp-validation-for="FullContactInfo.LastName" class="text-danger"></span>
+                        }
                     </div>
                     <div class="col-md-6 form-group">
                         <label asp-for="FullContactInfo.City"></label>
@@ -38,8 +54,16 @@
                     </div>
                     <div class="col-md-6 form-group">
                         <label asp-for="FullContactInfo.PhoneNumber"></label>
-                        @Html.TextBoxFor(x => x.FullContactInfo.PhoneNumber, new { @class = "form-control", tabindex = "3" })
-                        <span asp-validation-for="FullContactInfo.PhoneNumber" class="text-danger"></span>
+                        @if (Model.FullContactInfo == null)
+                        {
+                            <input asp-for="ShortContactInfo.PhoneNumber" class="form-control" tabindex="1" />
+                            <span asp-validation-for="ShortContactInfo.PhoneNumber" class="text-danger"></span>
+                        }
+                        else
+                        {
+                            <input asp-for="FullContactInfo.PhoneNumber" class="form-control" tabindex="1" />
+                            <span asp-validation-for="FullContactInfo.PhoneNumber" class="text-danger"></span>
+                        }
                     </div>
                     <div class="col-md-6 form-group">
                         <label asp-for="FullContactInfo.Address"></label>

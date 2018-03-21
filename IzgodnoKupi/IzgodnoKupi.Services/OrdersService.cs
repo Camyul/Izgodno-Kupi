@@ -41,14 +41,21 @@ namespace IzgodnoKupi.Services
             return this.ordersRepo
                 .All
                 .Include(x => x.OrderItems)
-                .Include(x => x.FullContactInfo);
+                .Include(x => x.FullContactInfo)
+                .Include(x => x.ShortContactInfo);
         }
 
         public Order GetById(Guid? id)
         {
             if (id.HasValue)
             {
-                return this.ordersRepo.GetById(id);
+                return this.ordersRepo
+                           .All
+                           .Where(x => x.Id == id)
+                           .Include(x => x.ShortContactInfo)
+                           .FirstOrDefault();
+                           //.GetById(id);
+                           
             }
             else
             {

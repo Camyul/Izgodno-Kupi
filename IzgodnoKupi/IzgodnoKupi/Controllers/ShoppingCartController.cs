@@ -22,61 +22,79 @@ namespace IzgodnoKupi.Web.Controllers
         private IProductsService productsService;
         private IOrdersService ordersService;
         private IFullContactInfosService fullContactInfosService;
+        private IShortContactInfoService shortContactInfoService;
 
         public ShoppingCartController
             (
                 IProductsService productsService, 
                 UserManager<User> userManager, 
                 IOrdersService ordersService,
-                IFullContactInfosService fullContactInfosService
+                IFullContactInfosService fullContactInfosService,
+                IShortContactInfoService shortContactInfoService
             )
         {
             Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
             Guard.WhenArgument(userManager, "userManager").IsNull().Throw();
             Guard.WhenArgument(ordersService, "ordersService").IsNull().Throw();
             Guard.WhenArgument(fullContactInfosService, "fullContactInfosService").IsNull().Throw();
+            Guard.WhenArgument(shortContactInfoService, "shortContactInfoService").IsNull().Throw();
 
             this.productsService = productsService;
             this.userManager = userManager;
             this.ordersService = ordersService;
             this.fullContactInfosService = fullContactInfosService;
+            this.shortContactInfoService = shortContactInfoService;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult FastOrder(Guid id, string firstName, string lastName, string gsm)
         {
-            Order myOrder = new Order();
+            Order myOrder = new Order()
+            {
+                OrderDate = DateTime.UtcNow.AddHours(+2),
+                OrderStatus = OrderStatus.Confirmed
+            };
+
+
+            ordersService.AddOrder(myOrder);
+
+            Product product = productsService.GetById(id);
+
+            OrderItem item = new OrderItem()
+            {
+                ProductId = product.Id,
+                Quantity = 1,
+                UnitPrice = product.Price,
+                SubTotal = product.Price
+            };
+
+            myOrder.OrderItems.Add(item);
+            myOrder.PaymentMethod = PaymentMethod.PayToCourier;
+            myOrder.ShippingMethod = ShippingMethod.ToAddress;
+
+            myOrder.TotalAmountInclTax = item.SubTotal;
+            myOrder.TotalAmountExclTax = Math.Round(myOrder.TotalAmountInclTax / Constants.TaxAmount, 2);
+            myOrder.TaxAmount = myOrder.TotalAmountInclTax - myOrder.TotalAmountExclTax;
+
             ShortContactInfo contactInfo = new ShortContactInfo();
             contactInfo.FirstName = firstName;
             contactInfo.LastName = lastName;
             contactInfo.PhoneNumber = gsm;
+            
 
-            //Create ShortInfo Service
+            ShortContactInfo newInfo = new ShortContactInfo()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = gsm
 
-            //FullContactInfo newInfo = new FullContactInfo()
-            //{
-            //    UserID = this.userManager.GetUserId(User),
-            //    FirstName = fullContactInfo.FirstName,
-            //    LastName = fullContactInfo.LastName,
-            //    PhoneNumber = fullContactInfo.PhoneNumber,
-            //    Address = fullContactInfo.Address,
-            //    City = fullContactInfo.City,
-            //    Area = fullContactInfo.Area,
-            //    PostCode = fullContactInfo.PostCode,
-            //    CompanyName = fullContactInfo.CompanyName,
-            //    EIK = fullContactInfo.EIK,
-            //    BGEIK = fullContactInfo.BGEIK,
-            //    CompanyCity = fullContactInfo.CompanyCity,
-            //    CompanyAddress = fullContactInfo.CompanyAddress,
-            //    MOL = fullContactInfo.MOL,
-            //    Note = fullContactInfo.Note
+            };
 
-            //};
-            //newInfo.Orders.Add(myOrder);
-            //fullContactInfosService.Add(newInfo);
+            newInfo.Orders.Add(myOrder);
+            shortContactInfoService.Add(newInfo);
 
-            //ordersService.Update(myOrder);
+            ordersService.Update(myOrder);
 
             return RedirectToAction("Details", "Product", id);
         }

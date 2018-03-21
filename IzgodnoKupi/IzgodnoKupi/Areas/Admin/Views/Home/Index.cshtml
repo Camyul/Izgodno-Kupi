@@ -34,7 +34,15 @@
                    @item.OrderDate.ToString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullContactInfo.LastName)
+                    @if (item.FullContactInfo == null)
+                    {
+                        @Html.DisplayFor(modelItem => item.ShortContactInfo.LastName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.FullContactInfo.LastName)
+                    }
+                    
                 </td>
                 <td class="text-center">
                     @Html.DisplayFor(modelItem => item.TotalAmountInclTax)

@@ -21,7 +21,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
             this.TaxAmount = order.TaxAmount;
             //this.ShippingMethod = order.ShippingMethod;
             this.FullContactInfo = order.FullContactInfo;
-            //this.ShortContactInfo = order.ShortContactInfo;
+            this.ShortContactInfo = order.ShortContactInfo;
             this.ShippingTax = order.ShippingTax;
         }
 
@@ -41,9 +41,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Models.OrderViewModel
 
         //public ShippingMethod ShippingMethod { get; set; }
 
-        public virtual FullContactInfo FullContactInfo { get; set; }
+        public FullContactInfo FullContactInfo { get; set; }
 
-        //public virtual ShortContactInfo ShortContactInfo { get; set; }
+        public ShortContactInfo ShortContactInfo { get; set; }
 
         public decimal ShippingTax { get; set; }
     }

@@ -133,30 +133,40 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 try
                 {
                     FullContactInfo contactInfo = this.fullContactInfosService.GetDefaultByUser(orderViewModel.UserId);
 
-                    contactInfo.FirstName = orderViewModel.FullContactInfo.FirstName;
-                    contactInfo.LastName = orderViewModel.FullContactInfo.LastName;
-                    contactInfo.PhoneNumber = orderViewModel.FullContactInfo.PhoneNumber;
-                    contactInfo.Address = orderViewModel.FullContactInfo.Address;
-                    contactInfo.City = orderViewModel.FullContactInfo.City;
-                    contactInfo.Area = orderViewModel.FullContactInfo.Area;
-                    contactInfo.PostCode = orderViewModel.FullContactInfo.PostCode;
-                    contactInfo.CompanyName = orderViewModel.FullContactInfo.CompanyName;
-                    contactInfo.EIK = orderViewModel.FullContactInfo.EIK;
-                    contactInfo.BGEIK = orderViewModel.FullContactInfo.BGEIK;
-                    contactInfo.CompanyCity = orderViewModel.FullContactInfo.CompanyCity;
-                    contactInfo.CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress;
-                    contactInfo.MOL = orderViewModel.FullContactInfo.MOL;
-                    contactInfo.Note = orderViewModel.FullContactInfo.Note;
-
-                    this.fullContactInfosService.Update(contactInfo);
-
                     Order order = ordersService.GetById(id);
+
+                    if (contactInfo != null)
+                    {
+                        contactInfo.FirstName = orderViewModel.FullContactInfo.FirstName;
+                        contactInfo.LastName = orderViewModel.FullContactInfo.LastName;
+                        contactInfo.PhoneNumber = orderViewModel.FullContactInfo.PhoneNumber;
+                        contactInfo.Address = orderViewModel.FullContactInfo.Address;
+                        contactInfo.City = orderViewModel.FullContactInfo.City;
+                        contactInfo.Area = orderViewModel.FullContactInfo.Area;
+                        contactInfo.PostCode = orderViewModel.FullContactInfo.PostCode;
+                        contactInfo.CompanyName = orderViewModel.FullContactInfo.CompanyName;
+                        contactInfo.EIK = orderViewModel.FullContactInfo.EIK;
+                        contactInfo.BGEIK = orderViewModel.FullContactInfo.BGEIK;
+                        contactInfo.CompanyCity = orderViewModel.FullContactInfo.CompanyCity;
+                        contactInfo.CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress;
+                        contactInfo.MOL = orderViewModel.FullContactInfo.MOL;
+                        contactInfo.Note = orderViewModel.FullContactInfo.Note;
+
+                        this.fullContactInfosService.Update(contactInfo);
+                    }
+                    else
+                    {
+                        order.ShortContactInfo.FirstName = orderViewModel.ShortContactInfo.FirstName;
+                        order.ShortContactInfo.LastName = orderViewModel.ShortContactInfo.LastName;
+                        order.ShortContactInfo.PhoneNumber = orderViewModel.ShortContactInfo.PhoneNumber;
+                    }
+
 
                     //order.OrderItems = orderViewModel.OrderItems;
                     order.OrderStatus = orderViewModel.OrderStatus;
@@ -182,9 +192,10 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
-            }
-            return View(orderViewModel);
+            //}
+            //return View(orderViewModel);
         }
 
         [HttpGet]

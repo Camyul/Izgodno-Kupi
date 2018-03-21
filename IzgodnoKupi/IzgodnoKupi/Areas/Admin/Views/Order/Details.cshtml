@@ -39,13 +39,27 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Име</label>
-                                    <input asp-for="FullContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                    @if (Model.FullContactInfo == null)
+                                    {
+                                        <input asp-for="ShortContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="FullContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                    }
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Фамилия</label>
-                                    <input asp-for="FullContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                    @if (Model.FullContactInfo == null)
+                                    {
+                                        <input asp-for="ShortContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="FullContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -53,7 +67,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>GSM</label>
-                                        <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input not-active" >
+                                        @if (Model.FullContactInfo == null)
+                                        {
+                                            <input asp-for="ShortContactInfo.PhoneNumber" type="text" class="form-control border-input not-active">
+                                        }
+                                        else
+                                        {
+                                            <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input not-active">
+                                        }
                                     </div>
                                 </div>
                                 <div class="col-md-6">

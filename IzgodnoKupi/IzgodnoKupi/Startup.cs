@@ -44,6 +44,7 @@ namespace IzgodnoKupi
             services.AddScoped(typeof(IOrdersService), typeof(OrdersService));
             services.AddScoped(typeof(IFullContactInfosService), typeof(FullContactInfosService));
             services.AddScoped(typeof(IBagService), typeof(BagService));
+            services.AddScoped(typeof(IShortContactInfoService), typeof(ShortContactInfoService));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
