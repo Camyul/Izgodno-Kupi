@@ -38,7 +38,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             var products = this.productsService
                                .GetAll()
-                               .Where(x => x.IsPublished == true)
+                               .Where(x => x.IsPublished == true 
+                                        //&& x.Category.Name != "Резервни части"
+                                        && x.Category.Name != "Дисплей/Tъч за смартфони")
                                .ToList();
 
             var doc = new XDocument();
@@ -78,7 +80,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             var products = this.productsService
                                .GetAll()
-                               .Where(x => x.IsPublished == true)
+                               .Where(x => x.IsPublished == true
+                                        //&& x.Category.Name != "Резервни части"
+                                        && x.Category.Name != "Дисплей/Tъч за смартфони")
                                .ToList();
 
             using (var writer = XmlWriter.Create(url))
