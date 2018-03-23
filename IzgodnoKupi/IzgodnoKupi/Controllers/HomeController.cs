@@ -50,6 +50,7 @@ namespace IzgodnoKupi.Controllers
             var products = this.productsService
                     .GetAll()
                     .Where(p => p.IsPublished == true)
+                    .Where(x => x.OldPrice != 0)
                     .Take(Constants.CountOfPartOfProducts)
                     //.Take(Constants.CountOfProductsInHomePage)
                     .ToList();
