@@ -70,7 +70,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .GetAll()
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
-                //.GetById(id);
+            //.GetById(id);
 
             if (order == null)
             {
@@ -132,33 +132,79 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            
+            try
+            {
+                FullContactInfo contactInfo = new FullContactInfo();
 
-            //if (ModelState.IsValid)
-            //{
-                try
+                if (orderViewModel.UserId != null)
                 {
-                    FullContactInfo contactInfo = this.fullContactInfosService.GetDefaultByUser(orderViewModel.UserId);
+                     contactInfo = this.fullContactInfosService.GetDefaultByUser(orderViewModel.UserId);
+                }
 
-                    Order order = ordersService.GetById(id);
+                Order order = ordersService.GetById(id);
 
-                    if (contactInfo != null)
+                if (contactInfo.UserID != null)
+                {
+                    contactInfo.FirstName = orderViewModel.FullContactInfo.FirstName;
+                    contactInfo.LastName = orderViewModel.FullContactInfo.LastName;
+                    contactInfo.PhoneNumber = orderViewModel.FullContactInfo.PhoneNumber;
+                    contactInfo.Address = orderViewModel.FullContactInfo.Address;
+                    contactInfo.City = orderViewModel.FullContactInfo.City;
+                    contactInfo.Area = orderViewModel.FullContactInfo.Area;
+                    contactInfo.PostCode = orderViewModel.FullContactInfo.PostCode;
+                    contactInfo.CompanyName = orderViewModel.FullContactInfo.CompanyName;
+                    contactInfo.EIK = orderViewModel.FullContactInfo.EIK;
+                    contactInfo.BGEIK = orderViewModel.FullContactInfo.BGEIK;
+                    contactInfo.CompanyCity = orderViewModel.FullContactInfo.CompanyCity;
+                    contactInfo.CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress;
+                    contactInfo.MOL = orderViewModel.FullContactInfo.MOL;
+                    contactInfo.Note = orderViewModel.FullContactInfo.Note;
+
+                    this.fullContactInfosService.Update(contactInfo);
+                }
+                else
+                {
+                    if (order.FullContactInfoId != null)
                     {
-                        contactInfo.FirstName = orderViewModel.FullContactInfo.FirstName;
-                        contactInfo.LastName = orderViewModel.FullContactInfo.LastName;
-                        contactInfo.PhoneNumber = orderViewModel.FullContactInfo.PhoneNumber;
-                        contactInfo.Address = orderViewModel.FullContactInfo.Address;
-                        contactInfo.City = orderViewModel.FullContactInfo.City;
-                        contactInfo.Area = orderViewModel.FullContactInfo.Area;
-                        contactInfo.PostCode = orderViewModel.FullContactInfo.PostCode;
-                        contactInfo.CompanyName = orderViewModel.FullContactInfo.CompanyName;
-                        contactInfo.EIK = orderViewModel.FullContactInfo.EIK;
-                        contactInfo.BGEIK = orderViewModel.FullContactInfo.BGEIK;
-                        contactInfo.CompanyCity = orderViewModel.FullContactInfo.CompanyCity;
-                        contactInfo.CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress;
-                        contactInfo.MOL = orderViewModel.FullContactInfo.MOL;
-                        contactInfo.Note = orderViewModel.FullContactInfo.Note;
+                        order.FullContactInfo.FirstName = orderViewModel.FullContactInfo.FirstName;
+                        order.FullContactInfo.LastName = orderViewModel.FullContactInfo.LastName;
+                        order.FullContactInfo.PhoneNumber = orderViewModel.FullContactInfo.PhoneNumber;
+                        order.FullContactInfo.Address = orderViewModel.FullContactInfo.Address;
+                        order.FullContactInfo.City = orderViewModel.FullContactInfo.City;
+                        order.FullContactInfo.Area = orderViewModel.FullContactInfo.Area;
+                        order.FullContactInfo.PostCode = orderViewModel.FullContactInfo.PostCode;
+                        order.FullContactInfo.CompanyName = orderViewModel.FullContactInfo.CompanyName;
+                        order.FullContactInfo.EIK = orderViewModel.FullContactInfo.EIK;
+                        order.FullContactInfo.BGEIK = orderViewModel.FullContactInfo.BGEIK;
+                        order.FullContactInfo.CompanyCity = orderViewModel.FullContactInfo.CompanyCity;
+                        order.FullContactInfo.CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress;
+                        order.FullContactInfo.MOL = orderViewModel.FullContactInfo.MOL;
+                        order.FullContactInfo.Note = orderViewModel.FullContactInfo.Note;
+                    }
+                    //Check all fields for values not only Address
+                    else if (!string.IsNullOrEmpty(orderViewModel.FullContactInfo.Address))
+                    {
+                        FullContactInfo newContactInfo = new FullContactInfo()
+                        {
+                            FirstName = orderViewModel.ShortContactInfo.FirstName,
+                            LastName = orderViewModel.ShortContactInfo.LastName,
+                            PhoneNumber = orderViewModel.ShortContactInfo.PhoneNumber,
+                            Address = orderViewModel.FullContactInfo.Address,
+                            City = orderViewModel.FullContactInfo.City,
+                            Area = orderViewModel.FullContactInfo.Area,
+                            PostCode = orderViewModel.FullContactInfo.PostCode,
+                            CompanyName = orderViewModel.FullContactInfo.CompanyName,
+                            EIK = orderViewModel.FullContactInfo.EIK,
+                            BGEIK = orderViewModel.FullContactInfo.BGEIK,
+                            CompanyCity = orderViewModel.FullContactInfo.CompanyCity,
+                            CompanyAddress = orderViewModel.FullContactInfo.CompanyAddress,
+                            MOL = orderViewModel.FullContactInfo.MOL,
+                            Note = orderViewModel.FullContactInfo.Note
+                        };
 
-                        this.fullContactInfosService.Update(contactInfo);
+                        newContactInfo.Orders.Add(order);
+                        fullContactInfosService.Add(newContactInfo);
                     }
                     else
                     {
@@ -166,36 +212,34 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                         order.ShortContactInfo.LastName = orderViewModel.ShortContactInfo.LastName;
                         order.ShortContactInfo.PhoneNumber = orderViewModel.ShortContactInfo.PhoneNumber;
                     }
-
-
-                    //order.OrderItems = orderViewModel.OrderItems;
-                    order.OrderStatus = orderViewModel.OrderStatus;
-                    //order.PaymentMethod = orderViewModel.PaymentMethod;
-                    //order.ShippingMethod = orderViewModel.ShippingMethod;
-                    order.ShippingTax = orderViewModel.ShippingTax;
-                    order.TaxAmount = orderViewModel.TaxAmount;
-                    order.TotalAmountExclTax = orderViewModel.TotalAmountExclTax;
-                    order.TotalAmountInclTax = orderViewModel.TotalAmountInclTax;
-                    order.TotalDiscount = orderViewModel.TotalDiscount;
-
-
-                    ordersService.Update(order);
                 }
-                catch (DbUpdateConcurrencyException)
+
+
+                //order.OrderItems = orderViewModel.OrderItems;
+                order.OrderStatus = orderViewModel.OrderStatus;
+                //order.PaymentMethod = orderViewModel.PaymentMethod;
+                //order.ShippingMethod = orderViewModel.ShippingMethod;
+                order.ShippingTax = orderViewModel.ShippingTax;
+                order.TaxAmount = orderViewModel.TaxAmount;
+                order.TotalAmountExclTax = orderViewModel.TotalAmountExclTax;
+                order.TotalAmountInclTax = orderViewModel.TotalAmountInclTax;
+                order.TotalDiscount = orderViewModel.TotalDiscount;
+
+                ordersService.Update(order);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderExists(orderViewModel.Id))
                 {
-                    if (!OrderExists(orderViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
+                else
+                {
+                    throw;
+                }
+            }
 
-                return RedirectToAction(nameof(Index));
-            //}
-            //return View(orderViewModel);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -207,9 +251,9 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             Order order = ordersService
-                .GetAll()
-                .Where(x => x.Id == id)
-                .FirstOrDefault();
+                                .GetAll()
+                                .Where(x => x.Id == id)
+                                .FirstOrDefault();
 
             if (order == null)
             {

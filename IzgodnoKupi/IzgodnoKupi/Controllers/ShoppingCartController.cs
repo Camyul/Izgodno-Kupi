@@ -46,6 +46,12 @@ namespace IzgodnoKupi.Web.Controllers
             this.shortContactInfoService = shortContactInfoService;
         }
 
+        [HttpGet]
+        public IActionResult ShortOrderCompleted()
+        {
+            return View("ShortOrderCompleted");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult FastOrder(Guid id, string firstName, string lastName, string gsm)
@@ -77,6 +83,15 @@ namespace IzgodnoKupi.Web.Controllers
             myOrder.TotalAmountExclTax = Math.Round(myOrder.TotalAmountInclTax / Constants.TaxAmount, 2);
             myOrder.TaxAmount = myOrder.TotalAmountInclTax - myOrder.TotalAmountExclTax;
 
+            if (myOrder.TotalAmountInclTax < Constants.MinPriceFreeShipping)
+            {
+                myOrder.ShippingTax = Constants.ShippingTax;
+            }
+            else
+            {
+                myOrder.ShippingTax = 0m;
+            }
+
             ShortContactInfo contactInfo = new ShortContactInfo();
             contactInfo.FirstName = firstName;
             contactInfo.LastName = lastName;
@@ -96,7 +111,7 @@ namespace IzgodnoKupi.Web.Controllers
 
             ordersService.Update(myOrder);
 
-            return RedirectToAction("Details", "Product", id);
+            return RedirectToAction("ShortOrderCompleted");
         }
 
         [HttpGet]
@@ -303,7 +318,7 @@ namespace IzgodnoKupi.Web.Controllers
             var userId = this.userManager.GetUserId(User);
             myOrder.UserId = userId;
 
-            myOrder.OrderDate = DateTime.UtcNow;
+            myOrder.OrderDate = DateTime.UtcNow.AddHours(+2);
             myOrder.OrderStatus = OrderStatus.Confirmed;
             myOrder.PaymentMethod = PaymentMethod.PayToCourier;
             myOrder.ShippingMethod = ShippingMethod.ToAddress;

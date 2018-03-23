@@ -2,6 +2,7 @@
 using IzgodnoKupi.Data.Contracts;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
+using System;
 using System.Linq;
 
 namespace IzgodnoKupi.Services
@@ -23,6 +24,19 @@ namespace IzgodnoKupi.Services
         {
             this.fullContactInfosRepo.Add(fullContactInfo);
             this.context.Commit();
+        }
+
+        public FullContactInfo GetById(Guid? id)
+        {
+            if (id.HasValue)
+            {
+                return this.fullContactInfosRepo.GetById(id);
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IQueryable<FullContactInfo> GetAllByUser(string id)

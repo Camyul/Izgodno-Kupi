@@ -52,6 +52,7 @@ namespace IzgodnoKupi.Services
                 return this.ordersRepo
                            .All
                            .Where(x => x.Id == id)
+                           .Include(x => x.FullContactInfo)
                            .Include(x => x.ShortContactInfo)
                            .FirstOrDefault();
                            //.GetById(id);
