@@ -1,0 +1,36 @@
+﻿@using IzgodnoKupi.Web.Models.ProductViewModels
+@model ProductDetailsViewModel
+
+<form asp-controller="ShoppingCart" asp-action="FastOrder" asp-route-id="@Model.Id" method="post" class="navbar-form shortContact">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h3 class="text-center text-uppercase">Бърза поръчка</h3>
+    <div class="text-center">
+        <div class="row">
+            <div class="col-md-3">
+                <label>Име</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="FirstName" type="text" class="form-control" placeholder="Име"/>
+                <p><span asp-validation-for="FirstName" class="text-danger"></span></p>
+            </div>
+            <div class="col-md-3">
+                <label>Фамилия</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="LastName" type="text" class="form-control" placeholder="Фамилия"/>
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="col-md-3">
+                <label>Телефон</label>
+            </div>
+            <div class="col-md-9">
+                <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="Телефон"/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="check">
+            <p><input type="submit" class="add-cart item_add" value="Бърза поръчка" /></p>
+        </div>
+    </div>
+</form>

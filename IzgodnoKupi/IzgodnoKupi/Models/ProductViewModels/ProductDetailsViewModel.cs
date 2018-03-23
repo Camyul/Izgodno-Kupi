@@ -90,5 +90,22 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public bool IsFreeShipping { get; set; }
 
         public double Weight { get; set; }
+
+
+        [Required]
+        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
+        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
+        [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
+        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
+        public string LastName { get; set; }
+
+        [Required]
+        [RegularExpression(ValidationConstants.PhoneRegex)]
+        public string PhoneNumber { get; set; }
     }
 }

@@ -61,43 +61,15 @@
                         <div class="text-center">
                             <input type="text" class="hidden" name="id" value="@Model.Id"/>
                             <input asp-for="Quantity" value="1" class="form-control" />
-                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                            <p><span asp-validation-for="Quantity" class="text-danger"></span></p>
                             <div class="check">
                                 <p><input type="submit" class="add-cart item_add" value="Купи" /></p>
                             </div>
                         </div>
                     </form>
 
-                    <form asp-controller="ShoppingCart" asp-action="FastOrder" asp-route-id="@Model.Id" method="post" class="navbar-form shortContact">
-                        <h3 class="text-center text-uppercase">Бърза поръчка</h3>
-                        <div class="text-center">
-                            <input type="text" class="hidden" name="id" value="@Model.Id" />
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <label>Име</label>
-                                </div>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Име" name="firstName" />
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Фамилия</label>
-                                </div>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Фамилия" name="lastName" />
-                                </div>
-                                <div class="col-md-3">
-                                    <label>Телефон</label>
-                                </div>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Телефон" name="gsm" />
-                                </div>
-                            </div>
-
-                            <div class="check">
-                                <p><input type="submit" class="add-cart item_add" value="Бърза поръчка" /></p>
-                            </div>
-                        </div>
-                    </form>
+                    @Html.Partial("_FastOrderPartial", @Model)
+                    
                 </div>
                 <div class="col-md-5 single-top-in simpleCart_shelfItem">
                     <div class="single-para">

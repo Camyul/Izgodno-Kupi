@@ -54,7 +54,7 @@ namespace IzgodnoKupi.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult FastOrder(Guid id, string firstName, string lastName, string gsm)
+        public IActionResult FastOrder(Guid id, string firstName, string lastName, string phoneNumber)
         {
             Order myOrder = new Order()
             {
@@ -95,14 +95,14 @@ namespace IzgodnoKupi.Web.Controllers
             ShortContactInfo contactInfo = new ShortContactInfo();
             contactInfo.FirstName = firstName;
             contactInfo.LastName = lastName;
-            contactInfo.PhoneNumber = gsm;
+            contactInfo.PhoneNumber = phoneNumber;
             
 
             ShortContactInfo newInfo = new ShortContactInfo()
             {
                 FirstName = firstName,
                 LastName = lastName,
-                PhoneNumber = gsm
+                PhoneNumber = phoneNumber
 
             };
 
