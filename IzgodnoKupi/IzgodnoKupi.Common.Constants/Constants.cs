@@ -10,7 +10,7 @@
 
         public const string SessionKey = "Cart";
 
-        public const decimal ShippingTax = 6.00m;
+        public const decimal ShippingTax = 7.00m;
 
         public const decimal TaxAmount = 1.20m;
 
