@@ -5,18 +5,19 @@ $(document).ready(function () {
     $(".memenu").memenu();
 });
 
-//For Carousel in Home Page
-(function () {
-    $("#slider").responsiveSlides({
-        auto: true,
-        nav: true,
-        speed: 500,
-        namespace: "callbacks",
-        pager: false,
-    });
-})();
+////For Carousel in Home Page
+//(function () {
+//    $("#slider").responsiveSlides({
+//        auto: true,
+//        nav: true,
+//        speed: 500,
+//        namespace: "callbacks",
+//        pager: false,
+//    });
+//})();
 
 function displayContactInfo() {
+    console.log('Contact Info Ready');
     $('#order-now').addClass('hidden');
     $('#check-out').removeClass('hidden');
     $('.cart-items').fadeOut('slow', function (c) {

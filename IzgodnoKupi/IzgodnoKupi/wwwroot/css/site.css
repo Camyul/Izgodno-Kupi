@@ -323,3 +323,135 @@ input.check-out:hover {
     font-weight: 600;
     padding-bottom: 10px;
 }
+
+/*Mod list Start*/
+li {
+    list-style: none;
+    display: list-item;
+}
+
+a {
+    text-decoration: none;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+div.content {
+    overflow: hidden;
+    background-color: #f6f6f6;
+}
+
+.module .content {
+    float: left;
+    width: 100%;
+}
+
+.content > .body > ul {
+    list-style-type: none;
+}
+
+.mod-list-l {
+    display: flex;
+}
+
+.mod-list-li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.mod-list-li a {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0 20px;
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+    text-transform: uppercase;
+}
+
+    .mod-list-li a:hover {
+        text-decoration: none;
+}
+
+.after {
+    display: flex;
+    z-index: 1;
+    background: url('./images/sprite1.png') -298px -196px;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    line-height: 10px;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+.before-1 {
+    display: flex;
+    z-index: 1;
+    background: url(./images/sprite1.png) 0 -70px;
+    width: 91px;
+    height: 80px;
+    text-align: center;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+.before-2 {
+    display: flex;
+    z-index: 1;
+    background: url(./images/sprite1.png) 365px -70px;
+    width: 91px;
+    height: 80px;
+    text-align: center;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+.before-3 {
+    display: flex;
+    z-index: 1;
+    background: url(./images/sprite1.png) 178px -70px;
+    width: 91px;
+    height: 80px;
+    text-align: center;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+.before-4 {
+    display: flex;
+    z-index: 1;
+    background: url(./images/sprite1.png) 265px -70px;
+    width: 91px;
+    height: 80px;
+    text-align: center;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+.before-5 {
+    display: flex;
+    z-index: 1;
+    background: url(./images/sprite1.png) 61px -70px;
+    width: 57px;
+    height: 80px;
+    text-align: center;
+    -webkit-transition: all 0.35s ease 0s;
+    transition: all 0.35s ease 0s;
+}
+
+@media (max-width: 770px) {
+    .mod-list-l {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mod-list-li a {
+        width: auto;
+        font-size: 14px;
+    }
+}
+/*Mod list End*/
