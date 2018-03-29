@@ -5,7 +5,7 @@
             <li class="active">За Нас</li>
         </ol>
         <!--start Term and Conditions-->
-        <h3 class="text-center">Данни за фирмата</h3>
+        <h3 class="text-center">Информация за фирмата</h3>
         <div class="section group">
             <pre class="term-text">
    ИЗГОДНО КУПИ – “Кеивс Компютърс” ООД е търговско дружество, регистрирано според изискванията на българското законодателство. Адресът на дружеството е гр. Луковит, ул. Христо Ботев 13, ЕИК: 200079220, ДДС номер: BG200079220, МОЛ: Йотко Йотов
@@ -38,3 +38,7 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ModListScriptPartial");}
+}
