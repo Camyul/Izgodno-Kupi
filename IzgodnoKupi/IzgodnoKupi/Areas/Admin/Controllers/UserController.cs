@@ -53,6 +53,36 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult SearchUser(string searchTerm, int? page)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index");
+            }
+
+            List<UserListViewModel>  users = userManager.Users
+                                                   .Where(x => x.Email.ToString().Contains(searchTerm))
+                                                   .Select(u => new UserListViewModel
+                                                   {
+                                                       Id = u.Id,
+                                                       Email = u.Email
+                                                       //RoleName = roleManager.Roles.FirstOrDefault(r => r.Id == u.).Name
+                                                       //RoleName = userManager.GetRolesAsync(u).Result.Single().ToString()
+                                                   })
+                                                   .ToList();
+
+            Pager pager = new Pager(users.Count(), page);
+
+            IndexUserViewModel viewPageIndexModel = new IndexUserViewModel
+            {
+                Items = users.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            return View(viewPageIndexModel);
+        }
+
+        [HttpGet]
         public IActionResult AddUser()
         {
             UserViewModel model = new UserViewModel();
