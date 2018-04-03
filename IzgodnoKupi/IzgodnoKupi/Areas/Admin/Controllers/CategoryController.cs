@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
@@ -39,6 +40,31 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             };
 
             return View(viewCategoryIndexModel);
+        }
+
+        [HttpGet]
+        public IActionResult SearchCategory(string searchTerm, int? page)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index");
+            }
+
+            List<CategoryViewModel> categories = categoryService
+                                                   .GetAll()
+                                                   .Where(x => x.Name.Contains(searchTerm))
+                                                   .Select(c => new CategoryViewModel(c))
+                                                   .ToList();
+
+            Pager pager = new Pager(categories.Count(), page);
+
+            IndexPageCategoryViewModel viewPageIndexModel = new IndexPageCategoryViewModel
+            {
+                Items = categories.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            return View(viewPageIndexModel);
         }
 
         [HttpGet]
