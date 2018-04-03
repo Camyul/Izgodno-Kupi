@@ -30,7 +30,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             this.categiriesService = categiriesService;
         }
 
-        // GET: Products
         [HttpGet]
         public IActionResult Index(int? page)
         {
@@ -47,6 +46,34 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Items = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
                 Pager = pager
             };
+
+            return View(viewPageIndexModel);
+        }
+
+        [HttpGet]
+        public IActionResult SearchProduct(string searchTerm, int? page)
+        {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var products = this.productsService
+                .GetAll()
+                .Where(p => p.Name.ToLower().Contains(searchTerm.ToLower()))
+                .OrderByDescending(x => x.CreatedOn)
+                .Select(x => new ProductViewModel(x))
+                .ToList();
+
+            Pager pager = new Pager(products.Count(), page);
+
+            IndexAdminPageViewModel viewPageIndexModel = new IndexAdminPageViewModel
+            {
+                Items = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            ViewData["searchTerm"] = searchTerm;
 
             return View(viewPageIndexModel);
         }

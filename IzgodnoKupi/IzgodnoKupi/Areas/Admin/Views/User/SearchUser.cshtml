@@ -1,8 +1,11 @@
 ﻿@using IzgodnoKupi.Web.Areas.Admin.Models.UserViewModel
 @model IndexUserViewModel
 
+@{
+    var searchTerm = ViewData["searchTerm"].ToString();
+}
 
-<h2 class="text-center">Резултати от търсенето</h2>
+<h2 class="text-center">Резултати от търсенето на "@searchTerm"</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -40,25 +43,25 @@
                     @if (Model.Pager.CurrentPage > 1)
                 {
                         <li>
-                            <a asp-controller="User" asp-action="Index" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
+                            <a asp-controller="User" asp-action="SearchUser" asp-route-searchTerm="@searchTerm" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
                         </li>
                         <li>
-                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
+                            <a asp-controller="User" asp-action="SearchUser" asp-route-searchTerm="@searchTerm" asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
                         </li>
                     }
                     @for (int pageNum = Model.Pager.StartPage; pageNum <= Model.Pager.EndPage; pageNum++)
                 {
                         <li class="@(pageNum == Model.Pager.CurrentPage ? "active" : "")">
-                            <a asp-controller="User" asp-action="Index" asp-route-page="@pageNum">@pageNum</a>
+                            <a asp-controller="User" asp-action="SearchUser" asp-route-searchTerm="@searchTerm" asp-route-page="@pageNum">@pageNum</a>
                         </li>
                     }
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                 {
                         <li>
-                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
+                            <a asp-controller="User" asp-action="SearchUser" asp-route-searchTerm="@searchTerm" asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
                         </li>
                         <li>
-                            <a asp-controller="User" asp-action="Index" asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
+                            <a asp-controller="User" asp-action="SearchUser" asp-route-searchTerm="@searchTerm" asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
                         </li>
                     }
                 </ul>

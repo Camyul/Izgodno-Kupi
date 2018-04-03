@@ -61,7 +61,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
 
             List<UserListViewModel>  users = userManager.Users
-                                                   .Where(x => x.Email.ToString().Contains(searchTerm))
+                                                   .Where(x => x.Email.ToString().ToLower().Contains(searchTerm.ToLower()))
                                                    .Select(u => new UserListViewModel
                                                    {
                                                        Id = u.Id,
@@ -78,6 +78,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Items = users.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
                 Pager = pager
             };
+
+            ViewData["searchTerm"] = searchTerm;
 
             return View(viewPageIndexModel);
         }

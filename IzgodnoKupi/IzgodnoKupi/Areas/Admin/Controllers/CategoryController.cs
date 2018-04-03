@@ -52,7 +52,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             List<CategoryViewModel> categories = categoryService
                                                    .GetAll()
-                                                   .Where(x => x.Name.Contains(searchTerm))
+                                                   .Where(x => x.Name.ToLower().Contains(searchTerm.ToLower()))
                                                    .Select(c => new CategoryViewModel(c))
                                                    .ToList();
 
@@ -63,6 +63,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 Items = categories.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
                 Pager = pager
             };
+
+            ViewData["searchTerm"] = searchTerm;
 
             return View(viewPageIndexModel);
         }
