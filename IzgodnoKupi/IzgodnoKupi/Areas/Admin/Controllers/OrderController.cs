@@ -59,6 +59,33 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        public IActionResult SearchOrder(DateTime? startDate, DateTime? endDate, OrderStatus orderStatus, int? page)
+        {
+            IList<OrderListViewModel> modelOrderListView = ordersService
+                                                                .GetAll()
+                                                                .Where(r => r.OrderStatus == orderStatus && 
+                                                                       r.OrderDate >= startDate && 
+                                                                       r.OrderDate <= endDate)
+                                                                .OrderByDescending(o => o.OrderDate)
+                                                                .Select(x => new OrderListViewModel(x))
+                                                                .ToList();
+
+            Pager pager = new Pager(modelOrderListView.Count(), page);
+
+            IndexOrderViewModel viewPageIndexModel = new IndexOrderViewModel
+            {
+                Items = modelOrderListView.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Pager = pager
+            };
+
+            ViewData["startDate"] = startDate;
+            ViewData["endDate"] = endDate;
+            ViewData["orderStatus"] = orderStatus;
+
+            return View(viewPageIndexModel);
+        }
+
+        [HttpGet]
         public IActionResult Details(Guid id)
         {
             if (id == null)

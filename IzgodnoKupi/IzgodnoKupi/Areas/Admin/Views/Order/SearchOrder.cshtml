@@ -3,7 +3,13 @@
 
 @model IndexOrderViewModel
 
-<h2 class="text-center">Последни поръчки</h2>
+@{
+    var startDate = ((DateTime)ViewData["startDate"]).ToString("yyyy-MM-dd");
+    var endDate = ((DateTime)ViewData["endDate"]).ToString("yyyy-MM-dd");
+    var orderStatus = (OrderStatus)ViewData["orderStatus"];
+}
+
+<h2 class="text-center">Филтрирани поръчки</h2>
 
 <div>
     <form asp-action="SearchOrder" method="get" class="form-horizontal">
@@ -70,25 +76,25 @@
                     @if (Model.Pager.CurrentPage > 1)
                 {
                         <li>
-                            <a asp-controller="Order" asp-action="Index" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
+                            <a asp-controller="Order" asp-action="SearchOrder" asp-route-startDate="@startDate" asp-route-endDate="@endDate" asp-route-orderStatus="@orderStatus" asp-route-page="1"><i class="fa fa-angle-double-left"></i></a>
                         </li>
                         <li>
-                            <a asp-controller="Order" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
+                            <a asp-controller="Order" asp-action="SearchOrder" asp-route-startDate="@startDate" asp-route-endDate="@endDate" asp-route-orderStatus="@orderStatus"  asp-route-page="@(Model.Pager.CurrentPage - 1)"><i class="fa fa-angle-left"></i></a>
                         </li>
                     }
                     @for (int pageNum = Model.Pager.StartPage; pageNum <= Model.Pager.EndPage; pageNum++)
                 {
                         <li class="@(pageNum == Model.Pager.CurrentPage ? "active" : "")">
-                            <a asp-controller="Order" asp-action="Index" asp-route-page="@pageNum">@pageNum</a>
+                            <a asp-controller="Order" asp-action="SearchOrder" asp-route-startDate="@startDate" asp-route-endDate="@endDate" asp-route-orderStatus="@orderStatus"  asp-route-page="@pageNum">@pageNum</a>
                         </li>
                     }
                     @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
                 {
                         <li>
-                            <a asp-controller="Order" asp-action="Index" asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
+                            <a asp-controller="Order" asp-action="SearchOrder" asp-route-startDate="@startDate" asp-route-endDate="@endDate" asp-route-orderStatus="@orderStatus"  asp-route-page="@(Model.Pager.CurrentPage + 1)"><i class="fa fa-angle-right"></i></a>
                         </li>
                         <li>
-                            <a asp-controller="Order" asp-action="Index" asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
+                            <a asp-controller="Order" asp-action="SearchOrder" asp-route-startDate="@startDate" asp-route-endDate="@endDate" asp-route-orderStatus="@orderStatus"  asp-route-page="@(Model.Pager.TotalPages)"><i class="fa fa-angle-double-right"></i></a>
                         </li>
                     }
                 </ul>
