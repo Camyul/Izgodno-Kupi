@@ -140,29 +140,9 @@
 </div>
 <!-- //check out -->
 @section Scripts {
-<script>
-    function deleteOrderItem(id) {
-        $(`#${id}`).parent().fadeOut('slow', function (c) {
-            $(`#${id}`).parent().remove();
-        });
-        $.ajax({
-            url: '/ShoppingCart/DeleteOrderItem',
-            data: { id: id },
-            success: setInterval(redirect, 1000)
-        })
-    };
-    function redirect() {
-        var url = '/ShoppingCart/MyCart';
-        window.location.href = url;
-    };
 
-    $('.close').click(() => {
-        $('#alert-info').fadeOut('slow', function (c) {
-            $('#alert-info').addClass('hidden');
-        });
-    });
-
+    @{await Html.RenderPartialAsync("_DeleteOrderItemScriptPartial");}
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ModListScriptPartial");}
-</script>
+
 }
