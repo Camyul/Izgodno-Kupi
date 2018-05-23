@@ -313,7 +313,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             ProductStantekViewModel productViewModel = new ProductStantekViewModel()
             {
                 Name = name,
-                PictureUrl = pictureUrl,
+                PictureUrl = "https://stantek.com/" + pictureUrl,
                 Price = decimal.Parse(price) / 100,
                 FullDescription = fullDescription
             };
