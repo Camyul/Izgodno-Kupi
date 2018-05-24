@@ -35,8 +35,8 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Common\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="wwwroot\productImages\" />
     <Folder Include="wwwroot\xml\" />
+    <Folder Include="wwwroot\productImages\" />
   </ItemGroup>
 
   <ItemGroup>

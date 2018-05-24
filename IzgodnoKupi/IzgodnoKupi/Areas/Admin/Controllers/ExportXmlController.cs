@@ -38,8 +38,17 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             var products = this.productsService
                                .GetAll()
-                               .Where(x => x.IsPublished == true 
-                                        //&& x.Category.Name != "Резервни части"
+                               .Where(x => x.IsPublished == true
+                                        && x.Category.Name != "LED осветление"
+                                        && x.Category.Name != "Артикули втора у-ба"
+                                        && x.Category.Name != "Кутии за Компютри"
+                                        && x.Category.Name != "Софтуер"
+                                        && x.Category.Name != "Стабилизатори и UPS"
+                                        && x.Category.Name != "Телевизори"
+                                        && x.Category.Name != "Резервни части"
+                                        && x.Category.Name != "Смартфони"
+                                        && x.Category.Name != "Стъклени протектори"
+                                        && x.Category.Name != "Дисплей/Tъч за таблети"
                                         && x.Category.Name != "Дисплей/Tъч за смартфони")
                                .ToList();
 
@@ -81,7 +90,16 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             var products = this.productsService
                                .GetAll()
                                .Where(x => x.IsPublished == true
-                                        //&& x.Category.Name != "Резервни части"
+                                        && x.Category.Name != "LED осветление"
+                                        && x.Category.Name != "Артикули втора у-ба"
+                                        && x.Category.Name != "Кутии за Компютри"
+                                        && x.Category.Name != "Софтуер"
+                                        && x.Category.Name != "Стабилизатори и UPS"
+                                        && x.Category.Name != "Телевизори"
+                                        && x.Category.Name != "Резервни части"
+                                        && x.Category.Name != "Смартфони"
+                                        && x.Category.Name != "Стъклени протектори"
+                                        && x.Category.Name != "Дисплей/Tъч за таблети"
                                         && x.Category.Name != "Дисплей/Tъч за смартфони")
                                .ToList();
 
