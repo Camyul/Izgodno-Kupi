@@ -42,35 +42,35 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дребна бяла техника");
 
-            CheckCategoryExist("Грижа за косата");
+            CheckCategoryExist("Грижа за косата", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Грижа за косата"));
             GetProductsFromSubCategory("Грижа за косата", subCategories[0]);
 
-            CheckCategoryExist("Грижа за устата");
+            CheckCategoryExist("Грижа за устата", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Грижа за устата"));
             GetProductsFromSubCategory("Грижа за устата", subCategories[1]);
 
-            CheckCategoryExist("Кухненски уреди");
+            CheckCategoryExist("Кухненски уреди", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кухненски уреди"));
             GetProductsFromSubCategory("Кухненски уреди", subCategories[2]);
 
-            CheckCategoryExist("Прахосмукачки");
+            CheckCategoryExist("Прахосмукачки", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Прахосмукачки"));
             GetProductsFromSubCategory("Прахосмукачки", subCategories[3]);
 
-            CheckCategoryExist("За тялото");
+            CheckCategoryExist("За тялото", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За тялото"));
             GetProductsFromSubCategory("За тялото", subCategories[4]);
 
-            CheckCategoryExist("За гладене");
+            CheckCategoryExist("За гладене", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За гладене"));
             GetProductsFromSubCategory("За гладене", subCategories[5]);
 
-            CheckCategoryExist("За мъжа");
+            CheckCategoryExist("За мъжа", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За мъжа"));
             GetProductsFromSubCategory("За мъжа", subCategories[6]);
 
-            CheckCategoryExist("Еспресо");
+            CheckCategoryExist("Еспресо", CategoriesGroup.SmallWhiteGoods);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Еспресо"));
             GetProductsFromSubCategory("Еспресо", subCategories[7]);
 
@@ -85,7 +85,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("UPS");
 
-            CheckCategoryExist("Стабилизатори и UPS");
+            CheckCategoryExist("Стабилизатори и UPS", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Стабилизатори и UPS"));
             GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[0]);
             GetProductsFromSubCategory("Стабилизатори и UPS", subCategories[1]);
@@ -101,7 +101,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеонаблюдение");
 
-            CheckCategoryExist("Видео камери");
+            CheckCategoryExist("Видео камери", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео камери"));
             GetProductsFromSubCategory("Видео камери", subCategories[0]);
             GetProductsFromSubCategory("Видео камери", subCategories[2]);
@@ -113,19 +113,19 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Комуникации");
 
-            CheckCategoryExist("Мрежа, LAN, Wi-Fi");
+            CheckCategoryExist("Мрежа, LAN, Wi-Fi", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Мрежа, LAN, Wi-Fi"));
             GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[0]);
             GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[1]);
             GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[2]);
             GetProductsFromSubCategory("Мрежа, LAN, Wi-Fi", subCategories[4]);
 
-            CheckCategoryExist("Шкафове");
+            CheckCategoryExist("Шкафове", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Шкафове"));
             GetProductsFromSubCategory("Шкафове", subCategories[15]);//Rack
             GetProductsFromSubCategory("Шкафове", subCategories[16]);//Parts for Rack
 
-            CheckCategoryExist("Телефонни апарати");
+            CheckCategoryExist("Телефонни апарати", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Телефонни апарати"));
             GetProductsFromSubCategory("Телефонни апарати", subCategories[7]);//IP Phones
             GetProductsFromSubCategory("Телефонни апарати", subCategories[8]);//Digital Phones
@@ -139,7 +139,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Аудио и Видео");
 
-            CheckCategoryExist("Аудио и Видео");
+            CheckCategoryExist("Аудио и Видео", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Аудио и Видео"));
             GetProductsFromSubCategory("Аудио и Видео", subCategories[1]);
             GetProductsFromSubCategory("Аудио и Видео", subCategories[2]);
@@ -154,25 +154,25 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Аксесоари");
 
 
-            CheckCategoryExist("Мишки");
+            CheckCategoryExist("Мишки", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Мишки"));
             GetProductsFromSubCategory("Мишки", subCategories[1]);
 
-            CheckCategoryExist("Клавиатури");
+            CheckCategoryExist("Клавиатури", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Клавиатури"));
             GetProductsFromSubCategory("Клавиатури", subCategories[2]);
 
-            CheckCategoryExist("Чанти, раници за лаптоп");
+            CheckCategoryExist("Чанти, раници за лаптоп", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Чанти, раници за лаптоп"));
             GetProductsFromSubCategory("Чанти, раници за лаптоп", subCategories[3]);
 
             IList<CategorySolytronViewModel> thirdSubCategories = GetSubCategories("Батерии");
-            CheckCategoryExist("Други...");
+            CheckCategoryExist("Други...", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Други..."));
             GetProductsFromSubCategory("Други...", subCategories[4]);
             GetProductsFromSubCategory("Други...", thirdSubCategories[0]);
 
-            CheckCategoryExist("Кабели и преходници");
+            CheckCategoryExist("Кабели и преходници", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Кабели и преходници"));
             GetProductsFromSubCategory("Кабели и преходници", subCategories[5]);
 
@@ -186,12 +186,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Мултимедия");
 
-            CheckCategoryExist("Слушалки и микрофони");
+            CheckCategoryExist("Слушалки и микрофони", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Слушалки и микрофони"));
             GetProductsFromSubCategory("Слушалки и микрофони", subCategories[2]);
             GetProductsFromSubCategory("Слушалки и микрофони", subCategories[3]);
 
-            CheckCategoryExist("Тон колони");
+            CheckCategoryExist("Тон колони", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Тон колони"));
             GetProductsFromSubCategory("Тон колони", subCategories[8]);
 
@@ -223,7 +223,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Скенери");
 
-            CheckCategoryExist("Скенери");
+            CheckCategoryExist("Скенери", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Скенери"));
             GetProductsFromSubCategory("Скенери", subCategories[0]);
             GetProductsFromSubCategory("Скенери", subCategories[1]);
@@ -236,7 +236,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Принтери");
 
-            CheckCategoryExist("Принтери");
+            CheckCategoryExist("Принтери", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Принтери"));
             GetProductsFromSubCategory("Принтери", subCategories[0]);
             GetProductsFromSubCategory("Принтери", subCategories[1]);
@@ -255,11 +255,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Телевизори");
 
-            CheckCategoryExist("Телевизори");
+            CheckCategoryExist("Телевизори", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Телевизори"));
             GetProductsFromSubCategory("Телевизори", subCategories[0]);
 
-            CheckCategoryExist("За телевизори");
+            CheckCategoryExist("За телевизори", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За телевизори"));
             GetProductsFromSubCategory("За телевизори", subCategories[1]);
 
@@ -270,11 +270,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Видеопрожектори");
 
-            CheckCategoryExist("Проектори");
+            CheckCategoryExist("Проектори", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Проектори"));
             GetProductsFromSubCategory("Проектори", subCategories[0]);
 
-            CheckCategoryExist("За Проектори");
+            CheckCategoryExist("За Проектори", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За Проектори"));
             GetProductsFromSubCategory("За Проектори", subCategories[1]);
 
@@ -285,7 +285,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дисплеи");
 
-            CheckCategoryExist("Монитори");
+            CheckCategoryExist("Монитори", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Монитори"));
             GetProductsFromSubCategory("Монитори", subCategories[0]);
             GetProductsFromSubCategory("Монитори", subCategories[1]);
@@ -299,31 +299,31 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компоненти");
 
-            CheckCategoryExist("Хард дискове HDD");
+            CheckCategoryExist("Хард дискове HDD", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Хард дискове HDD"));
             GetProductsFromSubCategory("Хард дискове HDD", subCategories[0]);
 
-            CheckCategoryExist("SSD");
+            CheckCategoryExist("SSD", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("SSD"));
             GetProductsFromSubCategory("SSD", subCategories[2]);
 
-            CheckCategoryExist("Видео карти");
+            CheckCategoryExist("Видео карти", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Видео карти"));
             GetProductsFromSubCategory("Видео карти", subCategories[3]);
 
             //Have USB Hubs in this category
-            CheckCategoryExist("CD и DVD записвачки");
+            CheckCategoryExist("CD и DVD записвачки", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("CD и DVD записвачки"));
             GetProductsFromSubCategory("CD и DVD записвачки", subCategories[4]);
 
-            CheckCategoryExist("Флашки и USB HDD");
+            CheckCategoryExist("Флашки и USB HDD", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Флашки и USB HDD"));
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[1]);
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[5]);
             GetProductsFromSubCategory("Флашки и USB HDD", subCategories[10]);
 
             //Mix for Desktop and Laptop
-            CheckCategoryExist("Оперативна памет RAM");
+            CheckCategoryExist("Оперативна памет RAM", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Оперативна памет RAM"));
             GetProductsFromSubCategory("Оперативна памет RAM", subCategories[6]);
 
@@ -331,14 +331,14 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             //CheckCategoryExist("Дънни платки");
             //SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Дънни платки"));
             //GetProductsFromSubCategory("Дънни платки", subCategories[7]);
-            
+
 
             //Mix from adapters for laptops, gsm, and PC, only 8 pieces
-            CheckCategoryExist("Захранване за компютри");
+            CheckCategoryExist("Захранване за компютри", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Захранване за компютри"));
             GetProductsFromSubCategory("Захранване за компютри", subCategories[8]);
 
-            CheckCategoryExist("Охладители");
+            CheckCategoryExist("Охладители", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Охладители"));
             GetProductsFromSubCategory("Охладители", subCategories[11]);
 
@@ -351,7 +351,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             string categoryName = "NAS";
 
-            CheckCategoryExist(categoryName);
+            CheckCategoryExist(categoryName, CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName(categoryName));
             GetProductsFromSubCategory(categoryName, subCategories[1]);
 
@@ -363,15 +363,15 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Таблети и Смартфони");
 
             //Have in Stantek
-            CheckCategoryExist("Таблети");
+            CheckCategoryExist("Таблети", CategoriesGroup.SmartPhoneAndAccessoaries);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Таблети"));
             GetProductsFromSubCategory("Таблети", subCategories[0]);
 
-            CheckCategoryExist("Смартфони");
+            CheckCategoryExist("Смартфони", CategoriesGroup.SmartPhoneAndAccessoaries);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Смартфони"));
             GetProductsFromSubCategory("Смартфони", subCategories[1]);
 
-            CheckCategoryExist("За смартфони");
+            CheckCategoryExist("За смартфони", CategoriesGroup.SmartPhoneAndAccessoaries);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("За смартфони"));
             GetProductsFromSubCategory("За смартфони", subCategories[2]);
 
@@ -394,11 +394,11 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Компютри");
 
-            CheckCategoryExist("Лаптопи");
+            CheckCategoryExist("Лаптопи", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Лаптопи"));
             GetProductsFromSubCategory("Лаптопи", subCategories[0]);
 
-            CheckCategoryExist("Настолни Компютри");
+            CheckCategoryExist("Настолни Компютри", CategoriesGroup.Pc);
             SetProductsFromCategoryNotPublished(this.categoriesService.GetByName("Настолни Компютри"));
             GetProductsFromSubCategory("Настолни Компютри", subCategories[1]);
             GetProductsFromSubCategory("Настолни Компютри", subCategories[2]);
@@ -611,8 +611,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             StringBuilder description = new StringBuilder();
             foreach (var property in descriptionProperties)
             {
-                if (property.Attribute("propertyId").Value != "55" 
-                    && property.Attribute("propertyId").Value != "56" 
+                if (property.Attribute("propertyId").Value != "55"
+                    && property.Attribute("propertyId").Value != "56"
                     && property.Attribute("propertyId").Value != "57"
                    )
                 {
@@ -702,7 +702,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             AddProductsToDb(products);
         }
 
-        private void CheckCategoryExist(string name)
+        private void CheckCategoryExist(string name, CategoriesGroup categoriesGroup)
         {
             bool isCategoryNotExist = this.categoriesService.GetByName(name) == null;
 
@@ -712,7 +712,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 {
                     Name = name,
                     ShowOnHomePage = false,
-                    CategoriesGroup = CategoriesGroup.Pc
+                    CategoriesGroup = categoriesGroup
                 };
 
                 this.categoriesService.AddCategory(categoryToAdd);
