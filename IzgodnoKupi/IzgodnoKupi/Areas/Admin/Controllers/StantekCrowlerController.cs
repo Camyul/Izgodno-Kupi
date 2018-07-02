@@ -39,6 +39,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var categories = this.categorieService.GetAll()
+                      .Where(cat => cat.Name != "NAS")
                       .Select(c => new CategoryViewModel(c))
                       .OrderBy(x => x.Name)
                       .ToList();

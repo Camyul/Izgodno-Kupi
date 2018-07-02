@@ -38,6 +38,21 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult HideAllSolytronProducts()
+        {
+            IList<Product> products = this.productsService.GetAll()
+                                          .Where(x => x.IsPublished == true && x.Supplier == Supplier.Solytron)
+                                          .ToList();
+
+            foreach (var product in products)
+            {
+                product.IsPublished = false;
+                this.productsService.Update(product);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult GetProductsFromSmallWhileGoods()
         {
             IList<CategorySolytronViewModel> subCategories = GetSubCategories("Дребна бяла техника");

@@ -31,7 +31,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 .GetAll()
                 .Where(r => r.OrderStatus != OrderStatus.NotCompleted)
                 .OrderByDescending(o => o.OrderDate)
-                .Take(5)
+                .Take(7)
                 .Select(x => new OrderListViewModel(x))
                 .ToList();
 
