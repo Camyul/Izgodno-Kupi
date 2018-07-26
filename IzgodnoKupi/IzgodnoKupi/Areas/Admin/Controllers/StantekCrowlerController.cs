@@ -204,6 +204,10 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
                 for (int i = 1; i <= pagesNumber; i++)
                 {
+                    if (i != 1)
+                    {
+                        System.Threading.Thread.Sleep(15000);
+                    }
                     IList<ProductStantekViewModel> productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
                     foreach (var product in productFromOnePage)
                     {
@@ -248,6 +252,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             
             foreach (var link in productsLinks)
             {
+                System.Threading.Thread.Sleep(1200);
                 ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link, categoryName);
                 product.Category = categoryName;
 
