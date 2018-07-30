@@ -61,6 +61,14 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult SearchOrder(DateTime? startDate, DateTime? endDate, OrderStatus orderStatus, int? page)
         {
+            if (startDate == null)
+            {
+                startDate = DateTime.UtcNow.AddDays(-5);
+            }
+            if (endDate == null)
+            {
+                endDate = DateTime.UtcNow.AddHours(2);
+            }
             IList<OrderListViewModel> modelOrderListView = ordersService
                                                                 .GetAll()
                                                                 .Where(r => r.OrderStatus == orderStatus && 
