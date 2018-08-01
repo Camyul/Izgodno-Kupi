@@ -4,6 +4,7 @@ using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Models;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
+using IzgodnoKupi.Web.Models.HomeViewModels;
 using IzgodnoKupi.Web.Models.ProductViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -140,6 +141,15 @@ namespace IzgodnoKupi.Controllers
             //ViewData["Message"] = "Your contact page.";
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Contact(ContactMessageViewModel contactMessage)
+        {
+            TempData["Success"] = "  Наш служител ще се свърже с Вас.";
+
+            return RedirectToAction("Contact");
         }
     }
 }

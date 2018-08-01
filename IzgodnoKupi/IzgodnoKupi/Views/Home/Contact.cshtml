@@ -1,8 +1,14 @@
-﻿@*@{
+﻿@using IzgodnoKupi.Web.Models.HomeViewModels
+@model ContactMessageViewModel
+
+@*@{
     ViewData["Title"] = "Contact";
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>*@
+@{ 
+    var successMessage = TempData["Success"];
+}
 
     <div class="contact">
         <div class="container">
@@ -11,6 +17,13 @@
                 <li class="active">Контакти</li>
             </ol>
             <!--start contact-->
+            @if (successMessage != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    <strong>Съобщението е получено успешно!</strong> @successMessage
+                </div>
+            }
+            
             <h3>Съобщение</h3>
             <div class="section group">
                 <div class="col-md-6 span_1_of_3">
@@ -32,22 +45,27 @@
                 </div>
                 <div class="col-md-6 span_2_of_3">
                     <div class="contact-form">
-                        <form>
+                        <form asp-controller="Home" asp-action="Contact" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div>
                                 <span><label>Име</label></span>
-                                <span><input name="userName" type="text" required="" class="textbox" autofocus></span>
+                                <span><input asp-for="Name" type="text" required="" class="textbox" autofocus></span>
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div>
                                 <span><label>E-MAIL</label></span>
-                                <span><input name="userEmail" type="text" required="" class="textbox"></span>
+                                <span><input asp-for="Email" type="text" required="" class="textbox"></span>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                             <div>
                                 <span><label>Мобилен Телефон</label></span>
-                                <span><input name="userPhone" type="text" required="" class="textbox"></span>
+                                <span><input asp-for="Phone" type="text" required="" class="textbox"></span>
+                                <span asp-validation-for="Phone" class="text-danger"></span>
                             </div>
                             <div>
                                 <span><label>Относно</label></span>
-                                <span><textarea name="userMsg" required=""> </textarea></span>
+                                <span><textarea asp-for="Note" required=""> </textarea></span>
+                                <span asp-validation-for="Note" class="text-danger"></span>
                             </div>
                             <div>
                                 <span><input type="submit" class="mybutton" value="Изпрати"></span>
@@ -62,4 +80,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ModListScriptPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
