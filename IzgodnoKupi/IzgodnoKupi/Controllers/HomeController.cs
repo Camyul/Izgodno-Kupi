@@ -1,7 +1,7 @@
 ﻿using Bytes2you.Validation;
 using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model.Enums;
-using IzgodnoKupi.Models;
+using IzgodnoKupi.Services;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using IzgodnoKupi.Web.Models.HomeViewModels;
@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace IzgodnoKupi.Controllers
 {
@@ -18,14 +19,17 @@ namespace IzgodnoKupi.Controllers
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categiriesService;
+        private readonly IEmailSender _emailSender;
 
-        public HomeController(IProductsService productsService, ICategoriesService categiriesService)
+        public HomeController(IProductsService productsService, ICategoriesService categiriesService, IEmailSender emailSender)
         {
             Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
             Guard.WhenArgument(categiriesService, "categiriesService").IsNull().Throw();
+            Guard.WhenArgument(emailSender, "emailSender").IsNull().Throw();
 
             this.productsService = productsService;
             this.categiriesService = categiriesService;
+            this._emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -145,9 +149,13 @@ namespace IzgodnoKupi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Contact(ContactMessageViewModel contactMessage)
+        public async Task<IActionResult> Contact(ContactMessageViewModel contactMessage)
         {
             TempData["Success"] = "  Наш служител ще се свърже с Вас.";
+
+            //await _emailSender.SendEmailAsync(contactMessage.Email, "Ново съобщение", $"Можете да промените паролата си на следния линк: <a href='{callbackUrl}'>Нова Парола</a>");
+            await _emailSender.SendEmailAsync("caves.computers@gmail.com", "Ново съобщение", 
+                $"{contactMessage.Name}\n{contactMessage.Email}\n{contactMessage.Phone}\n\n{contactMessage.Note}");
 
             return RedirectToAction("Contact");
         }
