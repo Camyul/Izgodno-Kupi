@@ -154,8 +154,8 @@ namespace IzgodnoKupi.Controllers
             TempData["Success"] = "  Наш служител ще се свърже с Вас.";
 
             //await _emailSender.SendEmailAsync(contactMessage.Email, "Ново съобщение", $"Можете да промените паролата си на следния линк: <a href='{callbackUrl}'>Нова Парола</a>");
-            await _emailSender.SendEmailAsync("caves.computers@gmail.com", "Ново съобщение", 
-                $"{contactMessage.Name}\n{contactMessage.Email}\n{contactMessage.Phone}\n\n{contactMessage.Note}");
+            await _emailSender.SendEmailAsync("caves@abv.bg", "Съобщение от сайта", 
+                $"<b>{contactMessage.Name}</b></br>{contactMessage.Email}</br>{contactMessage.Phone}</br></br>{contactMessage.Note}");
 
             return RedirectToAction("Contact");
         }
