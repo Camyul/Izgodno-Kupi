@@ -41,11 +41,11 @@
                                     <label>Име</label>
                                     @if (Model.FullContactInfo == null)
                                     {
-                                        <input asp-for="ShortContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                        <input asp-for="ShortContactInfo.FirstName" type="text" class="form-control border-input">
                                     }
                                     else
                                     {
-                                        <input asp-for="FullContactInfo.FirstName" type="text" class="form-control border-input not-active">
+                                        <input asp-for="FullContactInfo.FirstName" type="text" class="form-control border-input">
                                     }
                                 </div>
                             </div>
@@ -54,11 +54,11 @@
                                     <label>Фамилия</label>
                                     @if (Model.FullContactInfo == null)
                                     {
-                                        <input asp-for="ShortContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                        <input asp-for="ShortContactInfo.LastName" type="text" class="form-control border-input">
                                     }
                                     else
                                     {
-                                        <input asp-for="FullContactInfo.LastName" type="text" class="form-control border-input not-active">
+                                        <input asp-for="FullContactInfo.LastName" type="text" class="form-control border-input">
                                     }
                                 </div>
                             </div>
@@ -69,11 +69,11 @@
                                         <label>GSM</label>
                                         @if (Model.FullContactInfo == null)
                                         {
-                                            <input asp-for="ShortContactInfo.PhoneNumber" type="text" class="form-control border-input not-active">
+                                            <input asp-for="ShortContactInfo.PhoneNumber" type="text" class="form-control border-input">
                                         }
                                         else
                                         {
-                                            <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input not-active">
+                                            <input asp-for="FullContactInfo.PhoneNumber" type="text" class="form-control border-input">
                                         }
                                     </div>
                                 </div>
