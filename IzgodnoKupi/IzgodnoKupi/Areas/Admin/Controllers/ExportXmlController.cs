@@ -49,7 +49,8 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                         && x.Category.Name != "Смартфони"
                                         && x.Category.Name != "Стъклени протектори"
                                         && x.Category.Name != "Дисплей/Tъч за таблети"
-                                        && x.Category.Name != "Дисплей/Tъч за смартфони")
+                                        && x.Category.Name != "Дисплей/Tъч за смартфони"
+                                        && x.Category.Name != "Принтери и скенери")
                                .ToList();
 
             var doc = new XDocument();
