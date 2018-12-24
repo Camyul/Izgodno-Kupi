@@ -134,8 +134,10 @@ namespace IzgodnoKupi
 
             app.UseAuthentication();
 
+            app.UseStatusCodePages();
+
             //Session and TempData
-            app.UseSession();
+            // app.UseSession();
 
             app.UseMvc(routes =>
             {
