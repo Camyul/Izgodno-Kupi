@@ -114,270 +114,270 @@ namespace IzgodnoKupi.Web.Controllers
             return RedirectToAction("ShortOrderCompleted");
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult EmptiCart()
-        {
-            Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
+        //[HttpGet]
+        //[Authorize]
+        //public IActionResult EmptiCart()
+        //{
+        //    Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            myOrder.OrderItems.Clear();
-            myOrder.TotalAmountInclTax = 0m;
+        //    myOrder.OrderItems.Clear();
+        //    myOrder.TotalAmountInclTax = 0m;
 
-            ordersService.Update(myOrder);
+        //    ordersService.Update(myOrder);
 
-            //HttpContext.Session.SetString(Constants.SessionKey, "");
+        //    //HttpContext.Session.SetString(Constants.SessionKey, "");
 
-            return RedirectToAction("MyCart");
-        }
+        //    return RedirectToAction("MyCart");
+        //}
 
-        public IActionResult DeleteOrderItem(Guid id)
-        {
-            Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
+        //public IActionResult DeleteOrderItem(Guid id)
+        //{
+        //    Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            var searchedItem = myOrder.OrderItems.FirstOrDefault(i => i.ProductId == id);
+        //    var searchedItem = myOrder.OrderItems.FirstOrDefault(i => i.ProductId == id);
 
-            if (searchedItem != null)
-            {
-                myOrder.OrderItems.Remove(searchedItem);
+        //    if (searchedItem != null)
+        //    {
+        //        myOrder.OrderItems.Remove(searchedItem);
 
-                myOrder.TotalAmountInclTax = myOrder.TotalAmountInclTax - searchedItem.SubTotal;
+        //        myOrder.TotalAmountInclTax = myOrder.TotalAmountInclTax - searchedItem.SubTotal;
 
-                ordersService.Update(myOrder);
-            }
+        //        ordersService.Update(myOrder);
+        //    }
 
-            //var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
+        //    //var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
 
-            //if (sessionData != null && sessionData != string.Empty)
-            //{
-            //    var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
-            //    this.CartItems = data;
-            //    var searchedItem = this.CartItems
-            //                        .FirstOrDefault(i => i.Product.Id == id);
+        //    //if (sessionData != null && sessionData != string.Empty)
+        //    //{
+        //    //    var data = JsonConvert.DeserializeObject<IList<OrderItemViewModel>>(sessionData);
+        //    //    this.CartItems = data;
+        //    //    var searchedItem = this.CartItems
+        //    //                        .FirstOrDefault(i => i.Product.Id == id);
 
-            //    this.CartItems.Remove(searchedItem);
+        //    //    this.CartItems.Remove(searchedItem);
 
-            //    var serializedData = JsonConvert.SerializeObject(this.CartItems);
-            //    HttpContext.Session.SetString(Constants.SessionKey, serializedData);
-            //}
+        //    //    var serializedData = JsonConvert.SerializeObject(this.CartItems);
+        //    //    HttpContext.Session.SetString(Constants.SessionKey, serializedData);
+        //    //}
 
-            return RedirectToAction("MyCart");
-        }
+        //    return RedirectToAction("MyCart");
+        //}
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult MyCart()
-        {
-            MyCartViewModel myCartModel = new MyCartViewModel();
-            Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
+        //[HttpGet]
+        //[Authorize]
+        //public IActionResult MyCart()
+        //{
+        //    MyCartViewModel myCartModel = new MyCartViewModel();
+        //    Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            bool isItemsAvailible = true;
+        //    bool isItemsAvailible = true;
 
-            if (myOrder != null)
-            {
-                foreach (var item in myOrder.OrderItems)
-                {
-                    Product product = this.productsService.GetById(item.ProductId);
-                    ProductViewModel productView = new ProductViewModel(product);
-                    OrderItemViewModel newItem = new OrderItemViewModel(productView, item.Quantity);
-                    newItem.TotalPrice = productView.Price * item.Quantity;
-                    myCartModel.OrderItems.Add(newItem);
-                    myCartModel.TotalAmountInclTax += newItem.TotalPrice;
+        //    if (myOrder != null)
+        //    {
+        //        foreach (var item in myOrder.OrderItems)
+        //        {
+        //            Product product = this.productsService.GetById(item.ProductId);
+        //            ProductViewModel productView = new ProductViewModel(product);
+        //            OrderItemViewModel newItem = new OrderItemViewModel(productView, item.Quantity);
+        //            newItem.TotalPrice = productView.Price * item.Quantity;
+        //            myCartModel.OrderItems.Add(newItem);
+        //            myCartModel.TotalAmountInclTax += newItem.TotalPrice;
 
-                    if (!product.IsPublished)
-                    {
-                        isItemsAvailible = false;
-                    }
-                }
-            }
-            else
-            {
-                myCartModel.OrderItems = new List<OrderItemViewModel>();
-                myOrder = new Order();
-            }
+        //            if (!product.IsPublished)
+        //            {
+        //                isItemsAvailible = false;
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        myCartModel.OrderItems = new List<OrderItemViewModel>();
+        //        myOrder = new Order();
+        //    }
 
-            var userId = this.userManager.GetUserId(this.User);
-            var contactInfo = this.fullContactInfosService.GetDefaultByUser(userId);
+        //    var userId = this.userManager.GetUserId(this.User);
+        //    var contactInfo = this.fullContactInfosService.GetDefaultByUser(userId);
 
-            if (contactInfo != null)
-            {
-                myCartModel.FullContactInfo = new FullContactInfoViewModel(contactInfo);
-            }
-            else
-            {
-                myCartModel.FullContactInfo = new FullContactInfoViewModel();
-            }
+        //    if (contactInfo != null)
+        //    {
+        //        myCartModel.FullContactInfo = new FullContactInfoViewModel(contactInfo);
+        //    }
+        //    else
+        //    {
+        //        myCartModel.FullContactInfo = new FullContactInfoViewModel();
+        //    }
 
-            myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
-            myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
+        //    myCartModel.TotalAmountExclTax = Math.Round(myCartModel.TotalAmountInclTax / Constants.TaxAmount, 2);
+        //    myCartModel.TaxAmount = myCartModel.TotalAmountInclTax - myCartModel.TotalAmountExclTax;
 
-            if (myCartModel.TotalAmountInclTax < Constants.MinPriceFreeShipping && myCartModel.OrderItems.Count > 0)
-            {
-                myCartModel.ShippingTax = Constants.ShippingTax;
-            }
+        //    if (myCartModel.TotalAmountInclTax < Constants.MinPriceFreeShipping && myCartModel.OrderItems.Count > 0)
+        //    {
+        //        myCartModel.ShippingTax = Constants.ShippingTax;
+        //    }
 
-            myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
-            //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
+        //    myCartModel.TotalAmount = myCartModel.TotalAmountInclTax + myCartModel.ShippingTax;
+        //    //myCartModel.TotalAmount = myCartModel.TotalAmountInclTax;
 
-            ViewBag.Count = myCartModel.OrderItems.Count;
-            ViewBag.TotalAmount = myCartModel.TotalAmount;
-            ViewBag.IsItemsAvailible = isItemsAvailible;
+        //    ViewBag.Count = myCartModel.OrderItems.Count;
+        //    ViewBag.TotalAmount = myCartModel.TotalAmount;
+        //    ViewBag.IsItemsAvailible = isItemsAvailible;
 
-            return View("MyCart", myCartModel);
-        }
+        //    return View("MyCart", myCartModel);
+        //}
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult OrderNow(Guid id)
-        {
-            return RedirectToAction("Details", "Product", new { id = id });
-        }
+        //[HttpGet]
+        //[Authorize]
+        //public IActionResult OrderNow(Guid id)
+        //{
+        //    return RedirectToAction("Details", "Product", new { id = id });
+        //}
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public IActionResult OrderNow(Guid id, int quantity)
-        {
-            Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
+        //[HttpPost]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult OrderNow(Guid id, int quantity)
+        //{
+        //    Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            if (myOrder == null)
-            {
-                myOrder = new Order();
-                myOrder.UserId = this.userManager.GetUserId(this.User);
-                this.ordersService.AddOrder(myOrder);
-            }
+        //    if (myOrder == null)
+        //    {
+        //        myOrder = new Order();
+        //        myOrder.UserId = this.userManager.GetUserId(this.User);
+        //        this.ordersService.AddOrder(myOrder);
+        //    }
 
-            Product productToAdd = this.productsService.GetById(id);
-            OrderItem item = new OrderItem();
-            item.ProductId = productToAdd.Id;
-            item.Quantity = quantity;
-            item.UnitPrice = productToAdd.Price;
-            item.SubTotal = productToAdd.Price * quantity;
+        //    Product productToAdd = this.productsService.GetById(id);
+        //    OrderItem item = new OrderItem();
+        //    item.ProductId = productToAdd.Id;
+        //    item.Quantity = quantity;
+        //    item.UnitPrice = productToAdd.Price;
+        //    item.SubTotal = productToAdd.Price * quantity;
 
-            myOrder.OrderItems.Add(item);
+        //    myOrder.OrderItems.Add(item);
 
-            decimal sum = 0m;
-            foreach (var orderItem in myOrder.OrderItems)
-            {
-                sum += orderItem.SubTotal;
-            }
-            myOrder.TotalAmountInclTax = sum;
+        //    decimal sum = 0m;
+        //    foreach (var orderItem in myOrder.OrderItems)
+        //    {
+        //        sum += orderItem.SubTotal;
+        //    }
+        //    myOrder.TotalAmountInclTax = sum;
 
-            ordersService.Update(myOrder);
+        //    ordersService.Update(myOrder);
 
-            //var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
-            //if (!string.IsNullOrEmpty(sessionData))
-            //{
-            //    this.CartItems = JsonConvert.DeserializeObject<List<OrderItemViewModel>>(sessionData);
-            //}
+        //    //var sessionData = HttpContext.Session.GetString(Constants.SessionKey);
+        //    //if (!string.IsNullOrEmpty(sessionData))
+        //    //{
+        //    //    this.CartItems = JsonConvert.DeserializeObject<List<OrderItemViewModel>>(sessionData);
+        //    //}
 
-            //this.CartItems.Add(orderItemView);
+        //    //this.CartItems.Add(orderItemView);
 
-            //var serializedData = JsonConvert.SerializeObject(this.CartItems);
-            //HttpContext.Session.SetString(Constants.SessionKey, serializedData);
+        //    //var serializedData = JsonConvert.SerializeObject(this.CartItems);
+        //    //HttpContext.Session.SetString(Constants.SessionKey, serializedData);
 
-            //var currentUser = this.User;
-            //bool IsAdmin = currentUser.IsInRole("Admin");
-            //var userId = this.userManager.GetUserId(User);
+        //    //var currentUser = this.User;
+        //    //bool IsAdmin = currentUser.IsInRole("Admin");
+        //    //var userId = this.userManager.GetUserId(User);
 
 
-            return RedirectToAction("MyCart");
-        }
+        //    return RedirectToAction("MyCart");
+        //}
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public IActionResult CheckOut(FullContactInfoViewModel fullContactInfo)
-        {
-            Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
+        //[HttpPost]
+        //[Authorize]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult CheckOut(FullContactInfoViewModel fullContactInfo)
+        //{
+        //    Order myOrder = ordersService.GetByUserAndNotCompleted(this.userManager.GetUserId(User));
 
-            if (myOrder == null || myOrder.OrderItems.Count == 0)
-            {
-                return View("EmptyCart");
-            }
+        //    if (myOrder == null || myOrder.OrderItems.Count == 0)
+        //    {
+        //        return View("EmptyCart");
+        //    }
 
-            //Check OrderItems is availible to Order
-            foreach (var item in myOrder.OrderItems)
-            {
-                bool isAvailible = this.productsService.GetById(item.ProductId).IsPublished;
+        //    //Check OrderItems is availible to Order
+        //    foreach (var item in myOrder.OrderItems)
+        //    {
+        //        bool isAvailible = this.productsService.GetById(item.ProductId).IsPublished;
 
-                if (!isAvailible)
-                {
-                    return RedirectToAction("MyCart");
-                }
-            }
+        //        if (!isAvailible)
+        //        {
+        //            return RedirectToAction("MyCart");
+        //        }
+        //    }
 
-            if (myOrder.TotalAmountInclTax < Constants.MinPriceFreeShipping && myOrder.OrderItems.Count > 0)
-            {
-                myOrder.ShippingTax = Constants.ShippingTax;
-            }
-            else
-            {
-                myOrder.ShippingTax = 0m;
-            }
+        //    if (myOrder.TotalAmountInclTax < Constants.MinPriceFreeShipping && myOrder.OrderItems.Count > 0)
+        //    {
+        //        myOrder.ShippingTax = Constants.ShippingTax;
+        //    }
+        //    else
+        //    {
+        //        myOrder.ShippingTax = 0m;
+        //    }
 
-            var userId = this.userManager.GetUserId(User);
-            myOrder.UserId = userId;
+        //    var userId = this.userManager.GetUserId(User);
+        //    myOrder.UserId = userId;
 
-            myOrder.OrderDate = DateTime.UtcNow.AddHours(+2);
-            myOrder.OrderStatus = OrderStatus.Confirmed;
-            myOrder.PaymentMethod = PaymentMethod.PayToCourier;
-            myOrder.ShippingMethod = ShippingMethod.ToAddress;
+        //    myOrder.OrderDate = DateTime.UtcNow.AddHours(+2);
+        //    myOrder.OrderStatus = OrderStatus.Confirmed;
+        //    myOrder.PaymentMethod = PaymentMethod.PayToCourier;
+        //    myOrder.ShippingMethod = ShippingMethod.ToAddress;
 
-            myOrder.TotalAmountExclTax = Math.Round(myOrder.TotalAmountInclTax / Constants.TaxAmount, 2);
-            myOrder.TaxAmount = myOrder.TotalAmountInclTax - myOrder.TotalAmountExclTax;
-            //myOrder.TotalAmountInclTax += myOrder.ShippingTax;
+        //    myOrder.TotalAmountExclTax = Math.Round(myOrder.TotalAmountInclTax / Constants.TaxAmount, 2);
+        //    myOrder.TaxAmount = myOrder.TotalAmountInclTax - myOrder.TotalAmountExclTax;
+        //    //myOrder.TotalAmountInclTax += myOrder.ShippingTax;
 
-            var contactInfo = this.fullContactInfosService.GetDefaultByUser(userId);
-            if (contactInfo == null)
-            {
-                FullContactInfo newInfo = new FullContactInfo()
-                {
-                    UserID = this.userManager.GetUserId(User),
-                    FirstName = fullContactInfo.FirstName,
-                    LastName = fullContactInfo.LastName,
-                    PhoneNumber = fullContactInfo.PhoneNumber,
-                    Address = fullContactInfo.Address,
-                    City = fullContactInfo.City,
-                    Area = fullContactInfo.Area,
-                    PostCode = fullContactInfo.PostCode,
-                    CompanyName = fullContactInfo.CompanyName,
-                    EIK = fullContactInfo.EIK,
-                    BGEIK = fullContactInfo.BGEIK,
-                    CompanyCity = fullContactInfo.CompanyCity,
-                    CompanyAddress = fullContactInfo.CompanyAddress,
-                    MOL = fullContactInfo.MOL,
-                    Note = fullContactInfo.Note
+        //    var contactInfo = this.fullContactInfosService.GetDefaultByUser(userId);
+        //    if (contactInfo == null)
+        //    {
+        //        FullContactInfo newInfo = new FullContactInfo()
+        //        {
+        //            UserID = this.userManager.GetUserId(User),
+        //            FirstName = fullContactInfo.FirstName,
+        //            LastName = fullContactInfo.LastName,
+        //            PhoneNumber = fullContactInfo.PhoneNumber,
+        //            Address = fullContactInfo.Address,
+        //            City = fullContactInfo.City,
+        //            Area = fullContactInfo.Area,
+        //            PostCode = fullContactInfo.PostCode,
+        //            CompanyName = fullContactInfo.CompanyName,
+        //            EIK = fullContactInfo.EIK,
+        //            BGEIK = fullContactInfo.BGEIK,
+        //            CompanyCity = fullContactInfo.CompanyCity,
+        //            CompanyAddress = fullContactInfo.CompanyAddress,
+        //            MOL = fullContactInfo.MOL,
+        //            Note = fullContactInfo.Note
 
-                };
-                newInfo.Orders.Add(myOrder);
-                fullContactInfosService.Add(newInfo);
-            }
-            else
-            {
-                contactInfo.FirstName = fullContactInfo.FirstName;
-                contactInfo.LastName = fullContactInfo.LastName;
-                contactInfo.PhoneNumber = fullContactInfo.PhoneNumber;
-                contactInfo.Address = fullContactInfo.Address;
-                contactInfo.City = fullContactInfo.City;
-                contactInfo.Area = fullContactInfo.Area;
-                contactInfo.PostCode = fullContactInfo.PostCode;
-                contactInfo.CompanyName = fullContactInfo.CompanyName;
-                contactInfo.EIK = fullContactInfo.EIK;
-                contactInfo.BGEIK = fullContactInfo.BGEIK;
-                contactInfo.CompanyCity = fullContactInfo.CompanyCity;
-                contactInfo.CompanyAddress = fullContactInfo.CompanyAddress;
-                contactInfo.MOL = fullContactInfo.MOL;
-                contactInfo.Note = fullContactInfo.Note;
+        //        };
+        //        newInfo.Orders.Add(myOrder);
+        //        fullContactInfosService.Add(newInfo);
+        //    }
+        //    else
+        //    {
+        //        contactInfo.FirstName = fullContactInfo.FirstName;
+        //        contactInfo.LastName = fullContactInfo.LastName;
+        //        contactInfo.PhoneNumber = fullContactInfo.PhoneNumber;
+        //        contactInfo.Address = fullContactInfo.Address;
+        //        contactInfo.City = fullContactInfo.City;
+        //        contactInfo.Area = fullContactInfo.Area;
+        //        contactInfo.PostCode = fullContactInfo.PostCode;
+        //        contactInfo.CompanyName = fullContactInfo.CompanyName;
+        //        contactInfo.EIK = fullContactInfo.EIK;
+        //        contactInfo.BGEIK = fullContactInfo.BGEIK;
+        //        contactInfo.CompanyCity = fullContactInfo.CompanyCity;
+        //        contactInfo.CompanyAddress = fullContactInfo.CompanyAddress;
+        //        contactInfo.MOL = fullContactInfo.MOL;
+        //        contactInfo.Note = fullContactInfo.Note;
                 
-                contactInfo.Orders.Add(myOrder);
-                fullContactInfosService.Update(contactInfo);
-            }
+        //        contactInfo.Orders.Add(myOrder);
+        //        fullContactInfosService.Update(contactInfo);
+        //    }
 
-            ordersService.Update(myOrder);
+        //    ordersService.Update(myOrder);
 
-            MyCartViewModel myCartModel = new MyCartViewModel();
+        //    MyCartViewModel myCartModel = new MyCartViewModel();
 
-            return View("OrderCompleted", myCartModel);
-        }
+        //    return View("OrderCompleted", myCartModel);
+        //}
     }
 }

@@ -33,14 +33,13 @@
                         }
                         </div>
 
-                    @*<input type="text" class="item_quantity" value="1" />
-                    <input type="button" class="item_add items" value="ADD">*@
                     @*This make POST request*@
-                    <form asp-area="" asp-controller="ShoppingCart" asp-action="OrderNow" class="form-horizontal">
+                    @* Comment beacouse  remove shipping cart*@
+                    @*<form asp-area="" asp-controller="ShoppingCart" asp-action="OrderNow" class="form-horizontal">
                         <input type="hidden" name="id" asp-for="@product.Id" />
                         <input type="number" name="quantity" class="item_quantity" value="1" />
                         <input type="submit" value="Поръчай" class="item_add items" />
-                    </form>
+                    </form>*@
                     <div class="clearfix"> </div>
                 </div>
             </div>
