@@ -204,11 +204,16 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
                 for (int i = 1; i <= pagesNumber; i++)
                 {
-                    if (i != 1)
+                    IList<ProductStantekViewModel> productFromOnePage;
+
+                    try
                     {
-                        System.Threading.Thread.Sleep(15000);
+                        productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
                     }
-                    IList<ProductStantekViewModel> productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
+                    catch (Exception)
+                    {
+                        throw new Exception();
+                    }
                     foreach (var product in productFromOnePage)
                     {
                         productsFromPages.Add(product);
@@ -252,7 +257,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             
             foreach (var link in productsLinks)
             {
-                System.Threading.Thread.Sleep(1200);
+                // System.Threading.Thread.Sleep(1200);
                 ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link, categoryName);
                 product.Category = categoryName;
 
@@ -265,7 +270,17 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link, string categoryName)
         {
-            var html = await httpClient.GetStringAsync(rootUrl + link);
+            string html;
+
+            try
+            {
+                html = await httpClient.GetStringAsync(rootUrl + link);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+            
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
