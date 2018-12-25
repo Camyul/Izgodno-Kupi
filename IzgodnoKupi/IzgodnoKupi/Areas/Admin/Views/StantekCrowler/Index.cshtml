@@ -14,6 +14,30 @@
         }
 </div>
 <hr>
-<div class="text-center">
-    <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="GetAllProducts">Синхронизиране на всичко</a>
+<div class="sky-form">
+    <a id="showModal" class="terms" href="#" onclick="modal.open()"> условията за ползване</a>
 </div>
+ <!---Modal-->
+<div id="modal" class="modal">
+    <div class="modal-dialog animated">
+        <div class="modal-content">
+            <form class="form-horizontal" method="get">
+                <div class="modal-header text-center">
+                    <strong>Изтегляне на Даннни за Продуктите</strong>
+                </div>
+                <div class="modal-body text-justify">
+                   Test
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" onclick="modal.close();">ОK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Modal-->
+
+@section Scripts {
+    @await Html.PartialAsync("_ModalScriptPartial");
+    @{await Html.RenderPartialAsync("_ModListScriptPartial");}
+}
