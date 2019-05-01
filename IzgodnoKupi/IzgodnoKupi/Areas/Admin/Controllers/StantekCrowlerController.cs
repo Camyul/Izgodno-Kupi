@@ -49,7 +49,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> GetAllProducts()
         {
-            var rootUrl = "http://stantek.com/";
+            var rootUrl = "https://stantek.com/";
             var httpClient = new HttpClient();
             var html = await httpClient.GetStringAsync(rootUrl);
 
@@ -72,7 +72,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateCategories(Guid id)
         {
-            var rootUrl = "http://stantek.com/";
+            var rootUrl = "https://stantek.com/";
             var httpClient = new HttpClient();
             var html = await httpClient.GetStringAsync(rootUrl);
 
@@ -89,7 +89,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             Category category = this.categorieService.GetById(id);
 
-            var rootUrl = "http://stantek.com/";
+            var rootUrl = "https://stantek.com/";
             var httpClient = new HttpClient();
             var html = await httpClient.GetStringAsync(rootUrl);
 
@@ -204,11 +204,20 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
                 for (int i = 1; i <= pagesNumber; i++)
                 {
-                    if (i != 1)
+                    IList<ProductStantekViewModel> productFromOnePage;
+                    try
                     {
-                        System.Threading.Thread.Sleep(15000);
+                        if (i != 1)
+                        {
+                            System.Threading.Thread.Sleep(15000);
+                        }
+                        productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
                     }
-                    IList<ProductStantekViewModel> productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
+                    catch (Exception)
+                    {
+                        throw new Exception();
+                    }
+
                     foreach (var product in productFromOnePage)
                     {
                         productsFromPages.Add(product);
@@ -265,7 +274,16 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
         private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link, string categoryName)
         {
-            var html = await httpClient.GetStringAsync(rootUrl + link);
+            // var html = await httpClient.GetStringAsync(rootUrl + link);
+            string html;
+            try
+            {
+                html = await httpClient.GetStringAsync(rootUrl + link);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
