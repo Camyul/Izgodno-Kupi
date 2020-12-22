@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace IzgodnoKupi.Web.Controllers
 {
@@ -56,6 +57,13 @@ namespace IzgodnoKupi.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult FastOrder(Guid id, string firstName, string lastName, string phoneNumber)
         {
+            bool isDataValid = this.ValidateFastOrderData(firstName, lastName, phoneNumber);
+
+            if(!isDataValid)
+            {
+                return BadRequest();
+            }
+
             Order myOrder = new Order()
             {
                 OrderDate = DateTime.UtcNow.AddHours(+2),
@@ -112,6 +120,20 @@ namespace IzgodnoKupi.Web.Controllers
             ordersService.Update(myOrder);
 
             return RedirectToAction("ShortOrderCompleted");
+        }
+
+        private bool ValidateFastOrderData(string firstName, string lastName, string phoneNumber)
+        {
+            Match validateFirstName = Regex.Match(firstName, ValidationConstants.EnBgSpaceMinus);
+            Match validatelastName = Regex.Match(lastName, ValidationConstants.EnBgSpaceMinus);
+            Match validatePhoneNumber = Regex.Match(phoneNumber, ValidationConstants.PhoneRegex);
+
+            if(validateFirstName.Success && validatelastName.Success && validatePhoneNumber.Success)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //[HttpGet]
