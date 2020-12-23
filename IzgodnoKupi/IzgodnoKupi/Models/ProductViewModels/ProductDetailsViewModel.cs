@@ -92,20 +92,20 @@ namespace IzgodnoKupi.Web.Models.ProductViewModels
         public double Weight { get; set; }
 
 
-        [Required]
+        [Required(ErrorMessage = "Полето е задължително!")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
         [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето е задължително!")]
         [MinLength(ValidationConstants.StandardMinLength, ErrorMessage = ValidationConstants.MinLengthFieldErrorMessage)]
         [MaxLength(ValidationConstants.StandartMaxLength, ErrorMessage = ValidationConstants.MaxLengthFieldErrorMessage)]
-        [RegularExpression(ValidationConstants.EnBgSpaceMinus)]
+        [RegularExpression(ValidationConstants.EnBgSpaceMinus, ErrorMessage = ValidationConstants.NotAllowedSymbolsErrorMessage)]
         public string LastName { get; set; }
 
-        [Required]
-        [RegularExpression(ValidationConstants.PhoneRegex)]
+        [Required(ErrorMessage = "Полето е задължително!")]
+        [RegularExpression(ValidationConstants.PhoneRegex, ErrorMessage = ValidationConstants.PhoneErrorMessage)]
         public string PhoneNumber { get; set; }
     }
 }
