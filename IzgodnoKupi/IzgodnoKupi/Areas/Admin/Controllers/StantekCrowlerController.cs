@@ -47,28 +47,28 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return View(categories);
         }
 
-        public async Task<IActionResult> GetAllProducts()
-        {
-            var rootUrl = "https://stantek.com/";
-            var httpClient = new HttpClient();
-            var html = await httpClient.GetStringAsync(rootUrl);
+        //public async Task<IActionResult> GetAllProducts()
+        //{
+        //    var rootUrl = "https://stantek.com/";
+        //    var httpClient = new HttpClient();
+        //    var html = await httpClient.GetStringAsync(rootUrl);
 
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
+        //    HtmlDocument htmlDocument = new HtmlDocument();
+        //    htmlDocument.LoadHtml(html);
 
-            IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-            AddCategoriesToDb(categories);
+        //    IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
+        //    AddCategoriesToDb(categories);
 
-            SetAllProductsNotPublished();
+        //    SetAllProductsNotPublished();
 
-            for (int i = 0; i < categories.Count; i++)
-            {
-                IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[i].CategoryUrl, categories[i].Name);
-                AddProductsToDb(products);
-            }
+        //    for (int i = 0; i < categories.Count; i++)
+        //    {
+        //        IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categories[i].CategoryUrl, categories[i].Name);
+        //        AddProductsToDb(products);
+        //    }
             
-            return RedirectToAction("Index", "Home", new { area = "Admin" });
-        }
+        //    return RedirectToAction("Index", "Home", new { area = "Admin" });
+        //}
 
         public async Task<IActionResult> UpdateCategories(Guid id)
         {
@@ -495,7 +495,12 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 {"Хард дискове HDD", 4 },
                 {"Хард дискове за лаптоп", 17 },
                 //{"Хард дискове за сървър", 11 },
-                {"Чанти, раници за лаптоп", 4 }
+                {"Чанти, раници за лаптоп", 4 },
+                {"Смарт устройства", 13},
+                {"УВ стерилизатори", 14 },
+                {"Аксесоари за гейминг", 15 },
+                {"Дребна бяла техника", 13 },
+                {"Оптична техника", 18 }
             };
 
             return result;
