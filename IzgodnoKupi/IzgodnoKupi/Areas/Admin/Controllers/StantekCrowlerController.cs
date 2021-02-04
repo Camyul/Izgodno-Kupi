@@ -4,16 +4,21 @@ using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
+using IzgodnoKupi.Web.Areas.Admin.Infrastructure;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
+using IzgodnoKupi.Web.Areas.Admin.Models.JsonPayloadModel;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -24,6 +29,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         private readonly IProductsService productsService;
         private readonly ICategoriesService categorieService;
         private readonly IDictionary<string, int> categoriesNames;
+        private readonly Dictionaries dictionaries = new Dictionaries();
 
         public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
         {
@@ -89,24 +95,226 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         {
             Category category = this.categorieService.GetById(id);
 
-            var rootUrl = "https://stantek.com/";
-            var httpClient = new HttpClient();
-            var html = await httpClient.GetStringAsync(rootUrl);
+            
+            //var html = await httpClient.GetStringAsync(rootUrl);
+
+            
+            
+            // TODO get product details
+            // TODO sanytize HTML
+            // TODO safe products in data base
+
+            //htmlDocument.LoadHtml(html);
+
+            //IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
+            //CategoryStantekViewModel categoryToSync = categories
+            //                                                .Where(c => c.Name == category.Name)
+            //                                                .FirstOrDefault();
+
+            SetProductsFromCategoryNotPublished(id);
+
+            IList<int> productIds = await GetProductIdsFromCategory(category);
+
+
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(productIds);
+
+
+            //IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
+
+
+            AddProductsToDb(products);
+
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(IList<int> productIds)
+        {
+
+            var builder = new UriBuilder("https://stantek.com");
+            builder.Port = -1;
+            var query = HttpUtility.ParseQueryString(builder.Query);
+
+
+            HttpClient httpClient = new HttpClient();
+            IList<ProductStantekViewModel> products = new List<ProductStantekViewModel>();
+            foreach (var id in productIds)
+            {
+                query["i"] = id.ToString();
+                builder.Query = query.ToString();
+                string url = builder.ToString();
+
+                ProductStantekViewModel product = await GetProductDetails(url, httpClient);
+
+                products.Add(product);
+            }
+            
+
+
+            return products;
+        }
+
+        private async Task<ProductStantekViewModel> GetProductDetails(string url, HttpClient httpClient)
+        {
+            string html;
+            try
+            {
+                html = await httpClient.GetStringAsync(url);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
 
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
 
-            IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-            CategoryStantekViewModel categoryToSync = categories
-                                                            .Where(c => c.Name == category.Name)
-                                                            .FirstOrDefault();
+            var productDiv = htmlDocument.DocumentNode.Descendants("div")
+                                           .Where(node => node.GetAttributeValue("class", "")
+                                           .Equals("item-info-desc"))
+                                           .FirstOrDefault();
 
-            SetProductsFromCategoryNotPublished(id);
+            // https://weblog.west-wind.com/posts/2012/jul/19/net-html-sanitation-for-rich-html-input - Make class HtmlSanitizer
 
-            IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
-            AddProductsToDb(products);
+            string category = "";
+            string name = "";
+            if (productDiv != null)
+            {
 
-            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+                category = productDiv.Descendants("div")
+                                           .Where(node => node.GetAttributeValue("class", "")
+                                           .Equals("item-info-path"))
+                                           .FirstOrDefault()
+                                           .InnerText
+                                           .Trim();
+
+                name = productDiv.Descendants("div")
+                                           .LastOrDefault()
+                                           .InnerText
+                                           .Trim();
+
+                if (name.Length > ValidationConstants.StandartMaxLength)
+                {
+                    name = name.Substring(0, ValidationConstants.StandartMaxLength);
+                }
+            }
+
+            var pricesDivs = htmlDocument.DocumentNode.Descendants("div")
+                                           .Where(node => node.GetAttributeValue("class", "")
+                                           .Equals("item-info-order"))
+                                           .FirstOrDefault()
+                                           .Descendants("div")
+                                           .Where(node => node.GetAttributeValue("class", "")
+                                           .Equals("item-price"))
+                                           .FirstOrDefault()
+                                           .Descendants("div")
+                                           .ToArray();
+
+            decimal oldPrice = 0;
+            decimal price = 0;
+            if (pricesDivs != null)
+            {
+
+                string oldPriceLeva = pricesDivs[1].InnerText.Trim();
+                // Remove "лв."
+                oldPriceLeva = oldPriceLeva.Substring(0, oldPriceLeva.Length - 3); 
+
+                oldPrice = decimal.Parse(oldPriceLeva) / 100;
+
+                string priceLeva = pricesDivs[2].InnerText.Trim();
+                // Remove "лв."
+                priceLeva = priceLeva.Substring(0, priceLeva.Length - 3);
+
+                price = decimal.Parse(priceLeva) / 100;
+            }
+
+            string pictureUrl = htmlDocument.DocumentNode.Descendants("img")
+                                           .Where(node => node.GetAttributeValue("id", "")
+                                           .Equals("item-info-big-image"))
+                                           .FirstOrDefault()
+                                           .ChildAttributes("src")
+                                           .FirstOrDefault()
+                                           .Value;
+
+            string fullDescription = htmlDocument.DocumentNode.Descendants("div")
+                                                              .Where(node => node.GetAttributeValue("class", "")
+                                                              .Equals("more-info-panel"))
+                                                              .FirstOrDefault()
+                                                              .Descendants("p")
+                                                              .FirstOrDefault()
+                                                              .OuterHtml;
+
+            ProductStantekViewModel productViewModel = new ProductStantekViewModel()
+            {
+                Name = name,
+                PictureUrl = "~images/no-image.jpg", // string.IsNullOrEmpty(pictureUrl) ? "~images/no-image.jpg" : "https://stantek.com" + pictureUrl,
+                Price = price,
+                OldPrice = oldPrice,
+                Discount = oldPrice > 0 ? (double)(100 - (oldPrice/price * 100)) : 0,
+                FullDescription = fullDescription,
+                Category = category
+            };
+
+            return productViewModel;
+        }
+
+        private async Task<IList<int>> GetProductIdsFromCategory(Category category)
+        {
+            var rootUrl = "	https://stantek.com/snippet/items-list";
+            var httpClient = new HttpClient();
+
+           
+            JsonPayloadModel jsonModel = new JsonPayloadModel(category.Name);
+
+            int productsCount;
+            IList<int> productsFromCategoryIds = new List<int>();
+
+            do
+            {
+                string jsonPayload = JsonConvert.SerializeObject(jsonModel);
+                StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PostAsync(rootUrl, content);
+                string html = await response.Content.ReadAsStringAsync();
+
+                if (html == String.Empty || html == null)
+                {
+                    break;
+                }
+
+                ParseIdsFromHtml(html, productsFromCategoryIds);
+                productsCount = productsFromCategoryIds.Count;
+
+                // 36 represent products witch are return in one post request
+                // if they are less than 36 that is a last request
+                jsonModel.n += 36;
+            } while (productsCount % 36 == 0);
+
+             
+
+            return productsFromCategoryIds;
+        }
+
+        private void ParseIdsFromHtml(string html, IList<int> productsFromCategoryIds)
+        {
+            HtmlDocument htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(html);
+
+            var pagesDivs = htmlDocument.DocumentNode.Descendants("div")
+                .Where(node => node.GetAttributeValue("class", "")
+                .Equals("item"))
+                .ToList();
+
+            foreach (var div in pagesDivs)
+            {
+                string id = div.Descendants("div")
+                                       .Where(node => node.GetAttributeValue("itemprop", "")
+                                       .Equals("identifier"))
+                                       .FirstOrDefault()
+                                       .InnerText
+                                       .Trim();
+
+                productsFromCategoryIds.Add(int.Parse(id));
+
+            }
         }
 
         private void SetProductsFromCategoryNotPublished(Guid id)
@@ -180,198 +388,198 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
         }
 
-        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(HttpClient httpClient, string rootUrl, string categoryUrl, string categoryName)
-        {
-            var html = await httpClient.GetStringAsync(rootUrl + categoryUrl);
+        //private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(HttpClient httpClient, string rootUrl, string categoryUrl, string categoryName)
+        //{
+        //    var html = await httpClient.GetStringAsync(rootUrl + categoryUrl);
 
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
+        //    HtmlDocument htmlDocument = new HtmlDocument();
+        //    htmlDocument.LoadHtml(html);
 
-            var pagesDiv = htmlDocument.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("class", "")
-                .Equals("pages"))
-                .FirstOrDefault();
+        //    var pagesDiv = htmlDocument.DocumentNode.Descendants("div")
+        //        .Where(node => node.GetAttributeValue("class", "")
+        //        .Equals("pages"))
+        //        .FirstOrDefault();
 
-            IList<ProductStantekViewModel> productsFromPages = new List<ProductStantekViewModel>();
-            if (pagesDiv != null)
-            {
-                IList<HtmlNode> pagesAnchor = pagesDiv.Descendants("a").ToList();
-                var pageOneUrl = pagesAnchor[0].ChildAttributes("href").FirstOrDefault().Value;
-                var lastPageUrl = pagesAnchor[pagesAnchor.Count - 2].ChildAttributes("href").FirstOrDefault().Value;
-                var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
-                var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
+        //    IList<ProductStantekViewModel> productsFromPages = new List<ProductStantekViewModel>();
+        //    if (pagesDiv != null)
+        //    {
+        //        IList<HtmlNode> pagesAnchor = pagesDiv.Descendants("a").ToList();
+        //        var pageOneUrl = pagesAnchor[0].ChildAttributes("href").FirstOrDefault().Value;
+        //        var lastPageUrl = pagesAnchor[pagesAnchor.Count - 2].ChildAttributes("href").FirstOrDefault().Value;
+        //        var pagesUrl = pageOneUrl.Substring(0, pageOneUrl.Length - 1);
+        //        var pagesNumber = int.Parse(lastPageUrl.Substring(pagesUrl.Length));
 
-                //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
-                for (int i = 1; i <= pagesNumber; i++)
-                {
-                    IList<ProductStantekViewModel> productFromOnePage;
-                    try
-                    {
-                        if (i != 1)
-                        {
-                            System.Threading.Thread.Sleep(15000);
-                        }
-                        productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
-                    }
-                    catch (Exception)
-                    {
-                        throw new Exception();
-                    }
+        //        //productFromPage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + "1", categoryName);
+        //        for (int i = 1; i <= pagesNumber; i++)
+        //        {
+        //            IList<ProductStantekViewModel> productFromOnePage;
+        //            try
+        //            {
+        //                if (i != 1)
+        //                {
+        //                    System.Threading.Thread.Sleep(15000);
+        //                }
+        //                productFromOnePage = await GetProductsFromPage(httpClient, rootUrl, pagesUrl + i.ToString(), categoryName);
+        //            }
+        //            catch (Exception)
+        //            {
+        //                throw new Exception();
+        //            }
 
-                    foreach (var product in productFromOnePage)
-                    {
-                        productsFromPages.Add(product);
-                    }
-                }
-            }
-            else
-            {
-                productsFromPages = await GetProductsFromPage(httpClient, rootUrl, categoryUrl, categoryName);
-            }
+        //            foreach (var product in productFromOnePage)
+        //            {
+        //                productsFromPages.Add(product);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        productsFromPages = await GetProductsFromPage(httpClient, rootUrl, categoryUrl, categoryName);
+        //    }
 
-            IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
+        //    IList<ProductStantekViewModel> result = new List<ProductStantekViewModel>();
                 
-            return productsFromPages;
-        }
+        //    return productsFromPages;
+        //}
 
-        private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl, string categoryName)
-        {
-            var html = await httpClient.GetStringAsync(rootUrl + productPageUrl);
+        //private async Task<IList<ProductStantekViewModel>> GetProductsFromPage(HttpClient httpClient, string rootUrl, string productPageUrl, string categoryName)
+        //{
+        //    var html = await httpClient.GetStringAsync(rootUrl + productPageUrl);
 
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
+        //    HtmlDocument htmlDocument = new HtmlDocument();
+        //    htmlDocument.LoadHtml(html);
 
-            var productsDivs = htmlDocument.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("class", "")
-                .Equals("item"))
-                .ToList();
+        //    var productsDivs = htmlDocument.DocumentNode.Descendants("div")
+        //        .Where(node => node.GetAttributeValue("class", "")
+        //        .Equals("item"))
+        //        .ToList();
 
-            IList<string> productsLinks = new List<string>();
+        //    IList<string> productsLinks = new List<string>();
 
-            foreach (var div in productsDivs)
-            {
-                var link = div.Descendants("a").FirstOrDefault()
-                                    .ChildAttributes("href").FirstOrDefault()
-                                    .Value;
+        //    foreach (var div in productsDivs)
+        //    {
+        //        var link = div.Descendants("a").FirstOrDefault()
+        //                            .ChildAttributes("href").FirstOrDefault()
+        //                            .Value;
 
-                productsLinks.Add(link);
-            }
+        //        productsLinks.Add(link);
+        //    }
 
-            IList<ProductStantekViewModel> products = new List<ProductStantekViewModel>();
+        //    IList<ProductStantekViewModel> products = new List<ProductStantekViewModel>();
             
-            foreach (var link in productsLinks)
-            {
-                System.Threading.Thread.Sleep(1200);
-                ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link, categoryName);
-                product.Category = categoryName;
+        //    foreach (var link in productsLinks)
+        //    {
+        //        System.Threading.Thread.Sleep(1200);
+        //        ProductStantekViewModel product = await GetProduct(httpClient, rootUrl, link, categoryName);
+        //        product.Category = categoryName;
 
-                products.Add(product);
-            }
-
-
-            return products;
-        }
-
-        private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link, string categoryName)
-        {
-            // var html = await httpClient.GetStringAsync(rootUrl + link);
-            string html;
-            try
-            {
-                html = await httpClient.GetStringAsync(rootUrl + link);
-            }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
-
-            var productDiv = htmlDocument.DocumentNode.Descendants("div")
-                                           .Where(node => node.GetAttributeValue("class", "")
-                                           .Equals("itemonly"))
-                                           .FirstOrDefault();
-
-            string name = productDiv.Descendants("div")
-                                       .Where(node => node.GetAttributeValue("class", "")
-                                       .Equals("title"))
-                                       .FirstOrDefault()
-                                       .InnerText
-                                       .Trim();
+        //        products.Add(product);
+        //    }
 
 
-            int categoryNameLength = this.categoriesNames[categoryName];
+        //    return products;
+        //}
 
-            //In this category have 2 different subcategories
-            if (categoryName == "Флашки и USB HDD" && name[0] == 'H')
-            {
-                categoryNameLength = categoryNameLength - 4;
-            }
+        //private async Task<ProductStantekViewModel> GetProduct(HttpClient httpClient, string rootUrl, string link, string categoryName)
+        //{
+        //    // var html = await httpClient.GetStringAsync(rootUrl + link);
+        //    string html;
+        //    try
+        //    {
+        //        html = await httpClient.GetStringAsync(rootUrl + link);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw new Exception();
+        //    }
 
-            if (name.Length > ValidationConstants.StandartMaxLength + categoryNameLength)
-            {
-                name = name.Substring(categoryNameLength, ValidationConstants.StandartMaxLength);
-            }
-            else
-            {
-                name = name.Substring(categoryNameLength);
-            }
+        //    HtmlDocument htmlDocument = new HtmlDocument();
+        //    htmlDocument.LoadHtml(html);
 
-            var pictureUrl = productDiv.Descendants("img").FirstOrDefault()
-                                    .ChildAttributes("src").FirstOrDefault()
-                                    .Value;
+        //    var productDiv = htmlDocument.DocumentNode.Descendants("div")
+        //                                   .Where(node => node.GetAttributeValue("class", "")
+        //                                   .Equals("itemonly"))
+        //                                   .FirstOrDefault();
 
-            string price = productDiv.Descendants("div")
-                                       .Where(node => node.GetAttributeValue("class", "")
-                                       .Equals("price"))
-                                       .FirstOrDefault()
-                                       .InnerText
-                                       .Trim();
-            price = price.Substring(0, price.Length - 3);
+        //    string name = productDiv.Descendants("div")
+        //                               .Where(node => node.GetAttributeValue("class", "")
+        //                               .Equals("title"))
+        //                               .FirstOrDefault()
+        //                               .InnerText
+        //                               .Trim();
 
-            string fullDescription = productDiv.Descendants("p")
-                                                .FirstOrDefault()
-                                                .OuterHtml;
 
-            ProductStantekViewModel productViewModel = new ProductStantekViewModel()
-            {
-                Name = name,
-                PictureUrl = string.IsNullOrEmpty(pictureUrl) ? "~images/no-image.jpg" : "https://stantek.com/" + pictureUrl,
-                Price = decimal.Parse(price) / 100,
-                FullDescription = fullDescription
-            };
+        //    int categoryNameLength = this.categoriesNames[categoryName];
 
-            var oldPriceNode = productDiv.Descendants("div")
-                              .Where(node => node.GetAttributeValue("class", "")
-                              .Equals("price old"))
-                              .FirstOrDefault();
+        //    //In this category have 2 different subcategories
+        //    if (categoryName == "Флашки и USB HDD" && name[0] == 'H')
+        //    {
+        //        categoryNameLength = categoryNameLength - 4;
+        //    }
 
-            if (oldPriceNode != null)
-            {
-                string oldPrice = oldPriceNode
-                                        .InnerText
-                                        .Trim();
+        //    if (name.Length > ValidationConstants.StandartMaxLength + categoryNameLength)
+        //    {
+        //        name = name.Substring(categoryNameLength, ValidationConstants.StandartMaxLength);
+        //    }
+        //    else
+        //    {
+        //        name = name.Substring(categoryNameLength);
+        //    }
 
-                oldPrice = oldPrice.Substring(0, oldPrice.Length - 3);
+        //    var pictureUrl = productDiv.Descendants("img").FirstOrDefault()
+        //                            .ChildAttributes("src").FirstOrDefault()
+        //                            .Value;
 
-                string percent = productDiv.Descendants("div")
-                                          .Where(node => node.GetAttributeValue("class", "")
-                                          .Equals("percent"))
-                                          .FirstOrDefault()
-                                          .InnerText
-                                          .Trim();
+        //    string price = productDiv.Descendants("div")
+        //                               .Where(node => node.GetAttributeValue("class", "")
+        //                               .Equals("price"))
+        //                               .FirstOrDefault()
+        //                               .InnerText
+        //                               .Trim();
+        //    price = price.Substring(0, price.Length - 3);
 
-                percent = percent.Substring(0, percent.Length - 1);
+        //    string fullDescription = productDiv.Descendants("p")
+        //                                        .FirstOrDefault()
+        //                                        .OuterHtml;
 
-                productViewModel.OldPrice = decimal.Parse(oldPrice) / 100;
-                productViewModel.Discount = double.Parse(percent);
-            }
+        //    ProductStantekViewModel productViewModel = new ProductStantekViewModel()
+        //    {
+        //        Name = name,
+        //        PictureUrl = string.IsNullOrEmpty(pictureUrl) ? "~images/no-image.jpg" : "https://stantek.com/" + pictureUrl,
+        //        Price = decimal.Parse(price) / 100,
+        //        FullDescription = fullDescription
+        //    };
+
+        //    var oldPriceNode = productDiv.Descendants("div")
+        //                      .Where(node => node.GetAttributeValue("class", "")
+        //                      .Equals("price old"))
+        //                      .FirstOrDefault();
+
+        //    if (oldPriceNode != null)
+        //    {
+        //        string oldPrice = oldPriceNode
+        //                                .InnerText
+        //                                .Trim();
+
+        //        oldPrice = oldPrice.Substring(0, oldPrice.Length - 3);
+
+        //        string percent = productDiv.Descendants("div")
+        //                                  .Where(node => node.GetAttributeValue("class", "")
+        //                                  .Equals("percent"))
+        //                                  .FirstOrDefault()
+        //                                  .InnerText
+        //                                  .Trim();
+
+        //        percent = percent.Substring(0, percent.Length - 1);
+
+        //        productViewModel.OldPrice = decimal.Parse(oldPrice) / 100;
+        //        productViewModel.Discount = double.Parse(percent);
+        //    }
 
             
 
-            return productViewModel;
-        }
+        //    return productViewModel;
+        //}
 
         private void AddCategoriesToDb(IList<CategoryStantekViewModel> categories)
         {
