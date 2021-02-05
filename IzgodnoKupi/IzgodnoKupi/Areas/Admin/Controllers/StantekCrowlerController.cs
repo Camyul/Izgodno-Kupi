@@ -4,7 +4,6 @@ using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Data.Model.Enums;
 using IzgodnoKupi.Services.Contracts;
-using IzgodnoKupi.Web.Areas.Admin.Infrastructure;
 using IzgodnoKupi.Web.Areas.Admin.Models.Category;
 using IzgodnoKupi.Web.Areas.Admin.Models.JsonPayloadModel;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
@@ -28,8 +27,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categorieService;
-        private readonly IDictionary<string, int> categoriesNames;
-        private readonly Dictionaries dictionaries = new Dictionaries();
+        //private readonly IDictionary<string, int> categoriesNames;
 
         public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
         {
@@ -39,7 +37,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             this.productsService = productsService;
             this.categorieService = categorieService;
 
-            this.categoriesNames = GetCategoriesNames();
+            //this.categoriesNames = GetCategoriesNames();
         }
 
         public IActionResult Index()
@@ -76,20 +74,20 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         //    return RedirectToAction("Index", "Home", new { area = "Admin" });
         //}
 
-        public async Task<IActionResult> UpdateCategories(Guid id)
-        {
-            var rootUrl = "https://stantek.com/";
-            var httpClient = new HttpClient();
-            var html = await httpClient.GetStringAsync(rootUrl);
+        //public async Task<IActionResult> UpdateCategories(Guid id)
+        //{
+        //    var rootUrl = "https://stantek.com/";
+        //    var httpClient = new HttpClient();
+        //    var html = await httpClient.GetStringAsync(rootUrl);
 
-            HtmlDocument htmlDocument = new HtmlDocument();
-            htmlDocument.LoadHtml(html);
+        //    HtmlDocument htmlDocument = new HtmlDocument();
+        //    htmlDocument.LoadHtml(html);
 
-            IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
-            AddCategoriesToDb(categories);
+        //    IList<CategoryStantekViewModel> categories = GetCategoriesToList(htmlDocument);
+        //    AddCategoriesToDb(categories);
 
-            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
-        }
+        //    return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        //}
 
         public async Task<IActionResult> GetProductsFromCategory(Guid id)
         {
@@ -235,21 +233,22 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                            .FirstOrDefault()
                                            .Value;
 
-            string fullDescription = htmlDocument.DocumentNode.Descendants("div")
+            var fullDescriptionNode = htmlDocument.DocumentNode.Descendants("div")
                                                               .Where(node => node.GetAttributeValue("class", "")
                                                               .Equals("more-info-panel"))
-                                                              .FirstOrDefault()
-                                                              .Descendants("p")
-                                                              .FirstOrDefault()
-                                                              .OuterHtml;
+                                                              .FirstOrDefault();
+
+            string fullDescription = fullDescriptionNode == null ? "" : fullDescriptionNode.Descendants("p")
+                                                                                           .FirstOrDefault()
+                                                                                           .OuterHtml;
 
             ProductStantekViewModel productViewModel = new ProductStantekViewModel()
             {
                 Name = name,
-                PictureUrl = "~images/no-image.jpg", // string.IsNullOrEmpty(pictureUrl) ? "~images/no-image.jpg" : "https://stantek.com" + pictureUrl,
+                PictureUrl = "../../images/no-image.jpg", // string.IsNullOrEmpty(pictureUrl) ? "../../images/no-image.jpg" : "https://stantek.com" + pictureUrl,
                 Price = price,
                 OldPrice = oldPrice,
-                Discount = oldPrice > 0 ? (double)(100 - (oldPrice/price * 100)) : 0,
+                Discount = oldPrice > 0 ? Math.Round((double)(100 - (oldPrice/price * 100)), MidpointRounding.AwayFromZero) : 0,
                 FullDescription = fullDescription,
                 Category = category
             };
@@ -603,115 +602,115 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             }
         }
 
-        private IList<CategoryStantekViewModel> GetCategoriesToList(HtmlDocument htmlDocument)
-        {
-            var categoriesDiv = htmlDocument.DocumentNode.Descendants("div")
-                .Where(node => node.GetAttributeValue("class", "")
-                .Equals("categories"))
-                .FirstOrDefault();
+        //private IList<CategoryStantekViewModel> GetCategoriesToList(HtmlDocument htmlDocument)
+        //{
+        //    var categoriesDiv = htmlDocument.DocumentNode.Descendants("div")
+        //        .Where(node => node.GetAttributeValue("class", "")
+        //        .Equals("categories"))
+        //        .FirstOrDefault();
 
-            IList<HtmlNode> categoriesLi = categoriesDiv.Descendants("li").ToList();
+        //    IList<HtmlNode> categoriesLi = categoriesDiv.Descendants("li").ToList();
 
-            IList<CategoryStantekViewModel> categories = new List<CategoryStantekViewModel>();
+        //    IList<CategoryStantekViewModel> categories = new List<CategoryStantekViewModel>();
 
-            foreach (var li in categoriesLi)
-            {
-                if (li.Descendants("a").FirstOrDefault() == null)
-                {
-                    continue;
-                }
+        //    foreach (var li in categoriesLi)
+        //    {
+        //        if (li.Descendants("a").FirstOrDefault() == null)
+        //        {
+        //            continue;
+        //        }
 
-                var catModel = new CategoryStantekViewModel()
-                {
-                    Name = li.Descendants("a").FirstOrDefault().InnerText,
-                    CategoryUrl = li.Descendants("a").FirstOrDefault()
-                                    .ChildAttributes("href").FirstOrDefault()
-                                    .Value
+        //        var catModel = new CategoryStantekViewModel()
+        //        {
+        //            Name = li.Descendants("a").FirstOrDefault().InnerText,
+        //            CategoryUrl = li.Descendants("a").FirstOrDefault()
+        //                            .ChildAttributes("href").FirstOrDefault()
+        //                            .Value
 
 
-                };
-                categories.Add(catModel);
-            }
+        //        };
+        //        categories.Add(catModel);
+        //    }
 
-            return categories;
-        }
+        //    return categories;
+        //}
 
         //Represent length of name of category in English 
-        private IDictionary<string, int> GetCategoriesNames()
-        {
-            IDictionary<string, int> result = new Dictionary<string, int>
-            {
-                {"CD и DVD записвачки", 7 },
-                {"I/O карти", 9 },
-                // {"LED осветление", 13 },
-                {"MP3/MP4 плейъри и донгъли", 7 },
-                {"SSD", 4 },
-                // {"TV, FM тунери и Video Capture", 14 },
-                {"Аксесоари за лаптоп", 19 },
-                {"Артикули втора у-ба", 12 },
-                {"Батерии", 12 },
-                {"Батерии за лаптоп", 21 },
-                {"Видео камери", 13 },
-                {"Видео карти", 11 },
-                {"Външни кутии за хард дискове", 12 },
-                // {"Джойстици, кормила за игри", 15 },
-                {"Дисплей/Tъч за смартфони", 12 },
-                {"Дисплей/Tъч за таблети", 15 },
-                {"Други...", 6 },
-                {"Дънни платки", 3 },
-                {"За видео камери", 23 },
-                {"За принтери", 10 },
-                {"За смартфони", 14 },
-                {"За таблети", 17 },
-                {"За телевизори", 13 },
-                {"За фотоапарати", 16 },
-                {"Зарядни", 14 },
-                {"Захранване за компютри", 13 },
-                {"Звукови карти", 11 },
-                {"Кабели и преходници", 6 },
-                {"Клавиатури", 4 },
-                {"Кутии за Компютри", 5 },
-                {"Лаптопи", 9 },
-                {"Мишки", 6 },
-                {"Монитори", 8 },
-                {"Мрежа, LAN, Wi-Fi", 15 },
-                {"Мрежови карти", 9 },
-                {"Настолни Компютри", 9 },
-                {"Оперативна памет RAM", 4 },
-                {"Охладители", 7 },
-                {"Памет за лаптоп", 17 },
-                {"Подложки за мишки", 10 },
-                {"Празни CD и DVD дискове", 6 },
-                {"Принтери и скенери", 8 },
-                {"Проектори", 10 },
-                {"Процесори", 4 },
-                {"Резервни части", 15 },
-                // {"Скенери", 8 },
-                {"Слушалки и микрофони", 21 },
-                {"Смартфони", 4 },
-                {"Софтуер", 9 },
-                {"Стабилизатори и UPS", 4 },
-                {"Стъклени протектори", 10 },
-                {"Таблети", 7 },
-                {"Телевизори", 3 },
-                {"Телефонни апарати", 6 },
-                {"Тонколони", 9 },
-                {"Уеб/Скайп камерки", 7 },
-                // {"Факс апарати", 11 },
-                {"Флашки и USB HDD", 17 },
-                {"Фотоапарати", 6 },
-                {"Хард дискове HDD", 4 },
-                {"Хард дискове за лаптоп", 17 },
-                //{"Хард дискове за сървър", 11 },
-                {"Чанти, раници за лаптоп", 4 },
-                {"Смарт устройства", 13},
-                {"УВ стерилизатори", 14 },
-                {"Аксесоари за гейминг", 15 },
-                {"Дребна бяла техника", 13 },
-                {"Оптична техника", 18 }
-            };
+        //private IDictionary<string, int> GetCategoriesNames()
+        //{
+        //    IDictionary<string, int> result = new Dictionary<string, int>
+        //    {
+        //        {"CD и DVD записвачки", 7 },
+        //        {"I/O карти", 9 },
+        //        // {"LED осветление", 13 },
+        //        {"MP3/MP4 плейъри и донгъли", 7 },
+        //        {"SSD", 4 },
+        //        // {"TV, FM тунери и Video Capture", 14 },
+        //        {"Аксесоари за лаптоп", 19 },
+        //        {"Артикули втора у-ба", 12 },
+        //        {"Батерии", 12 },
+        //        {"Батерии за лаптоп", 21 },
+        //        {"Видео камери", 13 },
+        //        {"Видео карти", 11 },
+        //        {"Външни кутии за хард дискове", 12 },
+        //        // {"Джойстици, кормила за игри", 15 },
+        //        {"Дисплей/Tъч за смартфони", 12 },
+        //        {"Дисплей/Tъч за таблети", 15 },
+        //        {"Други...", 6 },
+        //        {"Дънни платки", 3 },
+        //        {"За видео камери", 23 },
+        //        {"За принтери", 10 },
+        //        {"За смартфони", 14 },
+        //        {"За таблети", 17 },
+        //        {"За телевизори", 13 },
+        //        {"За фотоапарати", 16 },
+        //        {"Зарядни", 14 },
+        //        {"Захранване за компютри", 13 },
+        //        {"Звукови карти", 11 },
+        //        {"Кабели и преходници", 6 },
+        //        {"Клавиатури", 4 },
+        //        {"Кутии за Компютри", 5 },
+        //        {"Лаптопи", 9 },
+        //        {"Мишки", 6 },
+        //        {"Монитори", 8 },
+        //        {"Мрежа, LAN, Wi-Fi", 15 },
+        //        {"Мрежови карти", 9 },
+        //        {"Настолни Компютри", 9 },
+        //        {"Оперативна памет RAM", 4 },
+        //        {"Охладители", 7 },
+        //        {"Памет за лаптоп", 17 },
+        //        {"Подложки за мишки", 10 },
+        //        {"Празни CD и DVD дискове", 6 },
+        //        {"Принтери и скенери", 8 },
+        //        {"Проектори", 10 },
+        //        {"Процесори", 4 },
+        //        {"Резервни части", 15 },
+        //        // {"Скенери", 8 },
+        //        {"Слушалки и микрофони", 21 },
+        //        {"Смартфони", 4 },
+        //        {"Софтуер", 9 },
+        //        {"Стабилизатори и UPS", 4 },
+        //        {"Стъклени протектори", 10 },
+        //        {"Таблети", 7 },
+        //        {"Телевизори", 3 },
+        //        {"Телефонни апарати", 6 },
+        //        {"Тонколони", 9 },
+        //        {"Уеб/Скайп камерки", 7 },
+        //        // {"Факс апарати", 11 },
+        //        {"Флашки и USB HDD", 17 },
+        //        {"Фотоапарати", 6 },
+        //        {"Хард дискове HDD", 4 },
+        //        {"Хард дискове за лаптоп", 17 },
+        //        //{"Хард дискове за сървър", 11 },
+        //        {"Чанти, раници за лаптоп", 4 },
+        //        {"Смарт устройства", 13},
+        //        {"УВ стерилизатори", 14 },
+        //        {"Аксесоари за гейминг", 15 },
+        //        {"Дребна бяла техника", 13 },
+        //        {"Оптична техника", 18 }
+        //    };
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }
