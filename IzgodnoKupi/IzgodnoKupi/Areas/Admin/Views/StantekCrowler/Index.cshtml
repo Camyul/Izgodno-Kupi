@@ -1,19 +1,43 @@
 ﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
 @model IEnumerable<CategoryViewModel>
-
 @*@Html.Partial("_StatusMessage", ViewBag.StatusMessage)*@
 <h1 class="text-center">Синхронизиране по категории</h1>
 @*<div class="text-center">
-    <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="UpdateCategories">Синхронизиране на категории</a>
-</div>*@
+        <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="UpdateCategories">Синхронизиране на категории</a>
+    </div>*@
+@{ 
+    bool deleteOnly = TempData["DeleteOnly"] != null ? (bool)TempData["DeleteOnly"] : false;
+}
 <hr>
 <div class="col-md-12">
+    @if (deleteOnly)
+    {
+        @foreach (var category in @Model)
+        {
+            @Html.Partial("_CategoryDeleteOnlyPartial", category)
+        }
+    }
+    else
+    {
         @foreach (var category in @Model)
         {
             @Html.Partial("_CategorySyncPartial", category)
         }
+    }
+
 </div>
 <hr>
+<div class="text-center">
+    @if (deleteOnly == true)
+    {
+    <a class="btn btn-success" asp-controller="StantekCrowler" asp-action="DeleteOnly">Switch to Update Category</a>
+    }
+    else
+    {
+        <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="DeleteOnly" asp-route-deleteOnly="@true">Switch to Delete Only</a>
+    }
+
+</div>
 @*<div class="text-center">
-    <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="GetAllProducts">Синхронизиране на всичко</a>
-</div>*@
+        <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="GetAllProducts">Синхронизиране на всичко</a>
+    </div>*@

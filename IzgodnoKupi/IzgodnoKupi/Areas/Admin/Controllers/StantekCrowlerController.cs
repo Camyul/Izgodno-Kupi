@@ -28,6 +28,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         private readonly IProductsService productsService;
         private readonly ICategoriesService categorieService;
         //private readonly IDictionary<string, int> categoriesNames;
+        private bool deleteOnly = false;
 
         public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
         {
@@ -43,7 +44,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var categories = this.categorieService.GetAll()
-                      .Where(cat => cat.Name != "NAS")
                       .Select(c => new CategoryViewModel(c))
                       .OrderBy(x => x.Name)
                       .ToList();
@@ -89,6 +89,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         //    return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
         //}
 
+        public IActionResult DeleteProductsFromCategory(Guid id)
+        {
+            SetProductsFromCategoryNotPublished(id);
+
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
         public async Task<IActionResult> GetProductsFromCategory(Guid id)
         {
             Category category = this.categorieService.GetById(id);
@@ -96,11 +103,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             
             //var html = await httpClient.GetStringAsync(rootUrl);
 
-            
-            
-            // TODO get product details
             // TODO sanytize HTML
-            // TODO safe products in data base
 
             //htmlDocument.LoadHtml(html);
 
@@ -114,7 +117,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             IList<int> productIds = await GetProductIdsFromCategory(category);
 
 
-            IList<ProductStantekViewModel> products = await GetProductsFromCategory(productIds);
+            IList<ProductStantekViewModel> products = await GetProductsFromCategory(productIds, category);
 
 
             //IList<ProductStantekViewModel> products = await GetProductsFromCategory(httpClient, rootUrl, categoryToSync.CategoryUrl, categoryToSync.Name);
@@ -125,7 +128,23 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
         }
 
-        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(IList<int> productIds)
+        public IActionResult DeleteOnly(bool deleteOnly = false)
+        {
+            if (deleteOnly)
+            {
+                this.TempData["DeleteOnly"] = true;
+                this.deleteOnly = true;
+            }
+            else
+            {
+                this.TempData["DeleteOnly"] = false;
+                this.deleteOnly = false;
+            }
+
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
+        private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(IList<int> productIds, Category category)
         {
 
             var builder = new UriBuilder("https://stantek.com");
@@ -142,6 +161,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 string url = builder.ToString();
 
                 ProductStantekViewModel product = await GetProductDetails(url, httpClient);
+                product.Category = category.Name;
 
                 products.Add(product);
             }
@@ -173,17 +193,17 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 
             // https://weblog.west-wind.com/posts/2012/jul/19/net-html-sanitation-for-rich-html-input - Make class HtmlSanitizer
 
-            string category = "";
+            //string category = "";
             string name = "";
             if (productDiv != null)
             {
 
-                category = productDiv.Descendants("div")
-                                           .Where(node => node.GetAttributeValue("class", "")
-                                           .Equals("item-info-path"))
-                                           .FirstOrDefault()
-                                           .InnerText
-                                           .Trim();
+                //category = productDiv.Descendants("div")
+                //                           .Where(node => node.GetAttributeValue("class", "")
+                //                           .Equals("item-info-path"))
+                //                           .FirstOrDefault()
+                //                           .InnerText
+                //                           .Trim();
 
                 name = productDiv.Descendants("div")
                                            .LastOrDefault()
@@ -250,7 +270,6 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                 OldPrice = oldPrice,
                 Discount = oldPrice > 0 ? Math.Round((double)(100 - (oldPrice/price * 100)), MidpointRounding.AwayFromZero) : 0,
                 FullDescription = fullDescription,
-                Category = category
             };
 
             return productViewModel;
