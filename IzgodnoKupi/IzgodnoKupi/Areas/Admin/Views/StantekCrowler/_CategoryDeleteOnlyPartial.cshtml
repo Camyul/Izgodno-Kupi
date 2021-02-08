@@ -1,0 +1,6 @@
+﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
+@model CategoryViewModel
+
+<div class="col-md-4 col-sm-6 category-sync">
+    <a class="btn btn-default" asp-controller="StantekCrowler" asp-action="DeleteProductsFromCategory" asp-route-id="@Model.Id">@Model.Name</a>
+</div>
