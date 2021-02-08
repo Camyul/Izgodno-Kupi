@@ -1,10 +1,7 @@
 ﻿@using IzgodnoKupi.Web.Models.CategoryViewModels
 @model IEnumerable<CategoryViewModel>
-@*@Html.Partial("_StatusMessage", ViewBag.StatusMessage)*@
+
 <h1 class="text-center">Синхронизиране по категории</h1>
-@*<div class="text-center">
-        <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="UpdateCategories">Синхронизиране на категории</a>
-    </div>*@
 @{ 
     bool deleteOnly = TempData["DeleteOnly"] != null ? (bool)TempData["DeleteOnly"] : false;
 }
@@ -30,7 +27,7 @@
 <div class="text-center">
     @if (deleteOnly == true)
     {
-    <a class="btn btn-success" asp-controller="StantekCrowler" asp-action="DeleteOnly">Switch to Update Category</a>
+        <a class="btn btn-success" asp-controller="StantekCrowler" asp-action="DeleteOnly">Switch to Update Category</a>
     }
     else
     {
