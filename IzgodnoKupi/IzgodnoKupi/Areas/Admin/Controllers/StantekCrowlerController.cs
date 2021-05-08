@@ -189,9 +189,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                                               .Equals("more-info-panel"))
                                                               .FirstOrDefault();
 
-            string fullDescription = fullDescriptionNode == null ? "" : fullDescriptionNode.Descendants("p")
-                                                                                           .FirstOrDefault()
-                                                                                           .OuterHtml;
+            string fullDescription = fullDescriptionNode == null ? "" : fullDescriptionNode.InnerHtml;
 
             ProductStantekViewModel productViewModel = new ProductStantekViewModel()
             {
