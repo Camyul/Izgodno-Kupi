@@ -9,15 +9,20 @@ using IzgodnoKupi.Web.Areas.Admin.Models.JsonPayloadModel;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
 using IzgodnoKupi.Web.Models.CategoryViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+
 
 namespace IzgodnoKupi.Web.Areas.Admin.Controllers
 {
@@ -27,14 +32,18 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categorieService;
+        private readonly IHostingEnvironment _environment;
+        private readonly ILogger _logger;
 
-        public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService)
+        public StantekCrowlerController(IProductsService productsService, ICategoriesService categorieService, IHostingEnvironment environment, ILogger<StantekCrowlerController> logger)
         {
             Guard.WhenArgument(productsService, "productsService").IsNull().Throw();
             Guard.WhenArgument(categorieService, "categiriesService").IsNull().Throw();
 
             this.productsService = productsService;
             this.categorieService = categorieService;
+            this._environment = environment;
+            this._logger = logger;
         }
 
         public IActionResult Index()
@@ -184,6 +193,59 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                            .FirstOrDefault()
                                            .Value;
 
+            WebClient myWebClient = new WebClient();
+            string fullUrl;
+            if (pictureUrl.StartsWith("https://"))
+            {
+                fullUrl = pictureUrl;
+            } 
+            else
+            {
+                fullUrl = "https://stantek.com" + pictureUrl;
+            }
+            string extension = Path.GetExtension(fullUrl);
+            string fileName = DateTime.Now.ToString("yymmddssfff") + extension;
+            bool isPictureStoraged = false;
+            try
+            {
+                string webRootPath = this._environment.WebRootPath;
+
+                byte[] imageBytes = myWebClient.DownloadData(fullUrl);
+                Stream imageStream = new MemoryStream(imageBytes);
+
+                if (imageStream == null || imageStream.Length == 0)
+                {
+                    throw new Exception("Missing Image Stream");
+                }
+
+                    if (imageStream.Length < 5120000)
+                {
+                    if (string.IsNullOrEmpty(extension))
+                    {
+                        fileName = fileName + ".jpg";
+                    }
+
+                    string pathToSave = Path.Combine(webRootPath, "productImages", fileName);
+                    string pathToDirectory = Path.Combine(webRootPath, "productImages");
+
+                    if (!Directory.Exists(pathToDirectory))
+                    {
+                        Directory.CreateDirectory(pathToDirectory);
+                    }
+
+                    using (FileStream fileStream = new FileStream(pathToSave, FileMode.Create))
+                    {
+                        await imageStream.CopyToAsync(fileStream);
+                        isPictureStoraged = true;
+                    }
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.Message);
+            }
+
             var fullDescriptionNode = htmlDocument.DocumentNode.Descendants("div")
                                                               .Where(node => node.GetAttributeValue("class", "")
                                                               .Equals("more-info-panel"))
@@ -194,7 +256,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             ProductStantekViewModel productViewModel = new ProductStantekViewModel()
             {
                 Name = name,
-                PictureUrl = "../../images/no-image.jpg", // string.IsNullOrEmpty(pictureUrl) ? "../../images/no-image.jpg" : "https://stantek.com" + pictureUrl,
+                PictureUrl = isPictureStoraged ? "../../productImages/" + fileName : "../../images/no-image.jpg",
                 Price = price,
                 OldPrice = oldPrice,
                 Discount = oldPrice > 0 ? Math.Round((double)(100 - (oldPrice/price * 100)), MidpointRounding.AwayFromZero) : 0,
