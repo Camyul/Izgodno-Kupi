@@ -27,13 +27,16 @@
 <div class="text-center">
     @if (deleteOnly == true)
     {
-        <a class="btn btn-success" asp-controller="StantekCrowler" asp-action="DeleteOnly">Switch to Update Category</a>
+        <a class="btn btn-success category-sync" asp-controller="StantekCrowler" asp-action="DeleteOnly">Switch to Update Category</a>
     }
     else
     {
-        <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="DeleteOnly" asp-route-deleteOnly="@true">Switch to Delete Only</a>
+        <a class="btn btn-danger category-sync" asp-controller="StantekCrowler" asp-action="DeleteOnly" asp-route-deleteOnly="@true">Switch to Delete Only</a>
     }
 
+</div>
+<div class="text-center">
+    <a class="btn btn-danger category-sync" asp-controller="StantekCrowler" asp-action="DeleteAllPictures">Delete all pictures</a>
 </div>
 @*<div class="text-center">
         <a class="btn btn-danger" asp-controller="StantekCrowler" asp-action="GetAllProducts">Синхронизиране на всичко</a>

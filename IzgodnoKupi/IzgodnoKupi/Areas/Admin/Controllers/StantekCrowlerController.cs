@@ -92,6 +92,19 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
         }
 
+        public IActionResult DeleteAllPictures()
+        {
+            string webRootPath = this._environment.WebRootPath;
+            string pathToDirectory = Path.Combine(webRootPath, "productImages");
+            bool isDirectoryExists = Directory.Exists(pathToDirectory);
+
+            if (isDirectoryExists)
+            {
+                Directory.Delete(pathToDirectory, true);
+            }
+            return RedirectToAction("Index", "StantekCrowler", new { area = "Admin" });
+        }
+
         private async Task<IList<ProductStantekViewModel>> GetProductsFromCategory(IList<int> productIds, Category category)
         {
 
@@ -193,7 +206,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                                            .FirstOrDefault()
                                            .Value;
 
-            WebClient myWebClient = new WebClient();
+            
             string fullUrl;
             if (pictureUrl.StartsWith("https://"))
             {
@@ -208,7 +221,7 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
             bool isPictureStoraged = false;
             try
             {
-                string webRootPath = this._environment.WebRootPath;
+                WebClient myWebClient = new WebClient();
 
                 byte[] imageBytes = myWebClient.DownloadData(fullUrl);
                 Stream imageStream = new MemoryStream(imageBytes);
@@ -218,13 +231,13 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
                     throw new Exception("Missing Image Stream");
                 }
 
-                    if (imageStream.Length < 5120000)
+                if (imageStream.Length < 5120000)
                 {
                     if (string.IsNullOrEmpty(extension))
                     {
                         fileName = fileName + ".jpg";
                     }
-
+                    string webRootPath = this._environment.WebRootPath;
                     string pathToSave = Path.Combine(webRootPath, "productImages", fileName);
                     string pathToDirectory = Path.Combine(webRootPath, "productImages");
 
