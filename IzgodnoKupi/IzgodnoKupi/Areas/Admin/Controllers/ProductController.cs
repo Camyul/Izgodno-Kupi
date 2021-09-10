@@ -1,4 +1,5 @@
 ﻿using Bytes2you.Validation;
+using IzgodnoKupi.Common;
 using IzgodnoKupi.Data.Model;
 using IzgodnoKupi.Services.Contracts;
 using IzgodnoKupi.Web.Areas.Admin.Models.Product;
@@ -31,19 +32,26 @@ namespace IzgodnoKupi.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int? page)
+        public IActionResult Index(int page = 1)
         {
+            int productsCount = this.productsService
+                .GetAll()
+                .Count();
+            
+            int pageSize = Constants.ProductsPerPage;
             var products = this.productsService
                 .GetAll()
                 .OrderByDescending(x => x.CreatedOn)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(x => new ProductViewModel(x))
                 .ToList();
 
-            Pager pager = new Pager(products.Count(), page);
+            Pager pager = new Pager(productsCount, page);
 
             IndexAdminPageViewModel viewPageIndexModel = new IndexAdminPageViewModel
             {
-                Items = products.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList(),
+                Items = products,
                 Pager = pager
             };
 
